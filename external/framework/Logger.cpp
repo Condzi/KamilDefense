@@ -15,7 +15,7 @@ namespace CGF_NAMESPACE
 		if (!Logger::file.is_open())
 		{
 			Logger::file.open(LOG_FILE_PATH);
-			Logger::log("Logger initializing...");
+			Logger::log("Logger initialized!");
 		}
 		else
 			Logger::log("Logger already initialized!");
@@ -23,7 +23,7 @@ namespace CGF_NAMESPACE
 
 	void Logger::shutdown()
 	{
-		Logger::log("Logger shutdown..."); 
+		Logger::log("Logger shutdown!"); 
 		Logger::file.close();
 	}
 

@@ -8,6 +8,8 @@
 #include <cinttypes>
 #include <iostream>
 
+#include <SFML/Graphics/RenderWindow.hpp>
+
 #define CGF_NAMESPACE cgf
 #define CGF_PRIVATE priv
 
@@ -16,7 +18,7 @@ using seconds_t = float;
 using unique_resource_id_t = int16_t;
 using state_id_t = int16_t;
 // Set this type to your window type. For example - if you are using SFML, set it to sf::RenderWindow
-using window_t = bool;
+using window_t = sf::RenderWindow;
 
 template<typename CONDITION>
 using enable_if = typename std::enable_if<CONDITION::value>::type;

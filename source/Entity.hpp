@@ -23,7 +23,7 @@ namespace kd
 		
 		void setPosition(const sf::Vector2f& pos) { position = pos; }
 
-	protected:
+	private:
 		sf::Vector2f position;
 	};	
 
