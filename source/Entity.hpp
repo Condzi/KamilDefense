@@ -9,25 +9,25 @@
 
 namespace kd
 {
-	// Representation of Entity data - to get it from entity use Entity::get()->... 
-	class EntityResource final
+	class Entity 
 	{
 	public:
-		EntityResource() :
+		Entity() :
 			position(0,0)
 		{}
-
-		virtual void update(seconds_t dt) = 0;
+		virtual ~Entity() = default;
 
 		sf::Vector2f getPosition() { return position; }
-		
-		void setPosition(const sf::Vector2f& pos) { position = pos; }
 
+		void setPosition(const sf::Vector2f& pos) { position = pos;	}
+
+		virtual void update(seconds_t dt) {};
+		virtual void draw(sf::RenderTarget& target) {};
+	
 	private:
-		sf::Vector2f position;
-	};	
+		int16_t type;
 
-	// Type declared only for inheritance
-	struct Entity : public cgf::Resource<EntityResource>
-	{};
+	protected:
+		sf::Vector2f position;
+	};
 }
