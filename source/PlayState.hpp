@@ -5,13 +5,17 @@
 
 #pragma once
 
+#include <memory>
+
 #include <SFML/Window/Event.hpp>
 
+#include <Resource.hpp>
 #include <Logger.hpp>
 #include <State.hpp>
 
 #include "GameConfig.hpp"
 #include "Entity.hpp"
+#include "Player.hpp"
 
 namespace kd
 {
@@ -34,7 +38,8 @@ namespace kd
 		void updateThread(seconds_t dt, window_t& w) override;
 
 	private:
-		std::vector<Entity> entities;
+		std::vector<std::unique_ptr<Entity>> entities;
 		// Player* player;
+		std::vector<cgf::Resource<sf::Texture>> textures;
 	};
 }

@@ -17,7 +17,7 @@ int main()
 
 	cgf::StateMachine stateMachine;
 
-	stateMachine.registerState<kd::PlayState>(static_cast<state_id_t>(kd::STATE_ID::Menu), &window);
+	stateMachine.registerState<kd::PlayState>(static_cast<state_id_t>(kd::STATE_ID::MENU), &window);
 	
 	stateMachine.run();
 	

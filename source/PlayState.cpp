@@ -11,8 +11,29 @@ namespace kd
 	{
 		startThread();
 		/*
-			Initialize Entities and add them to Renderer here
+			Initialize Entities here
 		*/
+
+		// Loading textures
+
+		textures.emplace_back();
+		textures.back().setCheckCount(true);
+		textures.back().loadFromMemory(new sf::Texture);
+		textures.back().get()->loadFromFile(PLAYER_TEXTURE);
+		textures.back().setUniqueID(static_cast<unique_resource_id_t>(ENTITY_ID::PLAYER));
+		
+		// Making entities
+
+		auto player = std::make_unique<Player>();
+		// temporary I know that player texture is last
+		player->setTexture(textures.back().get());
+
+		player->setPosition({ static_cast<float>(WINDOW_SIZE.x / 2), static_cast<float>(WINDOW_SIZE.y / 2) });
+		player->setMovementKeys(movement_keys_t(sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space));
+		player->setMovementForces(movement_forces_t(-25.f, 25.f, -50.f));
+
+		entities.push_back(std::move(player));
+
 		endThread();
 	}
 
@@ -43,12 +64,13 @@ namespace kd
 			}
 
 			for (auto& e : entities)
-			{
-				e.update(1.f / 60);
-			}
+				e->update(1.f / FPS_LIMIT);
 
 			windowPtr->clear();
-			// Renderer draw()
+
+			for (auto& e : entities)
+				e->draw(*windowPtr);
+
 			windowPtr->display();
 		}
 
