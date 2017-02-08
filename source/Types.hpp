@@ -15,11 +15,6 @@
 
 namespace kd
 {
-	class EntityResource;
-
-	using seconds_t = float;
-	using EntityPtr = std::shared_ptr<EntityResource>;
-
 	enum collision_side_t 
 	{
 		None = -1,
