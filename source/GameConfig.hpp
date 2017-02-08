@@ -11,6 +11,9 @@
 
 namespace kd
 {
+	// Sprites are very small so they must be scaled up
+	constexpr float SCALE = 10.f;
+
 	constexpr auto WINDOW_TITLE = "Kamil Defense";
 	constexpr struct
 	{
@@ -18,9 +21,6 @@ namespace kd
 		uint16_t y = 64 * SCALE;
 	}WINDOW_SIZE;
 	constexpr uint32_t FPS_LIMIT = 64;
-
-	// Sprites are very small so they must be scaled up
-	constexpr float SCALE = 10.f;
 
 	enum STATE_ID
 	{

@@ -280,3 +280,4 @@ __pycache__/
 *.filters
 *.user
 *.dll
+log.txt
