@@ -24,15 +24,15 @@ namespace kd
 		
 		// Making entities
 
-		auto player = std::make_unique<Player>();
+		auto player = std::make_shared<Player>();
 		// temporary I know that player texture is last
 		player->setTexture(textures.back().get());
 
 		player->setPosition({ static_cast<float>(WINDOW_SIZE.x / 2), static_cast<float>(WINDOW_SIZE.y / 2) });
 		player->setMovementKeys(movement_keys_t(sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space));
-		player->setMovementForces(movement_forces_t(-25.f, 25.f, -50.f));
-
-		entities.push_back(std::move(player));
+		player->setMovementForces(movement_forces_t(-250.f, 250.f, -500.f));
+	
+		entities.push_back(player);
 
 		endThread();
 	}
@@ -66,7 +66,7 @@ namespace kd
 			for (auto& e : entities)
 				e->update(1.f / FPS_LIMIT);
 
-			windowPtr->clear();
+			windowPtr->clear(sf::Color(100, 100, 100));
 
 			for (auto& e : entities)
 				e->draw(*windowPtr);
@@ -80,6 +80,24 @@ namespace kd
 
 	void PlayState::updateThread(seconds_t dt, window_t& w)
 	{
+		static sf::RectangleShape rectangle;
+		rectangle.setFillColor(sf::Color::Transparent);
+		rectangle.setOutlineColor(sf::Color(125, 125, 125));
+		rectangle.setOutlineThickness(5.f);
+		rectangle.setPosition(WINDOW_SIZE.x / 2, WINDOW_SIZE.y / 2);
+		rectangle.setSize(sf::Vector2f(WINDOW_SIZE.x / 2, WINDOW_SIZE.y / 2));
+		rectangle.setOrigin(rectangle.getSize().x / 2, rectangle.getSize().y / 2);
+
+		rectangle.rotate(90 * dt);
+		static uint32_t i = 1;
+
+		rectangle.setScale(std::abs(std::sin(i * 3.14 / 180.f)), std::abs(std::sin(i * 3.14 / 180.f)));
+		i++;
+
+		w.clear(sf::Color(100,100,100));
+		w.draw(rectangle);
+		w.display();
+
 		cgf::Logger::log("Thread update...", cgf::Logger::INFO, cgf::Logger::CONSOLE);
 	}
 }

@@ -7,6 +7,7 @@
 
 #include <memory>
 
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Window/Event.hpp>
 
 #include <Resource.hpp>
@@ -38,8 +39,7 @@ namespace kd
 		void updateThread(seconds_t dt, window_t& w) override;
 
 	private:
-		std::vector<std::unique_ptr<Entity>> entities;
-		// Player* player;
+		std::vector<std::shared_ptr<Entity>> entities;
 		std::vector<cgf::Resource<sf::Texture>> textures;
 	};
 }
