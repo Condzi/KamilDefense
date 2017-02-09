@@ -20,7 +20,7 @@ namespace CGF_NAMESPACE
 			ResourceBase() : 
 				used(false), 
 				loaded(false), 
-				checkCount(false), 
+				checkCount(true), 
 				id(-1)
 			{}
 

@@ -7,31 +7,118 @@
 
 namespace kd
 {
+	void PlayState::updateUI()
+	{
+		auto hp = playerPointer->getHealth();
+
+		if (hp >= 100)
+			healthText[2].setString(sf::String(std::to_string(hp)[2]));
+		else
+			healthText[2].setString("-");
+
+		if (hp >= 10)
+			healthText[1].setString(sf::String(std::to_string(hp)[1]));
+		else
+			healthText[1].setString("-");
+
+		healthText[0].setString(sf::String(std::to_string(hp)[0]));
+
+		armorText.setString(std::to_string(playerPointer->getArmor()));
+
+		baseHealthText.setString("0");
+	}
+
 	void PlayState::onStart()
 	{
 		startThread();
-		/*
-			Initialize Entities here
-		*/
 
-		// Loading textures
+		if (!font.loadFromFile(FONT))
+			cgf::Logger::log("Cannot load font file!", cgf::Logger::ERROR);
+		else
+		{
+			healthText[0].setFont(font);
+			healthText[1].setFont(font);
+			healthText[2].setFont(font);
 
-		textures.emplace_back();
-		textures.back().setCheckCount(true);
-		textures.back().loadFromMemory(new sf::Texture);
-		textures.back().get()->loadFromFile(PLAYER_TEXTURE);
-		textures.back().setUniqueID(static_cast<unique_resource_id_t>(ENTITY_ID::PLAYER));
+			armorText.setFont(font);
+
+			baseHealthText.setFont(font);
+		}
+
+		{
+			healthText[0].setCharacterSize(6 * SCALE);
+			healthText[1].setCharacterSize(6 * SCALE);
+			healthText[2].setCharacterSize(6 * SCALE);
+
+			armorText.setCharacterSize(6 * SCALE);
+
+			baseHealthText.setCharacterSize(6 * SCALE);
+		}
+
+		{
+			healthText[0].setPosition(64.5f * SCALE, 0);
+			healthText[1].setPosition(64.5f * SCALE, 5 * SCALE);
+			healthText[2].setPosition(64.5f * SCALE, 10 * SCALE);
+
+			armorText.setPosition(1 * SCALE, 62 * SCALE);
+			
+			baseHealthText.setPosition(64 * SCALE, 62 * SCALE);
+		}
 		
-		// Making entities
+		// Loading textures
+		{
+			textures.emplace_back();
+			textures.back().loadFromMemory(new sf::Texture);
+			textures.back().get()->loadFromFile(PLAYER_TEXTURE);
+			textures.back().setUniqueID(static_cast<unique_resource_id_t>(ENTITY_ID::PLAYER));
 
+			textures.emplace_back();
+			textures.back().loadFromMemory(new sf::Texture);
+			textures.back().get()->loadFromFile(BACKGROUND_TEXTURE);
+			textures.back().setUniqueID(static_cast<unique_resource_id_t>(ENTITY_ID::BACKGROUND));
+		}
+
+		auto bg = std::make_shared<Background>();
 		auto player = std::make_shared<Player>();
-		// temporary I know that player texture is last
-		player->setTexture(textures.back().get());
 
-		player->setPosition({ static_cast<float>(WINDOW_SIZE.x / 2), static_cast<float>(WINDOW_SIZE.y / 2) });
-		player->setMovementKeys(movement_keys_t(sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space));
-		player->setMovementForces(movement_forces_t(-250.f, 250.f, -500.f));
-	
+		// Initializing player
+		{
+			playerPointer = player;
+
+			player->setHealth(MAX_HEALTH);
+			player->setArmor(MAX_ARMOR);
+
+			bool found = false;
+			for(auto& t : textures)
+				if (t.getUniqueID() == static_cast<unique_resource_id_t>(ENTITY_ID::PLAYER))
+				{
+					found = true;
+					player->setTexture(t.get());
+				}
+
+			if (!found)
+				cgf::Logger::log("Cannot find PLAYER texture!", cgf::Logger::ERROR);
+
+			player->setPosition({ static_cast<float>(WINDOW_SIZE.x / 2), static_cast<float>(WINDOW_SIZE.y / 2) });
+			player->setMovementKeys(movement_keys_t(sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space));
+			player->setMovementForces(movement_forces_t(-250.f, 250.f, -500.f));
+		}	
+		
+		// Initializing bg
+		{
+			bool found = false;
+			for(auto& t : textures)
+				if (t.getUniqueID() == static_cast<unique_resource_id_t>(ENTITY_ID::BACKGROUND))
+				{
+					found = true;
+					bg->setTexture(t.get());
+				}
+
+			if (!found)
+				cgf::Logger::log("Cannot find BACKGROUND texture!", cgf::Logger::ERROR);
+		}
+
+		entities.push_back(bg);
 		entities.push_back(player);
 
 		endThread();
@@ -66,10 +153,19 @@ namespace kd
 			for (auto& e : entities)
 				e->update(1.f / FPS_LIMIT);
 
+			updateUI();
+
 			windowPtr->clear(sf::Color(100, 100, 100));
 
 			for (auto& e : entities)
 				e->draw(*windowPtr);
+
+			windowPtr->draw(healthText[0]);
+			windowPtr->draw(healthText[1]);
+			windowPtr->draw(healthText[2]);
+			windowPtr->draw(armorText);
+			windowPtr->draw(baseHealthText);
+
 
 			windowPtr->display();
 		}
