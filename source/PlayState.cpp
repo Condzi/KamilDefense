@@ -28,6 +28,17 @@ namespace kd
 		baseHealthText.setString("0");
 	}
 
+	void PlayState::removeUnusedEntities()
+	{
+		for (auto it = entities.begin(); it != entities.end();)
+		{
+			if ((*it)->isWishingDelete())
+				it = entities.erase(it);
+			else
+				it++;
+		}
+	}
+
 	void PlayState::onStart()
 	{
 		startThread();
@@ -46,13 +57,13 @@ namespace kd
 		}
 
 		{
-			healthText[0].setCharacterSize(6 * SCALE);
-			healthText[1].setCharacterSize(6 * SCALE);
-			healthText[2].setCharacterSize(6 * SCALE);
+			healthText[0].setCharacterSize(static_cast<uint32_t>(6 * SCALE));
+			healthText[1].setCharacterSize(static_cast<uint32_t>(6 * SCALE));
+			healthText[2].setCharacterSize(static_cast<uint32_t>(6 * SCALE));
 
-			armorText.setCharacterSize(6 * SCALE);
+			armorText.setCharacterSize(static_cast<uint32_t>(6 * SCALE));
 
-			baseHealthText.setCharacterSize(6 * SCALE);
+			baseHealthText.setCharacterSize(static_cast<uint32_t>(6 * SCALE));
 		}
 
 		{
@@ -153,6 +164,8 @@ namespace kd
 			for (auto& e : entities)
 				e->update(1.f / FPS_LIMIT);
 
+			removeUnusedEntities();
+
 			updateUI();
 
 			windowPtr->clear(sf::Color(100, 100, 100));
@@ -180,14 +193,14 @@ namespace kd
 		rectangle.setFillColor(sf::Color::Transparent);
 		rectangle.setOutlineColor(sf::Color(125, 125, 125));
 		rectangle.setOutlineThickness(5.f);
-		rectangle.setPosition(WINDOW_SIZE.x / 2, WINDOW_SIZE.y / 2);
-		rectangle.setSize(sf::Vector2f(WINDOW_SIZE.x / 2, WINDOW_SIZE.y / 2));
+		rectangle.setPosition(static_cast<float>(WINDOW_SIZE.x / 2), static_cast<float>(WINDOW_SIZE.y / 2));
+		rectangle.setSize(sf::Vector2f(static_cast<float>(WINDOW_SIZE.x / 2), static_cast<float>(WINDOW_SIZE.y / 2)));
 		rectangle.setOrigin(rectangle.getSize().x / 2, rectangle.getSize().y / 2);
 
 		rectangle.rotate(90 * dt);
 		static uint32_t i = 1;
 
-		rectangle.setScale(std::abs(std::sin(i * 3.14 / 180.f)), std::abs(std::sin(i * 3.14 / 180.f)));
+		rectangle.setScale(std::fabs(std::sinf(i * 3.14f / 180.f)), std::fabs(std::sinf(i * 3.14f / 180.f)));
 		i++;
 
 		w.clear(sf::Color(100,100,100));

@@ -31,6 +31,7 @@ namespace kd
 		void lockWindowContext() override { windowPtr->setActive(false); }
 
 		void updateUI();
+		void removeUnusedEntities();
 
 	public:
 		PlayState(window_t* window) : 
