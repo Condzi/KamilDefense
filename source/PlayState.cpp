@@ -129,8 +129,18 @@ namespace kd
 				cgf::Logger::log("Cannot find BACKGROUND texture!", cgf::Logger::ERROR);
 		}
 
+
+		auto border = std::make_shared<Border>();
+		border->setPosition({ 0, 31 * 2 * SCALE });
+		border->rectangle.width = 64 * SCALE;
+		border->rectangle.height = 1.f;
+
 		entities.push_back(bg);
 		entities.push_back(player);
+		entities.push_back(border);
+
+		physicChecker.addBoxCollider(player);
+		physicChecker.addBoxCollider(border);
 
 		endThread();
 	}
@@ -167,6 +177,8 @@ namespace kd
 			removeUnusedEntities();
 
 			updateUI();
+
+			physicChecker.update(1.f / FPS_LIMIT);
 
 			windowPtr->clear(sf::Color(100, 100, 100));
 

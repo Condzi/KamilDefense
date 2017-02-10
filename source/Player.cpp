@@ -70,6 +70,8 @@ namespace kd
 	void Player::update(seconds_t dt)
 	{
 		velocity.x = 0;
+		velocity.y += GRAVITY * dt;
+
 		checkEvents();
 
 		position += velocity * dt;

@@ -57,6 +57,8 @@ namespace kd
 			}
 
 		colliders.push_back(collider);
+
+		cgf::Logger::log("Added collider to PhysicChecker, total colliders: " + std::to_string(colliders.size()));
 		
 		return true;
 	}
@@ -64,5 +66,35 @@ namespace kd
 	void PhysicChecker::update(seconds_t dt)
 	{
 		removeUnusedEntities();
+
+		for (size_t i = 0; i < colliders.size(); ++i)
+			for (size_t j = 0; j < colliders.size(); ++j)
+			{
+				if(i == j)
+					continue;
+
+				sf::FloatRect& collA = colliders[i]->rectangle;
+				sf::FloatRect collAupdated = collA;
+				collAupdated.left += colliders[i]->velocity.x * dt;
+				collAupdated.top += colliders[i]->velocity.y * dt;
+				sf::FloatRect& collB = colliders[j]->rectangle;
+
+				if(!collAupdated.intersects(collB))
+					continue;
+
+				collision_side_t collAside = None;
+
+				if (collidedLeft(collAupdated, collA, collB))
+					collAside = Left;
+				else if (collidedRight(collAupdated, collA, collB))
+					collAside = Right;
+				else if (collidedTop(collAupdated, collA, collB))
+					collAside = Top;
+				else if (collidedBottom(collAupdated, collA, collB))
+					collAside = Down;
+
+				/* Temporary */
+				cgf::Logger::log("Collision side:" + std::to_string(collAside), cgf::Logger::INFO, cgf::Logger::CONSOLE);
+			}
 	}
 }

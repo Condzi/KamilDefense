@@ -11,9 +11,11 @@
 
 namespace kd
 {
+	constexpr bool DEBUG_DRAW_BORDERS = true;
+
 	// Sprites are very small so they must be scaled up
 	constexpr float SCALE = 10.f;
-	constexpr float GRAVITY = 10.f;
+	constexpr float GRAVITY = 100.f;
 
 	constexpr auto WINDOW_TITLE = "Kamil Defense";
 	constexpr struct

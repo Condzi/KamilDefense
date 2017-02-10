@@ -26,7 +26,6 @@ namespace kd
 
 		virtual ~BoxCollider() = default;
 
-	protected:
 		sf::FloatRect rectangle;
 		sf::Vector2f velocity;
 

@@ -16,10 +16,12 @@
 #include <Logger.hpp>
 #include <State.hpp>
 
+#include "Border.hpp"
+#include "Background.hpp"
 #include "GameConfig.hpp"
 #include "Entity.hpp"
 #include "Player.hpp"
-#include "Background.hpp"
+#include "PhysicChecker.hpp"
 
 namespace kd
 {
@@ -53,5 +55,7 @@ namespace kd
 		sf::Text healthText[3];
 		sf::Text armorText;
 		sf::Text baseHealthText;		
+
+		PhysicChecker physicChecker;
 	};
 }
