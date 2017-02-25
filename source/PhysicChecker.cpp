@@ -30,13 +30,13 @@ namespace kd
 			a.left < b.left + b.width;
 	}
 
-	bool PhysicChecker::collidedTop(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b)
+	bool PhysicChecker::collidedDown(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b)
 	{
 		return a_old.top + a_old.height < b.top &&
 			a.top + a.height >= b.top;
 	}
 
-	bool PhysicChecker::collidedBottom(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b)
+	bool PhysicChecker::collidedTop(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b)
 	{
 		return a_old.top >= b.top + b.height &&
 			a.top < b.top + b.height;
@@ -73,11 +73,11 @@ namespace kd
 				if(i == j)
 					continue;
 
-				sf::FloatRect& collA = colliders[i]->rectangle;
+				sf::FloatRect& collA = colliders[j]->rectangle;
 				sf::FloatRect collAupdated = collA;
-				collAupdated.left += colliders[i]->velocity.x * dt;
-				collAupdated.top += colliders[i]->velocity.y * dt;
-				sf::FloatRect& collB = colliders[j]->rectangle;
+				collAupdated.left += colliders[j]->velocity.x * dt;
+				collAupdated.top += colliders[j]->velocity.y * dt;
+				sf::FloatRect& collB = colliders[i]->rectangle;
 
 				if(!collAupdated.intersects(collB))
 					continue;
@@ -88,13 +88,19 @@ namespace kd
 					collAside = Left;
 				else if (collidedRight(collAupdated, collA, collB))
 					collAside = Right;
+				else if (collidedDown(collAupdated, collA, collB))
+					collAside = Down;
 				else if (collidedTop(collAupdated, collA, collB))
 					collAside = Top;
-				else if (collidedBottom(collAupdated, collA, collB))
-					collAside = Down;
 
-				/* Temporary */
-				cgf::Logger::log("Collision side:" + std::to_string(collAside), cgf::Logger::INFO, cgf::Logger::CONSOLE);
+
+				if (collAside != None)
+				{
+					CollisionSolver::entityEntity(colliders[j], colliders[i], collAside);
+
+					/* Temporary */
+					cgf::Logger::log("Collision side:" + std::to_string(collAside), cgf::Logger::INFO, cgf::Logger::CONSOLE);
+				}
 			}
 	}
 }

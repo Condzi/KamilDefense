@@ -19,8 +19,8 @@ namespace kd
 		None = -1,
 		Left = 0,
 		Right,
-		Top,
-		Down
+		Down,
+		Top
 	};
 
 	struct movement_keys_t final

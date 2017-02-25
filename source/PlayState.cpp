@@ -72,10 +72,10 @@ namespace kd
 			healthText[2].setPosition(64.5f * SCALE, 10 * SCALE);
 
 			armorText.setPosition(1 * SCALE, 62 * SCALE);
-			
+
 			baseHealthText.setPosition(64 * SCALE, 62 * SCALE);
 		}
-		
+
 		// Loading textures
 		{
 			textures.emplace_back();
@@ -90,7 +90,9 @@ namespace kd
 		}
 
 		auto bg = std::make_shared<Background>();
+		bg->setType(ENTITY_ID::BACKGROUND);
 		auto player = std::make_shared<Player>();
+		player->setType(ENTITY_ID::PLAYER);
 
 		// Initializing player
 		{
@@ -100,7 +102,7 @@ namespace kd
 			player->setArmor(MAX_ARMOR);
 
 			bool found = false;
-			for(auto& t : textures)
+			for (auto& t : textures)
 				if (t.getUniqueID() == static_cast<unique_resource_id_t>(ENTITY_ID::PLAYER))
 				{
 					found = true;
@@ -113,12 +115,12 @@ namespace kd
 			player->setPosition({ static_cast<float>(WINDOW_SIZE.x / 2), static_cast<float>(WINDOW_SIZE.y / 2) });
 			player->setMovementKeys(movement_keys_t(sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space));
 			player->setMovementForces(movement_forces_t(-250.f, 250.f, -500.f));
-		}	
-		
+		}
+
 		// Initializing bg
 		{
 			bool found = false;
-			for(auto& t : textures)
+			for (auto& t : textures)
 				if (t.getUniqueID() == static_cast<unique_resource_id_t>(ENTITY_ID::BACKGROUND))
 				{
 					found = true;
@@ -131,16 +133,25 @@ namespace kd
 
 
 		auto border = std::make_shared<Border>();
+		border->setType(ENTITY_ID::BORDER);
 		border->setPosition({ 0, 31 * 2 * SCALE });
-		border->rectangle.width = 64 * SCALE;
+		border->rectangle.width = 32*2 * SCALE;
 		border->rectangle.height = 1.f;
+
+		auto borderWallRight = std::make_shared<Border>();
+		borderWallRight->setType(ENTITY_ID::BORDER);
+		borderWallRight->setPosition({32 * 2 * SCALE, 0});
+		borderWallRight->rectangle.width = 1.f;
+		borderWallRight->rectangle.height = 32 * 2 * SCALE;
 
 		entities.push_back(bg);
 		entities.push_back(player);
 		entities.push_back(border);
+		entities.push_back(borderWallRight);
 
 		physicChecker.addBoxCollider(player);
 		physicChecker.addBoxCollider(border);
+		physicChecker.addBoxCollider(borderWallRight);
 
 		endThread();
 	}
@@ -177,6 +188,7 @@ namespace kd
 			removeUnusedEntities();
 
 			updateUI();
+			playerPointer->checkEvents();
 
 			physicChecker.update(1.f / FPS_LIMIT);
 

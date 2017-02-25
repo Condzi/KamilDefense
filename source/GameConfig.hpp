@@ -15,7 +15,7 @@ namespace kd
 
 	// Sprites are very small so they must be scaled up
 	constexpr float SCALE = 10.f;
-	constexpr float GRAVITY = 100.f;
+	constexpr float GRAVITY = 1000.f;
 
 	constexpr auto WINDOW_TITLE = "Kamil Defense";
 	constexpr struct
@@ -42,6 +42,7 @@ namespace kd
 	enum ENTITY_ID
 	{
 		BACKGROUND = 0,
+		BORDER,
 
 		PLAYER,
 		ENEMY,

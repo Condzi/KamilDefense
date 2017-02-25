@@ -10,6 +10,7 @@
 #include <Logger.hpp>
 
 #include "BoxCollider.hpp"
+#include "CollisionSolver.hpp"
 #include "Entity.hpp"
 #include "Types.hpp"
 
@@ -22,8 +23,8 @@ namespace kd
 
 		bool collidedLeft(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b);
 		bool collidedRight(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b);
+		bool collidedDown(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b);
 		bool collidedTop(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b);
-		bool collidedBottom(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b);
 
 	public:
 		PhysicChecker()

@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "GameConfig.hpp"
 #include "Types.hpp"
 
 namespace kd
@@ -18,17 +19,19 @@ namespace kd
 		{}
 		virtual ~Entity() = default;
 
+		ENTITY_ID getType() { return type; }
 		sf::Vector2f getPosition() { return position; }
 		bool isWishingDelete() { return wishDelete; }
 
-		void setPosition(const sf::Vector2f& pos) { position = pos;	}
+		void setType(ENTITY_ID t) { type = t; }
+		virtual void setPosition(const sf::Vector2f& pos) { position = pos;	}
 		void setWishDelete(bool val) { wishDelete = val; }
 
 		virtual void update(seconds_t dt) {};
 		virtual void draw(sf::RenderTarget& target) {};
 	
 	private:
-		int16_t type;
+		ENTITY_ID type;
 
 	protected:
 		sf::Vector2f position;

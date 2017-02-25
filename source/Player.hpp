@@ -20,9 +20,6 @@ namespace kd
 		public Entity,
 		public BoxCollider
 	{
-	private:
-		void checkEvents();
-
 	public:
 		Player() :
 			BoxCollider(std::make_shared<Entity>(*this)),
@@ -35,6 +32,7 @@ namespace kd
 		uint8_t getHealth() { return health; }
 		uint8_t getArmor() { return armor; }
 
+		void setPosition( const sf::Vector2f& pos ) override;
 		void setTexture(std::shared_ptr<sf::Texture> texture);
 		void setHealth(uint8_t val, bool ignoreLimit = false);
 		void setArmor(uint8_t val, bool ignoreLimit = false);
@@ -44,6 +42,7 @@ namespace kd
 		void addDamage(uint8_t val);
 
 		void update(seconds_t dt) override;
+		void checkEvents();
 		void draw(sf::RenderTarget& target) override;
 
 	private:
