@@ -25,26 +25,25 @@
 
 namespace kd
 {
-	class PlayState final : 
-		public cgf::State
+	class PlayState final : public cgf::State
 	{
 	private:
-		void unlockWindowContext() override { windowPtr->setActive(true); }
-		void lockWindowContext() override { windowPtr->setActive(false); }
+		void unlockWindowContext() override { windowPtr->setActive( true ); }
+		void lockWindowContext() override { windowPtr->setActive( false ); }
 
 		void updateUI();
 		void removeUnusedEntities();
 
 	public:
-		PlayState(window_t* window) : 
-			cgf::State(window)
+		PlayState( window_t* window ) :
+			cgf::State( window )
 		{}
 
 		void onStart() override;
 		void onStop() override;
 		state_id_t run() override;
 
-		void updateThread(seconds_t dt, window_t& w) override;
+		void updateThread( seconds_t dt, window_t& w ) override;
 
 	private:
 		std::vector<std::shared_ptr<Entity>> entities;
@@ -54,7 +53,7 @@ namespace kd
 		sf::Font font;
 		sf::Text healthText[3];
 		sf::Text armorText;
-		sf::Text baseHealthText;		
+		sf::Text baseHealthText;
 
 		PhysicChecker physicChecker;
 	};

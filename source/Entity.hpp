@@ -10,31 +10,31 @@
 
 namespace kd
 {
-	class Entity 
+	class Entity
 	{
 	public:
 		Entity() :
-			position(0,0),
-			wishDelete(false)
+			position( 0, 0 ),
+			wishDelete( false )
 		{}
 		virtual ~Entity() = default;
 
-		ENTITY_ID getType() { return type; }
-		sf::Vector2f getPosition() { return position; }
-		bool isWishingDelete() { return wishDelete; }
+		entity_id_t GetType() { return this->type; }
+		sf::Vector2f GetPosition() { return this->position; }
+		bool IsWishingDelete() { return this->wishDelete; }
 
-		void setType(ENTITY_ID t) { type = t; }
-		virtual void setPosition(const sf::Vector2f& pos) { position = pos;	}
-		void setWishDelete(bool val) { wishDelete = val; }
+		void SetType( entity_id_t t ) { this->type = t; }
+		virtual void SetPosition( const sf::Vector2f& pos ) { this->position = pos; }
+		void SetWishDelete( bool val ) { this->wishDelete = val; }
 
-		virtual void update(seconds_t dt) {};
-		virtual void draw(sf::RenderTarget& target) {};
-	
-	private:
-		ENTITY_ID type;
+		virtual void Update( seconds_t dt ) {};
+		virtual void Draw( sf::RenderTarget& target ) {};
 
 	protected:
 		sf::Vector2f position;
 		bool wishDelete;
+
+	private:
+		entity_id_t type;
 	};
 }

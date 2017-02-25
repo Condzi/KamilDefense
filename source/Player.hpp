@@ -16,9 +16,7 @@
 
 namespace kd
 {
-	class Player final :
-		public Entity,
-		public BoxCollider
+	class Player final : public Entity, public BoxCollider
 	{
 	public:
 		Player() :
@@ -32,18 +30,18 @@ namespace kd
 		uint8_t getHealth() { return health; }
 		uint8_t getArmor() { return armor; }
 
-		void setPosition( const sf::Vector2f& pos ) override;
-		void setTexture(std::shared_ptr<sf::Texture> texture);
-		void setHealth(uint8_t val, bool ignoreLimit = false);
-		void setArmor(uint8_t val, bool ignoreLimit = false);
-		void setMovementKeys(const movement_keys_t& keys) { movementKeys = keys; }
-		void setMovementForces(const movement_forces_t& forces) { movementForces = forces; }
+		void SetPosition( const sf::Vector2f& pos ) override;
+		void SetTexture(std::shared_ptr<sf::Texture> texture);
+		void SetHealth(uint8_t val, bool ignoreLimit = false);
+		void SetArmor(uint8_t val, bool ignoreLimit = false);
+		void SetMovementKeys(const movement_keys_t& keys) { this->movementKeys = keys; }
+		void SetMovementForces(const movement_forces_t& forces) { this->movementForces = forces; }
 
-		void addDamage(uint8_t val);
+		void AddDamage(uint8_t val);
 
-		void update(seconds_t dt) override;
-		void checkEvents();
-		void draw(sf::RenderTarget& target) override;
+		void Update(seconds_t dt) override;
+		void CheckEvents();
+		void Draw(sf::RenderTarget& target) override;
 
 	private:
 		uint8_t health;

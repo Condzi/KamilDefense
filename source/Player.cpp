@@ -7,98 +7,96 @@
 
 namespace kd
 {
-	void Player::checkEvents()
+	void Player::CheckEvents()
 	{
-		velocity.x = 0.0f;
+		this->velocity.x = 0.0f;
 
-		if ( sf::Keyboard::isKeyPressed( movementKeys.left ) )
-			velocity.x = movementForces.left;
+		if ( sf::Keyboard::isKeyPressed( this->movementKeys.left ) )
+			this->velocity.x = this->movementForces.left;
 
-		if ( sf::Keyboard::isKeyPressed( movementKeys.right ) )
-			velocity.x = movementForces.right;
+		if ( sf::Keyboard::isKeyPressed( this->movementKeys.right ) )
+			this->velocity.x = this->movementForces.right;
 
-		if ( sf::Keyboard::isKeyPressed( movementKeys.jump ) &&
-			velocity.y == 0.f && this->grounded)
-			velocity.y = movementForces.jump;
+		if ( sf::Keyboard::isKeyPressed( this->movementKeys.jump ) &&
+			this->velocity.y == 0.f &&
+			this->grounded )
+			this->velocity.y = movementForces.jump;
 	}
 
-	void Player::setPosition( const sf::Vector2f & pos )
+	void Player::SetPosition( const sf::Vector2f& pos )
 	{
 		this->position = pos;
+		this->rectangle.left = pos.x;
+		this->rectangle.top = pos.y;
 	}
 
-	void Player::setTexture( std::shared_ptr<sf::Texture> tex )
+	void Player::SetTexture( std::shared_ptr<sf::Texture> tex )
 	{
 		if ( !tex )
 			cgf::Logger::log( "Player texture is not assigned", cgf::Logger::WARNING );
 		else
 		{
-			texture = tex;
+			this->texture = tex;
 
-			sprite.setTexture( *texture );
-			sprite.setScale( SCALE, SCALE );
+			this->sprite.setTexture( *this->texture );
+			this->sprite.setScale( SCALE, SCALE );
 
-			rectangle = sprite.getGlobalBounds();
+			this->rectangle = this->sprite.getGlobalBounds();
 		}
 	}
 
-	void Player::setHealth( uint8_t val, bool ignoreLimit )
+	void Player::SetHealth( uint8_t val, bool ignoreLimit )
 	{
 		if ( val > MAX_HEALTH && !ignoreLimit )
-			health = MAX_HEALTH;
+			this->health = MAX_HEALTH;
 		else
-			health = val;
+			this->health = val;
 	}
 
-	void Player::setArmor( uint8_t val, bool ignoreLimit )
+	void Player::SetArmor( uint8_t val, bool ignoreLimit )
 	{
 		if ( val > MAX_ARMOR && !ignoreLimit )
-			armor = MAX_ARMOR;
+			this->armor = MAX_ARMOR;
 		else
-			armor = val;
+			this->armor = val;
 	}
 
-	void Player::addDamage( uint8_t val )
+	void Player::AddDamage( uint8_t val )
 	{
-		if ( val > armor )
-			val = val - armor;
+		if ( val > this->armor )
+			val = val - this->armor;
 		else
-			armor -= val;
+			this->armor -= val;
 
 		if ( val )
 		{
-			if ( val > health )
-				health = 0;
+			if ( val > this->health )
+				this->health = 0;
 			else
-				health -= val;
+				this->health -= val;
 		}
 	}
 
-	void Player::update( seconds_t dt )
+	void Player::Update( seconds_t dt )
 	{
 		if ( !this->grounded )
-			velocity.y += GRAVITY * dt;
+			this->velocity.y += GRAVITY * OBJECT_WEIGHT * dt;
 		else if ( this->velocity.y != 0 )
 			this->grounded = false;
 
-		//position += velocity * dt;
+		this->rectangle.left += velocity.x * dt;
+		this->rectangle.top += velocity.y * dt;
 
-		//rectangle.left = position.x;
-		//rectangle.top = position.y;
+		this->position = { this->rectangle.left, this->rectangle.top };
 
-		rectangle.left += velocity.x * dt;
-		rectangle.top += velocity.y * dt;
-
-		position = { rectangle.left, rectangle.top };
-
-		sprite.setPosition( position );
+		this->sprite.setPosition( this->position );
 	}
 
-	void Player::draw( sf::RenderTarget& target )
+	void Player::Draw( sf::RenderTarget& target )
 	{
-		if ( !texture )
+		if ( !this->texture )
 			cgf::Logger::log( "Player texture is not set, nothing will be drawn", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 		else
-			target.draw( sprite );
+			target.draw( this->sprite );
 	}
 }

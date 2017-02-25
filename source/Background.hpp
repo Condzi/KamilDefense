@@ -17,32 +17,34 @@
 
 namespace kd
 {
-	class Background final :
-		public Entity
+	class Background final : public Entity
 	{
 	public:
-		Background() 
+		Background()
 		{}
 
-		void setTexture(std::shared_ptr<sf::Texture> tex)
+		void SetTexture( std::shared_ptr<sf::Texture> tex )
 		{
-			if (!tex)
-				cgf::Logger::log("Background texture is not assigned", cgf::Logger::WARNING);
+			if ( !tex )
+				cgf::Logger::log( "Background texture is not assigned", cgf::Logger::WARNING );
 			else
 			{
 				texture = tex;
-				sprite.setTexture(*texture);
-				sprite.scale(2, 2);
-				sprite.scale(SCALE, SCALE);
+				sprite.setTexture( *texture );
+				sprite.scale( 2.0f, 2.0f );
+				sprite.scale( SCALE, SCALE );
 			}
-				
 		}
 
-		void draw(sf::RenderTarget& target) override
+		void Draw( sf::RenderTarget& target ) override
 		{
-			if (!texture)
-				cgf::Logger::log("Background texture is not set, nothing will be drawn", cgf::Logger::WARNING, cgf::Logger::CONSOLE);
-			target.draw(sprite);
+			if ( !texture )
+			{
+				cgf::Logger::log( "Background texture is not set, nothing will be drawn", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
+				return;
+			}
+
+			target.draw( sprite );
 		}
 
 	private:

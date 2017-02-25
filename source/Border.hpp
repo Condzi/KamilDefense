@@ -17,23 +17,23 @@ namespace kd
 	{
 	public:
 		Border() :
-			BoxCollider(std::make_shared<Entity>(*this))
+			BoxCollider( std::make_shared<Entity>( *this ) )
 		{}
 
-		void update(seconds_t dt) override { rectangle.left = position.x; rectangle.top = position.y; }
-		void draw(sf::RenderTarget& target) override
+		void Update( seconds_t dt ) override { this->rectangle.left = this->position.x; this->rectangle.top = this->position.y; }
+		void Draw( sf::RenderTarget& target ) override
 		{
-			if (!DEBUG_DRAW_BORDERS)
+			if ( !DEBUG_DRAW_BORDERS )
 				return;
 
 			sf::RectangleShape shape;
-			shape.setPosition(rectangle.left, rectangle.top);
-			shape.setSize({ rectangle.width, rectangle.height });
-			shape.setFillColor(sf::Color::Transparent);
-			shape.setOutlineThickness(2.f);
-			shape.setOutlineColor(sf::Color::Red);
-			
-			target.draw(shape);
+			shape.setPosition( rectangle.left, rectangle.top );
+			shape.setSize( { rectangle.width, rectangle.height } );
+			shape.setFillColor( sf::Color::Transparent );
+			shape.setOutlineThickness( 2.f );
+			shape.setOutlineColor( sf::Color::Red );
+
+			target.draw( shape );
 		}
 
 	};

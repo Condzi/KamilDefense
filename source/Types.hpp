@@ -14,7 +14,7 @@
 
 namespace kd
 {
-	enum collision_side_t 
+	enum collision_side_t
 	{
 		None = -1,
 		Left = 0,
@@ -27,8 +27,8 @@ namespace kd
 	{
 		sf::Keyboard::Key left, right, jump;
 
-		movement_keys_t(sf::Keyboard::Key l, sf::Keyboard::Key r, sf::Keyboard::Key j) :
-			left(l), right(r), jump(j)
+		movement_keys_t( sf::Keyboard::Key l, sf::Keyboard::Key r, sf::Keyboard::Key j ) :
+			left( l ), right( r ), jump( j )
 		{}
 	};
 
@@ -36,8 +36,8 @@ namespace kd
 	{
 		float left, right, jump;
 
-		movement_forces_t(float l, float r, float j) :
-			left(l), right(r), jump(j)
+		movement_forces_t( float l, float r, float j ) :
+			left( l ), right( r ), jump( j )
 		{}
 	};
 }

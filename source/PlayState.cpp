@@ -32,7 +32,7 @@ namespace kd
 	{
 		for ( auto it = entities.begin(); it != entities.end();)
 		{
-			if ( ( *it )->isWishingDelete() )
+			if ( ( *it )->IsWishingDelete() )
 				it = entities.erase( it );
 			else
 				it++;
@@ -81,50 +81,50 @@ namespace kd
 			textures.emplace_back();
 			textures.back().loadFromMemory( new sf::Texture );
 			textures.back().get()->loadFromFile( PLAYER_TEXTURE );
-			textures.back().setUniqueID( static_cast<unique_resource_id_t>( ENTITY_ID::PLAYER ) );
+			textures.back().setUniqueID( static_cast<unique_resource_id_t>( entity_id_t::PLAYER ) );
 
 			textures.emplace_back();
 			textures.back().loadFromMemory( new sf::Texture );
 			textures.back().get()->loadFromFile( BACKGROUND_TEXTURE );
-			textures.back().setUniqueID( static_cast<unique_resource_id_t>( ENTITY_ID::BACKGROUND ) );
+			textures.back().setUniqueID( static_cast<unique_resource_id_t>( entity_id_t::BACKGROUND ) );
 		}
 
 		auto bg = std::make_shared<Background>();
-		bg->setType( ENTITY_ID::BACKGROUND );
+		bg->SetType( entity_id_t::BACKGROUND );
 		auto player = std::make_shared<Player>();
-		player->setType( ENTITY_ID::PLAYER );
+		player->SetType( entity_id_t::PLAYER );
 
 		// Initializing player
 		{
 			playerPointer = player;
 
-			player->setHealth( MAX_HEALTH );
-			player->setArmor( MAX_ARMOR );
+			player->SetHealth( MAX_HEALTH );
+			player->SetArmor( MAX_ARMOR );
 
 			bool found = false;
 			for ( auto& t : textures )
-				if ( t.getUniqueID() == static_cast<unique_resource_id_t>( ENTITY_ID::PLAYER ) )
+				if ( t.getUniqueID() == static_cast<unique_resource_id_t>( entity_id_t::PLAYER ) )
 				{
 					found = true;
-					player->setTexture( t.get() );
+					player->SetTexture( t.get() );
 				}
 
 			if ( !found )
 				cgf::Logger::log( "Cannot find PLAYER texture!", cgf::Logger::ERROR );
 
-			player->setPosition( { static_cast<float>( WINDOW_SIZE.x / 2 ), static_cast<float>( WINDOW_SIZE.y / 2 ) } );
-			player->setMovementKeys( movement_keys_t( sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space ) );
-			player->setMovementForces( movement_forces_t( -250.f, 250.f, -500.f ) );
+			player->SetPosition( { static_cast<float>( WINDOW_SIZE.x / 2 ), static_cast<float>( WINDOW_SIZE.y / 2 ) } );
+			player->SetMovementKeys( movement_keys_t( sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space ) );
+			player->SetMovementForces( movement_forces_t( -250.f, 250.f, -500.f ) );
 		}
 
 		// Initializing bg
 		{
 			bool found = false;
 			for ( auto& t : textures )
-				if ( t.getUniqueID() == static_cast<unique_resource_id_t>( ENTITY_ID::BACKGROUND ) )
+				if ( t.getUniqueID() == static_cast<unique_resource_id_t>( entity_id_t::BACKGROUND ) )
 				{
 					found = true;
-					bg->setTexture( t.get() );
+					bg->SetTexture( t.get() );
 				}
 
 			if ( !found )
@@ -133,20 +133,20 @@ namespace kd
 
 
 		auto borderWallDown = std::make_shared<Border>();
-		borderWallDown->setType( ENTITY_ID::BORDER );
-		borderWallDown->setPosition( { 0, 31 * 2 * SCALE } );
+		borderWallDown->SetType( entity_id_t::BORDER );
+		borderWallDown->SetPosition( { 0, 31 * 2 * SCALE } );
 		borderWallDown->rectangle.width = 32 * 2 * SCALE;
 		borderWallDown->rectangle.height = 1.f;
 
 		auto borderWallRight = std::make_shared<Border>();
-		borderWallRight->setType( ENTITY_ID::BORDER );
-		borderWallRight->setPosition( { 32 * 2 * SCALE, 0 } );
+		borderWallRight->SetType( entity_id_t::BORDER );
+		borderWallRight->SetPosition( { 32 * 2 * SCALE, 0 } );
 		borderWallRight->rectangle.width = 1.f;
 		borderWallRight->rectangle.height = 32 * 2 * SCALE;
 
 		auto borderWallLeft = std::make_shared<Border>();
-		borderWallLeft->setType( ENTITY_ID::BORDER );
-		borderWallLeft->setPosition( { -1.0f, 0.0f } );
+		borderWallLeft->SetType( entity_id_t::BORDER );
+		borderWallLeft->SetPosition( { -1.0f, 0.0f } );
 		borderWallLeft->rectangle.width = 1.f;
 		borderWallLeft->rectangle.height = 32 * 2 * SCALE;
 
@@ -156,10 +156,10 @@ namespace kd
 		entities.push_back( borderWallRight );
 		entities.push_back( borderWallLeft );
 
-		physicChecker.addBoxCollider( player );
-		physicChecker.addBoxCollider( borderWallDown );
-		physicChecker.addBoxCollider( borderWallRight );
-		physicChecker.addBoxCollider( borderWallLeft );
+		physicChecker.AddBoxCollider( player );
+		physicChecker.AddBoxCollider( borderWallDown );
+		physicChecker.AddBoxCollider( borderWallRight );
+		physicChecker.AddBoxCollider( borderWallLeft );
 
 		endThread();
 	}
@@ -183,7 +183,7 @@ namespace kd
 			while ( windowPtr->pollEvent( event ) )
 			{
 				if ( event.type == sf::Event::Closed )
-					return STATE_ID::EXIT;
+					return state_t::EXIT;
 
 				if ( event.type == sf::Event::KeyReleased )
 					if ( event.key.code == sf::Keyboard::Escape )
@@ -191,19 +191,19 @@ namespace kd
 			}
 
 			for ( auto& e : entities )
-				e->update( 1.f / FPS_LIMIT );
+				e->Update( 1.f / FPS_LIMIT );
 
 			removeUnusedEntities();
 
 			updateUI();
-			playerPointer->checkEvents();
+			playerPointer->CheckEvents();
 
-			physicChecker.update( 1.f / FPS_LIMIT );
+			physicChecker.Update( 1.f / FPS_LIMIT );
 
 			windowPtr->clear( sf::Color( 100, 100, 100 ) );
 
 			for ( auto& e : entities )
-				e->draw( *windowPtr );
+				e->Draw( *windowPtr );
 
 			windowPtr->draw( healthText[0] );
 			windowPtr->draw( healthText[1] );
@@ -216,7 +216,7 @@ namespace kd
 		}
 
 		// Change in future to ::MENU
-		return STATE_ID::EXIT;
+		return state_t::EXIT;
 	}
 
 	void PlayState::updateThread( seconds_t dt, window_t& w )

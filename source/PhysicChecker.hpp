@@ -18,23 +18,23 @@ namespace kd
 {
 	class PhysicChecker final
 	{
-	private:
-		void removeUnusedEntities();
-
-		bool collidedLeft(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b);
-		bool collidedRight(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b);
-		bool collidedDown(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b);
-		bool collidedTop(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b);
-
 	public:
 		PhysicChecker()
 		{}
 
-		bool addBoxCollider(std::shared_ptr<BoxCollider> collider);
+		bool AddBoxCollider( std::shared_ptr<BoxCollider> collider );
 
-		void update(seconds_t dt);
+		void Update( seconds_t dt );
 
 	private:
 		std::vector<std::shared_ptr<BoxCollider>> colliders;
+
+	private:
+		void removeUnusedEntities();
+
+		bool collidedLeft( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b );
+		bool collidedRight( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b );
+		bool collidedDown( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b );
+		bool collidedTop( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b );
 	};
 }

@@ -7,24 +7,22 @@
 
 namespace kd
 {
-	void CollisionSolver::entityEntity(std::shared_ptr<BoxCollider> colliderA, std::shared_ptr<BoxCollider> colliderB, collision_side_t colliderAcollisionSide)
+	void CollisionSolver::EntityEntity( std::shared_ptr<BoxCollider> colliderA, std::shared_ptr<BoxCollider> colliderB, collision_side_t colliderAcollisionSide )
 	{
-		if (colliderAcollisionSide == None)
+		if ( colliderAcollisionSide == None )
 		{
-			cgf::Logger::log("Collision solver have wrong collision side info - possible error!", cgf::Logger::WARNING, cgf::Logger::CONSOLE);
+			cgf::Logger::log( "Collision solver have wrong collision side info - possible error!", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 			return;
 		}
 
 		auto& rectA = colliderA->rectangle;
 		auto& rectB = colliderB->rectangle;
 
-
-		if (colliderAcollisionSide == Left)
+		if ( colliderAcollisionSide == Left )
 		{
 			rectA.left = rectB.left - rectA.width;
 			colliderA->velocity.x = 0;
-		}
-		else if (colliderAcollisionSide == Right)
+		} else if ( colliderAcollisionSide == Right )
 		{
 			rectA.left = rectB.left + rectB.width;
 			colliderA->velocity.x = 0;
@@ -33,11 +31,10 @@ namespace kd
 			rectA.top = rectB.top - rectA.height;
 			colliderA->velocity.y = 0;
 			colliderA->grounded = true;
-		} else if (colliderAcollisionSide == Top)
+		} else if ( colliderAcollisionSide == Top )
 		{
 			rectA.top = rectB.top - rectA.height;
 			colliderA->velocity.y = 0;
 		}
-
 	}
 }
