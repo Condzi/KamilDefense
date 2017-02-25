@@ -16,7 +16,7 @@ namespace kd
 	// Sprites are very small so they must be scaled up
 	constexpr float SCALE = 10.0f;
 	constexpr float GRAVITY = 10.0f;
-	constexpr float OBJECT_WEIGHT = 100.0f;
+	constexpr float OBJECT_WEIGHT = 50.0f;
 
 	constexpr auto WINDOW_TITLE = "Kamil Defense";
 	struct
