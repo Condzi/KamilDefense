@@ -21,16 +21,16 @@ namespace kd
 
 		if (colliderAcollisionSide == Left)
 		{
-			rectA.left = rectB.left + rectB.width;
+			rectA.left = rectB.left - rectA.width;
 			colliderA->velocity.x = 0;
 		}
 		else if (colliderAcollisionSide == Right)
 		{
-			rectA.left = rectB.left - rectA.width;
+			rectA.left = rectB.left + rectB.width;
 			colliderA->velocity.x = 0;
 		} else if ( colliderAcollisionSide == Down )
 		{
-			rectA.top = rectB.top;
+			rectA.top = rectB.top - rectA.height;
 			colliderA->velocity.y = 0;
 			colliderA->grounded = true;
 		} else if (colliderAcollisionSide == Top)

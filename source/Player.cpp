@@ -81,10 +81,16 @@ namespace kd
 		else if ( this->velocity.y != 0 )
 			this->grounded = false;
 
-		position += velocity * dt;
+		//position += velocity * dt;
 
-		rectangle.left = position.x;
-		rectangle.top = position.y;
+		//rectangle.left = position.x;
+		//rectangle.top = position.y;
+
+		rectangle.left += velocity.x * dt;
+		rectangle.top += velocity.y * dt;
+
+		position = { rectangle.left, rectangle.top };
+
 		sprite.setPosition( position );
 	}
 

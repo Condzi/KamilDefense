@@ -20,26 +20,26 @@ namespace kd
 
 	bool PhysicChecker::collidedLeft(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b)
 	{
-		return a_old.left + a_old.width < b.left &&
+		return a_old.left + a_old.width <= b.left &&
 			a.left + a.width >= b.left;
 	}
 
 	bool PhysicChecker::collidedRight(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b)
 	{
 		return a_old.left >= b.left + b.width &&
-			a.left < b.left + b.width;
+			a.left <= b.left + b.width;
 	}
 
 	bool PhysicChecker::collidedDown(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b)
 	{
-		return a_old.top + a_old.height < b.top &&
+		return a_old.top + a_old.height <= b.top &&
 			a.top + a.height >= b.top;
 	}
 
 	bool PhysicChecker::collidedTop(const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b)
 	{
 		return a_old.top >= b.top + b.height &&
-			a.top < b.top + b.height;
+			a.top <= b.top + b.height;
 	}
 
 	bool PhysicChecker::addBoxCollider(std::shared_ptr<BoxCollider> collider)
