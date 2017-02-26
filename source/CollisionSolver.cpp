@@ -37,4 +37,34 @@ namespace kd
 			colliderA->velocity.y = 0;
 		}
 	}
+
+	void CollisionSolver::EnemyEntity( std::shared_ptr<BoxCollider> enemyCollider, std::shared_ptr<BoxCollider> colliderB, collisionSide_t enemyCollisionSide )
+	{
+		if ( enemyCollisionSide == None )
+		{
+			cgf::Logger::log( "Collision solver have wrong collision side info - possible error!", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
+			return;
+		}
+
+		auto& rectA = enemyCollider->rectangle;
+		auto& rectB = colliderB->rectangle;
+
+		if ( enemyCollisionSide == Left )
+		{
+			rectA.left = rectB.left - rectA.width;
+			enemyCollider->velocity.x = -enemyCollider->velocity.x;
+		} else if ( enemyCollisionSide == Right )
+		{
+			rectA.left = rectB.left + rectB.width;
+			enemyCollider->velocity.x = -enemyCollider->velocity.x;
+		} else if ( enemyCollisionSide == Down )
+		{
+			rectA.top = rectB.top - rectA.height;
+			enemyCollider->velocity.y = 0;
+		} else if ( enemyCollisionSide == Top )
+		{
+			rectA.top = rectB.top + rectB.height;
+			enemyCollider->velocity.y = 0;
+		}
+	}
 }

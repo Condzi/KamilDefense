@@ -20,6 +20,7 @@
 #include "Background.hpp"
 #include "GameConfig.hpp"
 #include "Entity.hpp"
+#include "Enemy.hpp"
 #include "Player.hpp"
 #include "PhysicsChecker.hpp"
 

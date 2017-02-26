@@ -113,12 +113,16 @@ namespace kd
 		entityID_t typeA = collA->parentPointer->GetType();
 		entityID_t typeB = collB->parentPointer->GetType();
 
-		if ( typeA == entityID_t::PLAYER || typeA == entityID_t::ENEMY)
+		if ( typeA == entityID_t::PLAYER)
 		{
 			if ( typeB == entityID_t::BORDER )
 				CollisionSolver::EntityEntity( collA, collB, collAside );
 			else if ( typeB == entityID_t::ENEMY )
 				CollisionSolver::EntityEntity( collA, collB, collAside );
+		} else if ( typeA == entityID_t::ENEMY )
+		{
+			if ( typeB == entityID_t::BORDER )
+				CollisionSolver::EnemyEntity( collA, collB, collAside );
 		}
 	}
 }

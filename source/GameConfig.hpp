@@ -31,6 +31,7 @@ namespace kd
 
 	constexpr auto FONT = "data/fonts/wendy.ttf";
 	constexpr auto PLAYER_TEXTURE = "data/textures/player.png";
+	constexpr auto ENEMY_TEXTURE = "data/textures/enemy.png";
 	constexpr auto BACKGROUND_TEXTURE = "data/textures/base.png";
 
 	enum state_t

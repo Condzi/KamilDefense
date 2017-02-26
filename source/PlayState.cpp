@@ -55,12 +55,19 @@ namespace kd
 			textures.back().loadFromMemory( new sf::Texture );
 			textures.back().get()->loadFromFile( BACKGROUND_TEXTURE );
 			textures.back().setUniqueID( static_cast<unique_resource_id_t>( entityID_t::BACKGROUND ) );
+
+			textures.emplace_back();
+			textures.back().loadFromMemory( new sf::Texture );
+			textures.back().get()->loadFromFile( ENEMY_TEXTURE );
+			textures.back().setUniqueID( static_cast<unique_resource_id_t>( entityID_t::ENEMY ) );
 		}
 
 		auto bg = std::make_shared<Background>();
 		bg->SetType( entityID_t::BACKGROUND );
 		auto player = std::make_shared<Player>();
 		player->SetType( entityID_t::PLAYER );
+		auto testEnemy = std::make_shared<Enemy>();
+		testEnemy->SetType( entityID_t::ENEMY );
 
 		// Initializing player
 		{
@@ -97,6 +104,24 @@ namespace kd
 
 			if ( !found )
 				cgf::Logger::log( "Cannot find BACKGROUND texture!", cgf::Logger::ERROR );
+		}
+
+		// test enemy
+		{
+			testEnemy->SetHealth( 100 );
+
+			bool found = false;
+			for ( auto& t : textures )
+				if ( t.getUniqueID() == static_cast<unique_resource_id_t>( entityID_t::ENEMY ) )
+				{
+					found = true;
+					testEnemy->SetTexture( t.get() );
+				}
+
+			if ( !found )
+				cgf::Logger::log( "Cannot find ENEMY texture!", cgf::Logger::ERROR );
+
+			testEnemy->SetPosition( { 0.0f,0.0f } );
 		}
 
 
@@ -144,6 +169,7 @@ namespace kd
 		entities.push_back( borderPlatformLeft );
 		entities.push_back( borderPlatformMiddle );
 		entities.push_back( borderPlatformRight );
+		entities.push_back( testEnemy );
 
 		physicsChecker.AddBoxCollider( player );
 		physicsChecker.AddBoxCollider( borderWallDown );
@@ -152,6 +178,7 @@ namespace kd
 		physicsChecker.AddBoxCollider( borderPlatformLeft );
 		physicsChecker.AddBoxCollider( borderPlatformMiddle );
 		physicsChecker.AddBoxCollider( borderPlatformRight );
+		physicsChecker.AddBoxCollider( testEnemy );
 
 		endThread();
 	}
