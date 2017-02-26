@@ -204,6 +204,9 @@ namespace kd
 
 		while ( !end )
 		{
+			if ( !windowPtr->hasFocus() )
+				continue;
+
 			while ( windowPtr->pollEvent( event ) )
 			{
 				if ( event.type == sf::Event::Closed )

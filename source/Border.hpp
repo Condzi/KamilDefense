@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <SFML/Graphics/RectangleShape.hpp>
+
 #include "BoxCollider.hpp"
 #include "Entity.hpp"
 #include "GameConfig.hpp"
@@ -17,22 +19,8 @@ namespace kd
 		Border() : BoxCollider( this )
 		{}
 
-		void Update( seconds_t dt ) override { this->rectangle.left = this->position.x; this->rectangle.top = this->position.y; }
-		void Draw( sf::RenderTarget& target ) override
-		{
-			if ( !DEBUG_DRAW_BORDERS )
-				return;
-
-			sf::RectangleShape shape;
-			shape.setPosition( rectangle.left, rectangle.top );
-			shape.setSize( { rectangle.width, rectangle.height } );
-			shape.setFillColor( sf::Color::Transparent );
-			shape.setOutlineThickness( 2.f );
-			shape.setOutlineColor( sf::Color::Red );
-
-			target.draw( shape );
-		}
-
+		void SetPosition( const sf::Vector2f& pos ) override { this->position = pos; this->rectangle.left = this->position.x; this->rectangle.top = this->position.y; }
+		void Draw( sf::RenderTarget& target ) override;
 	};
 }
 
