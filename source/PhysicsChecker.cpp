@@ -58,8 +58,7 @@ namespace kd
 				else if ( collidedDown( collAupdated, collA, collB ) )
 					collAside = Down;
 
-				if ( collAside != None )
-					CollisionSolver::EntityEntity( colliders[j], colliders[i], collAside );
+				resolveCollision( colliders[j], colliders[i], collAside );
 			}
 	}
 
@@ -107,5 +106,19 @@ namespace kd
 			return false;
 
 		return true;
+	}
+
+	void PhysicsChecker::resolveCollision( std::shared_ptr<BoxCollider> collA, std::shared_ptr<BoxCollider> collB, collisionSide_t collAside )
+	{
+		entityID_t typeA = collA->parentPointer->GetType();
+		entityID_t typeB = collB->parentPointer->GetType();
+
+		if ( typeA == entityID_t::PLAYER || typeA == entityID_t::ENEMY)
+		{
+			if ( typeB == entityID_t::BORDER )
+				CollisionSolver::EntityEntity( collA, collB, collAside );
+			else if ( typeB == entityID_t::ENEMY )
+				CollisionSolver::EntityEntity( collA, collB, collAside );
+		}
 	}
 }

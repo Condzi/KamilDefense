@@ -15,7 +15,8 @@ namespace kd
 	public:
 		Entity() :
 			position( 0, 0 ),
-			wishDelete( false )
+			wishDelete( false ),
+			type(UNINITIALIZED)
 		{}
 		virtual ~Entity() = default;
 

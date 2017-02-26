@@ -38,5 +38,6 @@ namespace kd
 		bool collidedTop( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b );
 	
 		bool shouldCheckForPhysics( size_t i, size_t j );
+		void resolveCollision( std::shared_ptr<BoxCollider> collA, std::shared_ptr<BoxCollider> collB, collisionSide_t collAside );
 	};
 }

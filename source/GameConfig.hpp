@@ -42,6 +42,7 @@ namespace kd
 
 	enum entityID_t
 	{
+		UNINITIALIZED = -1,
 		BACKGROUND = 0,
 		BORDER,
 
