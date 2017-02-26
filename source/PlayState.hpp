@@ -27,13 +27,6 @@ namespace kd
 {
 	class PlayState final : public cgf::State
 	{
-	private:
-		void unlockWindowContext() override { windowPtr->setActive( true ); }
-		void lockWindowContext() override { windowPtr->setActive( false ); }
-
-		void updateUI();
-		void removeUnusedEntities();
-
 	public:
 		PlayState( window_t* window ) :
 			cgf::State( window )
@@ -56,5 +49,12 @@ namespace kd
 		sf::Text baseHealthText;
 
 		PhysicsChecker physicsChecker;
+	
+	private:
+		void unlockWindowContext() override { windowPtr->setActive( true ); }
+		void lockWindowContext() override { windowPtr->setActive( false ); }
+
+		void updateUI();
+		void removeUnusedEntities();
 	};
 }

@@ -7,38 +7,6 @@
 
 namespace kd
 {
-	void PlayState::updateUI()
-	{
-		auto hp = playerPointer->GetHealth();
-
-		if ( hp >= 100 )
-			healthText[2].setString( sf::String( std::to_string( hp )[2] ) );
-		else
-			healthText[2].setString( "-" );
-
-		if ( hp >= 10 )
-			healthText[1].setString( sf::String( std::to_string( hp )[1] ) );
-		else
-			healthText[1].setString( "-" );
-
-		healthText[0].setString( sf::String( std::to_string( hp )[0] ) );
-
-		armorText.setString( std::to_string( playerPointer->GetArmor() ) );
-
-		baseHealthText.setString( "0" );
-	}
-
-	void PlayState::removeUnusedEntities()
-	{
-		for ( auto it = entities.begin(); it != entities.end();)
-		{
-			if ( ( *it )->IsWishingDelete() )
-				it = entities.erase( it );
-			else
-				it++;
-		}
-	}
-
 	void PlayState::onStart()
 	{
 		startThread();
@@ -238,7 +206,6 @@ namespace kd
 			windowPtr->draw( armorText );
 			windowPtr->draw( baseHealthText );
 
-
 			windowPtr->display();
 		}
 
@@ -267,5 +234,38 @@ namespace kd
 		w.display();
 
 		cgf::Logger::log( "Thread update...", cgf::Logger::INFO, cgf::Logger::CONSOLE );
+	}
+
+
+	void PlayState::updateUI()
+	{
+		auto hp = playerPointer->GetHealth();
+
+		if ( hp >= 100 )
+			healthText[2].setString( sf::String( std::to_string( hp )[2] ) );
+		else
+			healthText[2].setString( "-" );
+
+		if ( hp >= 10 )
+			healthText[1].setString( sf::String( std::to_string( hp )[1] ) );
+		else
+			healthText[1].setString( "-" );
+
+		healthText[0].setString( sf::String( std::to_string( hp )[0] ) );
+
+		armorText.setString( std::to_string( playerPointer->GetArmor() ) );
+
+		baseHealthText.setString( "0" );
+	}
+
+	void PlayState::removeUnusedEntities()
+	{
+		for ( auto it = entities.begin(); it != entities.end();)
+		{
+			if ( ( *it )->IsWishingDelete() )
+				it = entities.erase( it );
+			else
+				it++;
+		}
 	}
 }
