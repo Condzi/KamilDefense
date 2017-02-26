@@ -15,5 +15,5 @@ It's 2d defense game. That's all.
  * To be done...
  
 ## License
-You shouldn't read this!   
+The MIT License (see LICENSE.md)
 (c) Conrad "Condzi" Kubacki 2017
