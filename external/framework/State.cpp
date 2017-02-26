@@ -12,7 +12,7 @@ namespace CGF_NAMESPACE
 		lockWindowContext();
 		threadRunning = true;
 
-		thread = std::thread(&State::threadMethod, this);
+		thread = std::thread( &State::threadMethod, this );
 	}
 
 	void State::endThread()
@@ -27,9 +27,9 @@ namespace CGF_NAMESPACE
 	{
 		unlockWindowContext();
 
-		while (threadRunning)
+		while ( threadRunning )
 		{
-			updateThread(1 / 30.f, *windowPtr);
+			updateThread( 1 / 30.f, *windowPtr );
 		}
 
 		lockWindowContext();

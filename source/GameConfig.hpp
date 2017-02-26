@@ -11,7 +11,7 @@
 
 namespace kd
 {
-	constexpr bool DEBUG_DRAW_BORDERS = true;
+	constexpr bool DEBUG_DRAW_BORDERS = false;
 
 	// Sprites are very small so they must be scaled up
 	constexpr float SCALE = 10.0f;

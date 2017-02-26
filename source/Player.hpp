@@ -20,28 +20,28 @@ namespace kd
 	{
 	public:
 		Player() :
-			BoxCollider(std::make_shared<Entity>(*this)),
-			health(0),
-			armor(0),
-			movementKeys(sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::Up),
-			movementForces(-25.f, 25.f, 50.f)
+			BoxCollider( this ),
+			health( 0 ),
+			armor( 0 ),
+			movementKeys( sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::Up ),
+			movementForces( -25.f, 25.f, 50.f )
 		{}
 
-		uint8_t getHealth() { return health; }
-		uint8_t getArmor() { return armor; }
+		uint8_t GetHealth() { return this->health; }
+		uint8_t GetArmor() { return this->armor; }
 
 		void SetPosition( const sf::Vector2f& pos ) override;
-		void SetTexture(std::shared_ptr<sf::Texture> texture);
-		void SetHealth(uint8_t val, bool ignoreLimit = false);
-		void SetArmor(uint8_t val, bool ignoreLimit = false);
-		void SetMovementKeys(const movement_keys_t& keys) { this->movementKeys = keys; }
-		void SetMovementForces(const movement_forces_t& forces) { this->movementForces = forces; }
+		void SetTexture( std::shared_ptr<sf::Texture> texture );
+		void SetHealth( uint8_t val, bool ignoreLimit = false );
+		void SetArmor( uint8_t val, bool ignoreLimit = false );
+		void SetMovementKeys( const movement_keys_t& keys ) { this->movementKeys = keys; }
+		void SetMovementForces( const movement_forces_t& forces ) { this->movementForces = forces; }
 
-		void AddDamage(uint8_t val);
+		void AddDamage( uint8_t val );
 
-		void Update(seconds_t dt) override;
+		void Update( seconds_t dt ) override;
 		void CheckEvents();
-		void Draw(sf::RenderTarget& target) override;
+		void Draw( sf::RenderTarget& target ) override;
 
 	private:
 		uint8_t health;

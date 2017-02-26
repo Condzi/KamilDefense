@@ -11,13 +11,10 @@
 
 namespace kd
 {
-	class Border final :
-		public Entity,
-		public BoxCollider
+	class Border final : public Entity, public BoxCollider
 	{
 	public:
-		Border() :
-			BoxCollider( std::make_shared<Entity>( *this ) )
+		Border() : BoxCollider( this )
 		{}
 
 		void Update( seconds_t dt ) override { this->rectangle.left = this->position.x; this->rectangle.top = this->position.y; }

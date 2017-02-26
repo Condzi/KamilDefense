@@ -32,7 +32,7 @@ namespace kd
 
 	bool PhysicChecker::collidedDown( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
 	{
-		return a_old.top + a_old.height <= b.top &&
+		return //a_old.top + a_old.height <= b.top &&
 			a.top + a.height >= b.top;
 	}
 
@@ -46,7 +46,7 @@ namespace kd
 	{
 		if ( !collider )
 		{
-			cgf::Logger::log( "Cannot add collider to PhysicChecer - collider pointer is not assigned", cgf::Logger::ERROR );
+			cgf::Logger::log( "Cannot add collider to PhysicChecker - collider pointer is not assigned", cgf::Logger::ERROR );
 		}
 
 		for ( auto ptr : this->colliders )
@@ -72,6 +72,8 @@ namespace kd
 			{
 				if ( i == j )
 					continue;
+				if ( colliders[j]->parentPointer->GetType() == entity_id_t::BORDER )
+					continue;
 
 				sf::FloatRect& collA = colliders[j]->rectangle;
 				sf::FloatRect collAupdated = collA;
@@ -88,10 +90,10 @@ namespace kd
 					collAside = Left;
 				else if ( collidedRight( collAupdated, collA, collB ) )
 					collAside = Right;
-				else if ( collidedDown( collAupdated, collA, collB ) )
-					collAside = Down;
 				else if ( collidedTop( collAupdated, collA, collB ) )
 					collAside = Top;
+				else if ( collidedDown( collAupdated, collA, collB ) )
+					collAside = Down;
 
 
 				if ( collAside != None )
@@ -99,7 +101,7 @@ namespace kd
 					CollisionSolver::EntityEntity( colliders[j], colliders[i], collAside );
 
 					/* Temporary */
-					cgf::Logger::log( "Collision side:" + std::to_string( collAside ), cgf::Logger::INFO, cgf::Logger::CONSOLE );
+					//cgf::Logger::log( "Collision side:" + std::to_string( collAside ), cgf::Logger::INFO, cgf::Logger::CONSOLE );
 				}
 			}
 	}

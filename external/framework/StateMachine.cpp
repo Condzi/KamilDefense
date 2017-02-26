@@ -7,12 +7,12 @@
 
 namespace CGF_NAMESPACE
 {
-	State* StateMachine::createState(state_id_t id)
+	State* StateMachine::createState( state_id_t id )
 	{
-		auto result = factories.find(id);
+		auto result = factories.find( id );
 
 		// There is no states registered / cannot find state of that id
-		assert(!(result == factories.end()));
+		assert( !( result == factories.end() ) );
 
 		return result->second();
 	}
@@ -21,11 +21,11 @@ namespace CGF_NAMESPACE
 	{
 		state_id_t nextState = actualState;
 
-		stack.resize(factories.size());
-		
-		while (actualState != EXIT_STATE)
+		stack.resize( factories.size() );
+
+		while ( actualState != EXIT_STATE )
 		{
-			stack[actualState].reset(createState(actualState));
+			stack[actualState].reset( createState( actualState ) );
 
 			stack[actualState]->onStart();
 			nextState = stack[actualState]->run();

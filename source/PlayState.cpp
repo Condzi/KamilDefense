@@ -9,7 +9,7 @@ namespace kd
 {
 	void PlayState::updateUI()
 	{
-		auto hp = playerPointer->getHealth();
+		auto hp = playerPointer->GetHealth();
 
 		if ( hp >= 100 )
 			healthText[2].setString( sf::String( std::to_string( hp )[2] ) );
@@ -23,7 +23,7 @@ namespace kd
 
 		healthText[0].setString( sf::String( std::to_string( hp )[0] ) );
 
-		armorText.setString( std::to_string( playerPointer->getArmor() ) );
+		armorText.setString( std::to_string( playerPointer->GetArmor() ) );
 
 		baseHealthText.setString( "0" );
 	}
@@ -150,16 +150,40 @@ namespace kd
 		borderWallLeft->rectangle.width = 1.f;
 		borderWallLeft->rectangle.height = 32 * 2 * SCALE;
 
+		auto borderPlatformLeft = std::make_shared<Border>();
+		borderPlatformLeft->SetType( entity_id_t::BORDER );
+		borderPlatformLeft->SetPosition( { 0.0f, 21 * SCALE * 2 } );
+		borderPlatformLeft->rectangle.width = 8 * SCALE * 2;
+		borderPlatformLeft->rectangle.height = 1 * SCALE * 2;
+
+		auto borderPlatformMiddle = std::make_shared<Border>();
+		borderPlatformMiddle->SetType( entity_id_t::BORDER );
+		borderPlatformMiddle->SetPosition( { 11.0f * 2 * SCALE, 15 * SCALE * 2 } );
+		borderPlatformMiddle->rectangle.width = 10 * SCALE * 2;
+		borderPlatformMiddle->rectangle.height = 1 * SCALE * 2;
+
+		auto borderPlatformRight = std::make_shared<Border>();
+		borderPlatformRight->SetType( entity_id_t::BORDER );
+		borderPlatformRight->SetPosition( { 24 * 2 * SCALE, 21 * SCALE * 2 } );
+		borderPlatformRight->rectangle.width = 8 * SCALE * 2;
+		borderPlatformRight->rectangle.height = 1 * SCALE * 2;
+
 		entities.push_back( bg );
 		entities.push_back( player );
 		entities.push_back( borderWallDown );
 		entities.push_back( borderWallRight );
 		entities.push_back( borderWallLeft );
+		entities.push_back( borderPlatformLeft );
+		entities.push_back( borderPlatformMiddle );
+		entities.push_back( borderPlatformRight );
 
 		physicChecker.AddBoxCollider( player );
 		physicChecker.AddBoxCollider( borderWallDown );
 		physicChecker.AddBoxCollider( borderWallRight );
 		physicChecker.AddBoxCollider( borderWallLeft );
+		physicChecker.AddBoxCollider( borderPlatformLeft );
+		physicChecker.AddBoxCollider( borderPlatformMiddle );
+		physicChecker.AddBoxCollider( borderPlatformRight );
 
 		endThread();
 	}
@@ -196,8 +220,8 @@ namespace kd
 			removeUnusedEntities();
 
 			updateUI();
-			playerPointer->CheckEvents();
 
+			playerPointer->CheckEvents();
 			physicChecker.Update( 1.f / FPS_LIMIT );
 
 			windowPtr->clear( sf::Color( 100, 100, 100 ) );

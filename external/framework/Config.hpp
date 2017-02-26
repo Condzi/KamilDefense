@@ -35,7 +35,7 @@ namespace CGF_NAMESPACE
 
 	static auto& LOGGER_STREAM = std::cout;
 
-	constexpr char LOGGER_PREFIX[3] = 
+	constexpr char LOGGER_PREFIX[3] =
 	{
 		'?', '!', 'X'
 	};

@@ -18,7 +18,6 @@ namespace kd
 			this->velocity.x = this->movementForces.right;
 
 		if ( sf::Keyboard::isKeyPressed( this->movementKeys.jump ) &&
-			this->velocity.y == 0.f &&
 			this->grounded )
 			this->velocity.y = movementForces.jump;
 	}
@@ -79,10 +78,10 @@ namespace kd
 
 	void Player::Update( seconds_t dt )
 	{
-		if ( !this->grounded )
-			this->velocity.y += GRAVITY * OBJECT_WEIGHT * dt;
-		else if ( this->velocity.y != 0 )
+		if ( velocity.y != 0.0f )
 			this->grounded = false;
+
+		this->velocity.y += GRAVITY * OBJECT_WEIGHT * dt;
 
 		this->rectangle.left += velocity.x * dt;
 		this->rectangle.top += velocity.y * dt;

@@ -39,6 +39,6 @@ namespace CGF_NAMESPACE
 		static void initialize();
 		static void shutdown();
 
-		static void log(const std::string& msg, prefix_t prefix = INFO, output_t output = BOTH);
+		static void log( const std::string& msg, prefix_t prefix = INFO, output_t output = BOTH );
 	};
 }

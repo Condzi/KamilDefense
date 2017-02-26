@@ -22,7 +22,7 @@ namespace kd
 		sf::Vector2f velocity;
 
 	public:
-		BoxCollider( std::shared_ptr<Entity> parentPtr ) :
+		BoxCollider( Entity* parentPtr ) :
 			rectangle( 0.0f, 0.0f, 0.0f, 0.0f ),
 			velocity( 0.0f, 0.0f ),
 			parentPointer( parentPtr ),
@@ -35,6 +35,6 @@ namespace kd
 		bool grounded;
 
 	private:
-		std::shared_ptr<Entity> parentPointer;
+		Entity* parentPointer;
 	};
 }

@@ -33,7 +33,7 @@ namespace kd
 			colliderA->grounded = true;
 		} else if ( colliderAcollisionSide == Top )
 		{
-			rectA.top = rectB.top - rectA.height;
+			rectA.top = rectB.top + rectB.height;
 			colliderA->velocity.y = 0;
 		}
 	}
