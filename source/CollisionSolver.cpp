@@ -7,7 +7,7 @@
 
 namespace kd
 {
-	void CollisionSolver::EntityEntity( std::shared_ptr<BoxCollider> colliderA, std::shared_ptr<BoxCollider> colliderB, collision_side_t colliderAcollisionSide )
+	void CollisionSolver::EntityEntity( std::shared_ptr<BoxCollider> colliderA, std::shared_ptr<BoxCollider> colliderB, collisionSide_t colliderAcollisionSide )
 	{
 		if ( colliderAcollisionSide == None )
 		{

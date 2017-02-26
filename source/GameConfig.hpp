@@ -40,7 +40,7 @@ namespace kd
 		PLAY
 	};
 
-	enum entity_id_t
+	enum entityID_t
 	{
 		BACKGROUND = 0,
 		BORDER,

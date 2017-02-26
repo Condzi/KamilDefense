@@ -19,11 +19,11 @@ namespace kd
 		{}
 		virtual ~Entity() = default;
 
-		entity_id_t GetType() { return this->type; }
+		entityID_t GetType() { return this->type; }
 		sf::Vector2f GetPosition() { return this->position; }
 		bool IsWishingDelete() { return this->wishDelete; }
 
-		void SetType( entity_id_t t ) { this->type = t; }
+		void SetType( entityID_t t ) { this->type = t; }
 		virtual void SetPosition( const sf::Vector2f& pos ) { this->position = pos; }
 		void SetWishDelete( bool val ) { this->wishDelete = val; }
 
@@ -35,6 +35,6 @@ namespace kd
 		bool wishDelete;
 
 	private:
-		entity_id_t type;
+		entityID_t type;
 	};
 }

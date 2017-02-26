@@ -7,41 +7,6 @@
 
 namespace kd
 {
-	void PhysicsChecker::removeUnusedEntities()
-	{
-		for ( auto it = this->colliders.begin(); it != this->colliders.end();)
-		{
-			if ( ( *it )->parentPointer->IsWishingDelete() )
-				it = this->colliders.erase( it );
-			else
-				it++;
-		}
-	}
-
-	bool PhysicsChecker::collidedLeft( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
-	{
-		return a_old.left + a_old.width <= b.left &&
-			a.left + a.width >= b.left;
-	}
-
-	bool PhysicsChecker::collidedRight( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
-	{
-		return a_old.left >= b.left + b.width &&
-			a.left <= b.left + b.width;
-	}
-
-	bool PhysicsChecker::collidedDown( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
-	{
-		return //a_old.top + a_old.height <= b.top &&
-			a.top + a.height >= b.top;
-	}
-
-	bool PhysicsChecker::collidedTop( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
-	{
-		return a_old.top >= b.top + b.height &&
-			a.top <= b.top + b.height;
-	}
-
 	bool PhysicsChecker::AddBoxCollider( std::shared_ptr<BoxCollider> collider )
 	{
 		if ( !collider )
@@ -70,9 +35,7 @@ namespace kd
 		for ( size_t i = 0; i < this->colliders.size(); i++ )
 			for ( size_t j = 0; j < this->colliders.size(); j++ )
 			{
-				if ( i == j )
-					continue;
-				if ( colliders[j]->parentPointer->GetType() == entity_id_t::BORDER )
+				if ( !shouldCheckForPhysics( i, j ) )
 					continue;
 
 				sf::FloatRect& collA = colliders[j]->rectangle;
@@ -84,7 +47,7 @@ namespace kd
 				if ( !collAupdated.intersects( collB ) )
 					continue;
 
-				collision_side_t collAside = None;
+				collisionSide_t collAside = None;
 
 				if ( collidedLeft( collAupdated, collA, collB ) )
 					collAside = Left;
@@ -95,14 +58,54 @@ namespace kd
 				else if ( collidedDown( collAupdated, collA, collB ) )
 					collAside = Down;
 
-
 				if ( collAside != None )
-				{
 					CollisionSolver::EntityEntity( colliders[j], colliders[i], collAside );
-
-					/* Temporary */
-					//cgf::Logger::log( "Collision side:" + std::to_string( collAside ), cgf::Logger::INFO, cgf::Logger::CONSOLE );
-				}
 			}
+	}
+
+
+	void PhysicsChecker::removeUnusedEntities()
+	{
+		for ( auto it = this->colliders.begin(); it != this->colliders.end();)
+		{
+			if ( ( *it )->parentPointer->IsWishingDelete() )
+				it = this->colliders.erase( it );
+			else
+				it++;
+		}
+	}
+
+	bool PhysicsChecker::collidedLeft( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
+	{
+		return a_old.left + a_old.width <= b.left &&
+			a.left + a.width >= b.left;
+	}
+
+	bool PhysicsChecker::collidedRight( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
+	{
+		return a_old.left >= b.left + b.width &&
+			a.left <= b.left + b.width;
+	}
+
+	bool PhysicsChecker::collidedDown( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
+	{
+		// commented for continous checking 
+		return //a_old.top + a_old.height <= b.top &&
+			a.top + a.height >= b.top;
+	}
+
+	bool PhysicsChecker::collidedTop( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
+	{
+		return a_old.top >= b.top + b.height &&
+			a.top <= b.top + b.height;
+	}
+
+	bool PhysicsChecker::shouldCheckForPhysics( size_t i, size_t j )
+	{
+		if ( i == j ||
+			colliders[j]->parentPointer->GetType() == entityID_t::BORDER )
+			return false;
+
+		return true;
 	}
 }

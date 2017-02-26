@@ -81,18 +81,18 @@ namespace kd
 			textures.emplace_back();
 			textures.back().loadFromMemory( new sf::Texture );
 			textures.back().get()->loadFromFile( PLAYER_TEXTURE );
-			textures.back().setUniqueID( static_cast<unique_resource_id_t>( entity_id_t::PLAYER ) );
+			textures.back().setUniqueID( static_cast<unique_resource_id_t>( entityID_t::PLAYER ) );
 
 			textures.emplace_back();
 			textures.back().loadFromMemory( new sf::Texture );
 			textures.back().get()->loadFromFile( BACKGROUND_TEXTURE );
-			textures.back().setUniqueID( static_cast<unique_resource_id_t>( entity_id_t::BACKGROUND ) );
+			textures.back().setUniqueID( static_cast<unique_resource_id_t>( entityID_t::BACKGROUND ) );
 		}
 
 		auto bg = std::make_shared<Background>();
-		bg->SetType( entity_id_t::BACKGROUND );
+		bg->SetType( entityID_t::BACKGROUND );
 		auto player = std::make_shared<Player>();
-		player->SetType( entity_id_t::PLAYER );
+		player->SetType( entityID_t::PLAYER );
 
 		// Initializing player
 		{
@@ -103,7 +103,7 @@ namespace kd
 
 			bool found = false;
 			for ( auto& t : textures )
-				if ( t.getUniqueID() == static_cast<unique_resource_id_t>( entity_id_t::PLAYER ) )
+				if ( t.getUniqueID() == static_cast<unique_resource_id_t>( entityID_t::PLAYER ) )
 				{
 					found = true;
 					player->SetTexture( t.get() );
@@ -113,15 +113,15 @@ namespace kd
 				cgf::Logger::log( "Cannot find PLAYER texture!", cgf::Logger::ERROR );
 
 			player->SetPosition( { static_cast<float>( WINDOW_SIZE.x / 2 ), static_cast<float>( WINDOW_SIZE.y / 2 ) } );
-			player->SetMovementKeys( movement_keys_t( sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space ) );
-			player->SetMovementForces( movement_forces_t( -250.f, 250.f, -500.f ) );
+			player->SetMovementKeys( movementKeys_t( sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space ) );
+			player->SetMovementForces( movementForces_t( -250.f, 250.f, -500.f ) );
 		}
 
 		// Initializing bg
 		{
 			bool found = false;
 			for ( auto& t : textures )
-				if ( t.getUniqueID() == static_cast<unique_resource_id_t>( entity_id_t::BACKGROUND ) )
+				if ( t.getUniqueID() == static_cast<unique_resource_id_t>( entityID_t::BACKGROUND ) )
 				{
 					found = true;
 					bg->SetTexture( t.get() );
@@ -133,37 +133,37 @@ namespace kd
 
 
 		auto borderWallDown = std::make_shared<Border>();
-		borderWallDown->SetType( entity_id_t::BORDER );
+		borderWallDown->SetType( entityID_t::BORDER );
 		borderWallDown->SetPosition( { 0, 31 * 2 * SCALE } );
 		borderWallDown->rectangle.width = 32 * 2 * SCALE;
 		borderWallDown->rectangle.height = 1.f;
 
 		auto borderWallRight = std::make_shared<Border>();
-		borderWallRight->SetType( entity_id_t::BORDER );
+		borderWallRight->SetType( entityID_t::BORDER );
 		borderWallRight->SetPosition( { 32 * 2 * SCALE, 0 } );
 		borderWallRight->rectangle.width = 1.f;
 		borderWallRight->rectangle.height = 32 * 2 * SCALE;
 
 		auto borderWallLeft = std::make_shared<Border>();
-		borderWallLeft->SetType( entity_id_t::BORDER );
+		borderWallLeft->SetType( entityID_t::BORDER );
 		borderWallLeft->SetPosition( { -1.0f, 0.0f } );
 		borderWallLeft->rectangle.width = 1.f;
 		borderWallLeft->rectangle.height = 32 * 2 * SCALE;
 
 		auto borderPlatformLeft = std::make_shared<Border>();
-		borderPlatformLeft->SetType( entity_id_t::BORDER );
+		borderPlatformLeft->SetType( entityID_t::BORDER );
 		borderPlatformLeft->SetPosition( { 0.0f, 21 * SCALE * 2 } );
 		borderPlatformLeft->rectangle.width = 8 * SCALE * 2;
 		borderPlatformLeft->rectangle.height = 1 * SCALE * 2;
 
 		auto borderPlatformMiddle = std::make_shared<Border>();
-		borderPlatformMiddle->SetType( entity_id_t::BORDER );
+		borderPlatformMiddle->SetType( entityID_t::BORDER );
 		borderPlatformMiddle->SetPosition( { 11.0f * 2 * SCALE, 15 * SCALE * 2 } );
 		borderPlatformMiddle->rectangle.width = 10 * SCALE * 2;
 		borderPlatformMiddle->rectangle.height = 1 * SCALE * 2;
 
 		auto borderPlatformRight = std::make_shared<Border>();
-		borderPlatformRight->SetType( entity_id_t::BORDER );
+		borderPlatformRight->SetType( entityID_t::BORDER );
 		borderPlatformRight->SetPosition( { 24 * 2 * SCALE, 21 * SCALE * 2 } );
 		borderPlatformRight->rectangle.width = 8 * SCALE * 2;
 		borderPlatformRight->rectangle.height = 1 * SCALE * 2;

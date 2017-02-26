@@ -36,5 +36,7 @@ namespace kd
 		bool collidedRight( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b );
 		bool collidedDown( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b );
 		bool collidedTop( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b );
+	
+		bool shouldCheckForPhysics( size_t i, size_t j );
 	};
 }

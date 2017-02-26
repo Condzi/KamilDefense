@@ -34,8 +34,8 @@ namespace kd
 		void SetTexture( std::shared_ptr<sf::Texture> texture );
 		void SetHealth( uint8_t val, bool ignoreLimit = false );
 		void SetArmor( uint8_t val, bool ignoreLimit = false );
-		void SetMovementKeys( const movement_keys_t& keys ) { this->movementKeys = keys; }
-		void SetMovementForces( const movement_forces_t& forces ) { this->movementForces = forces; }
+		void SetMovementKeys( const movementKeys_t& keys ) { this->movementKeys = keys; }
+		void SetMovementForces( const movementForces_t& forces ) { this->movementForces = forces; }
 
 		void AddDamage( uint8_t val );
 
@@ -47,8 +47,8 @@ namespace kd
 		uint8_t health;
 		uint8_t armor;
 
-		movement_keys_t movementKeys;
-		movement_forces_t movementForces;
+		movementKeys_t movementKeys;
+		movementForces_t movementForces;
 
 		std::shared_ptr<sf::Texture> texture;
 		sf::Sprite sprite;
