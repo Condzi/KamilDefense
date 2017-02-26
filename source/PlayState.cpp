@@ -177,13 +177,13 @@ namespace kd
 		entities.push_back( borderPlatformMiddle );
 		entities.push_back( borderPlatformRight );
 
-		physicChecker.AddBoxCollider( player );
-		physicChecker.AddBoxCollider( borderWallDown );
-		physicChecker.AddBoxCollider( borderWallRight );
-		physicChecker.AddBoxCollider( borderWallLeft );
-		physicChecker.AddBoxCollider( borderPlatformLeft );
-		physicChecker.AddBoxCollider( borderPlatformMiddle );
-		physicChecker.AddBoxCollider( borderPlatformRight );
+		physicsChecker.AddBoxCollider( player );
+		physicsChecker.AddBoxCollider( borderWallDown );
+		physicsChecker.AddBoxCollider( borderWallRight );
+		physicsChecker.AddBoxCollider( borderWallLeft );
+		physicsChecker.AddBoxCollider( borderPlatformLeft );
+		physicsChecker.AddBoxCollider( borderPlatformMiddle );
+		physicsChecker.AddBoxCollider( borderPlatformRight );
 
 		endThread();
 	}
@@ -222,7 +222,7 @@ namespace kd
 			updateUI();
 
 			playerPointer->CheckEvents();
-			physicChecker.Update( 1.f / FPS_LIMIT );
+			physicsChecker.Update( 1.f / FPS_LIMIT );
 
 			windowPtr->clear( sf::Color( 100, 100, 100 ) );
 

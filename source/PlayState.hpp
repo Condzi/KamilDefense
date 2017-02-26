@@ -21,7 +21,7 @@
 #include "GameConfig.hpp"
 #include "Entity.hpp"
 #include "Player.hpp"
-#include "PhysicChecker.hpp"
+#include "PhysicsChecker.hpp"
 
 namespace kd
 {
@@ -55,6 +55,6 @@ namespace kd
 		sf::Text armorText;
 		sf::Text baseHealthText;
 
-		PhysicChecker physicChecker;
+		PhysicsChecker physicsChecker;
 	};
 }

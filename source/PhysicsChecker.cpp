@@ -3,11 +3,11 @@
 	https://github.com/condzi
 */
 
-#include "PhysicChecker.hpp"
+#include "PhysicsChecker.hpp"
 
 namespace kd
 {
-	void PhysicChecker::removeUnusedEntities()
+	void PhysicsChecker::removeUnusedEntities()
 	{
 		for ( auto it = this->colliders.begin(); it != this->colliders.end();)
 		{
@@ -18,52 +18,52 @@ namespace kd
 		}
 	}
 
-	bool PhysicChecker::collidedLeft( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
+	bool PhysicsChecker::collidedLeft( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
 	{
 		return a_old.left + a_old.width <= b.left &&
 			a.left + a.width >= b.left;
 	}
 
-	bool PhysicChecker::collidedRight( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
+	bool PhysicsChecker::collidedRight( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
 	{
 		return a_old.left >= b.left + b.width &&
 			a.left <= b.left + b.width;
 	}
 
-	bool PhysicChecker::collidedDown( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
+	bool PhysicsChecker::collidedDown( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
 	{
 		return //a_old.top + a_old.height <= b.top &&
 			a.top + a.height >= b.top;
 	}
 
-	bool PhysicChecker::collidedTop( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
+	bool PhysicsChecker::collidedTop( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b )
 	{
 		return a_old.top >= b.top + b.height &&
 			a.top <= b.top + b.height;
 	}
 
-	bool PhysicChecker::AddBoxCollider( std::shared_ptr<BoxCollider> collider )
+	bool PhysicsChecker::AddBoxCollider( std::shared_ptr<BoxCollider> collider )
 	{
 		if ( !collider )
 		{
-			cgf::Logger::log( "Cannot add collider to PhysicChecker - collider pointer is not assigned", cgf::Logger::ERROR );
+			cgf::Logger::log( "Cannot add collider to PhysicsChecker - collider pointer is not assigned", cgf::Logger::ERROR );
 		}
 
 		for ( auto ptr : this->colliders )
 			if ( ptr == collider )
 			{
-				cgf::Logger::log( "Cannot add collider to PhysicChecker - found pointer pointing to same collider", cgf::Logger::ERROR );
+				cgf::Logger::log( "Cannot add collider to PhysicsChecker - found pointer pointing to same collider", cgf::Logger::ERROR );
 				return false;
 			}
 
 		this->colliders.push_back( collider );
 
-		cgf::Logger::log( "Added collider to PhysicChecker, total colliders: " + std::to_string( colliders.size() ) );
+		cgf::Logger::log( "Added collider to PhysicsChecker, total colliders: " + std::to_string( colliders.size() ) );
 
 		return true;
 	}
 
-	void PhysicChecker::Update( seconds_t dt )
+	void PhysicsChecker::Update( seconds_t dt )
 	{
 		this->removeUnusedEntities();
 

@@ -14,7 +14,7 @@ namespace kd
 
 	class BoxCollider
 	{
-		friend class PhysicChecker;
+		friend class PhysicsChecker;
 		friend class CollisionSolver;
 
 	public:

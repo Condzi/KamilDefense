@@ -16,10 +16,10 @@
 
 namespace kd
 {
-	class PhysicChecker final
+	class PhysicsChecker final
 	{
 	public:
-		PhysicChecker()
+		PhysicsChecker()
 		{}
 
 		bool AddBoxCollider( std::shared_ptr<BoxCollider> collider );
