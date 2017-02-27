@@ -37,17 +37,6 @@ namespace kd
 		this->rectangle.top = pos.y;
 	}
 
-	void Enemy::AddDamage( uint8_t val )
-	{
-		if ( val )
-		{
-			if ( val > this->health )
-				this->wishDelete = true;
-			else
-				this->health -= val;
-		}
-	}
-
 	void Enemy::Update( seconds_t dt )
 	{
 		this->velocity.y += GRAVITY * OBJECT_WEIGHT * dt;
@@ -58,6 +47,13 @@ namespace kd
 		this->position = { this->rectangle.left, this->rectangle.top };
 
 		this->sprite.setPosition( this->position );
+
+		if ( this->damageBlockTime > 0 )
+			this->damageBlockTime -= dt;
+		if ( this->damageBlockTime <= 0 )
+			this->damageBlockTime = 0;
+
+		addPendingDamage();
 	}
 	void Enemy::Draw( sf::RenderTarget& target )
 	{
@@ -65,5 +61,17 @@ namespace kd
 			cgf::Logger::log( "Enemy texture is not set, nothing will be drawn", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 		else
 			target.draw( this->sprite );
+	}
+
+	void Enemy::addPendingDamage()
+	{
+		if ( this->pendingDamage )
+		{
+			if ( this->pendingDamage > this->health )
+				this->wishDelete = true;
+			else
+				this->health -= this->pendingDamage;
+		}
+		this->pendingDamage = 0;
 	}
 }

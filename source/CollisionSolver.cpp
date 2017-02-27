@@ -67,4 +67,13 @@ namespace kd
 			enemyCollider->velocity.y = 0;
 		}
 	}
+
+	void CollisionSolver::EnemyPlayer( std::shared_ptr<BoxCollider> enemyCollider, std::shared_ptr<BoxCollider> playerCollider, collisionSide_t enemyCollisionSide )
+	{
+		Enemy* enemyPtr = dynamic_cast<Enemy*>( enemyCollider->parentPointer );
+		Player* playerPtr = dynamic_cast<Player*>( playerCollider->parentPointer );
+
+		enemyPtr->AddDamage( 10 );
+		playerPtr->AddDamage( 20 );
+	}
 }

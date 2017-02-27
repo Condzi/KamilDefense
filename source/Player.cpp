@@ -60,22 +60,6 @@ namespace kd
 			this->armor = val;
 	}
 
-	void Player::AddDamage( uint8_t val )
-	{
-		if ( val > this->armor )
-			val = val - this->armor;
-		else
-			this->armor -= val;
-
-		if ( val )
-		{
-			if ( val > this->health )
-				this->health = 0;
-			else
-				this->health -= val;
-		}
-	}
-
 	void Player::Update( seconds_t dt )
 	{
 		if ( velocity.y != 0.0f )
@@ -89,6 +73,13 @@ namespace kd
 		this->position = { this->rectangle.left, this->rectangle.top };
 
 		this->sprite.setPosition( this->position );
+
+		if ( this->damageBlockTime > 0 )
+			this->damageBlockTime -= dt;
+		if ( this->damageBlockTime <= 0 )
+			this->damageBlockTime = 0;
+
+		addPendingDamage();
 	}
 
 	void Player::Draw( sf::RenderTarget& target )
@@ -97,5 +88,25 @@ namespace kd
 			cgf::Logger::log( "Player texture is not set, nothing will be drawn", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 		else
 			target.draw( this->sprite );
+	}
+	void Player::addPendingDamage()
+	{
+		if ( this->pendingDamage > this->armor )
+			this->pendingDamage -= this->armor;
+		else
+		{
+			this->armor -= this->pendingDamage;
+			this->pendingDamage = 0;
+		}
+
+		if ( this->pendingDamage )
+		{
+			if ( this->pendingDamage > this->health )
+				this->health = 0;
+			else
+				this->health -= this->pendingDamage;
+		}
+
+		this->pendingDamage = 0;
 	}
 }
