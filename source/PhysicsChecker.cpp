@@ -35,30 +35,20 @@ namespace kd
 		for ( size_t i = 0; i < this->colliders.size(); i++ )
 			for ( size_t j = 0; j < this->colliders.size(); j++ )
 			{
-				if ( !shouldCheckForPhysics( i, j ) )
+				if ( i == j ||
+					colliders[j]->parentPointer->GetType() == entityID_t::BORDER )
 					continue;
 
 				sf::FloatRect& collA = colliders[j]->rectangle;
+				sf::FloatRect& collB = colliders[i]->rectangle;
 				sf::FloatRect collAupdated = collA;
 				collAupdated.left += colliders[j]->velocity.x * dt;
 				collAupdated.top += colliders[j]->velocity.y * dt;
-				sf::FloatRect& collB = colliders[i]->rectangle;
 
 				if ( !collAupdated.intersects( collB ) )
 					continue;
 
-				collisionSide_t collAside = None;
-
-				if ( collidedLeft( collAupdated, collA, collB ) )
-					collAside = Left;
-				else if ( collidedRight( collAupdated, collA, collB ) )
-					collAside = Right;
-				else if ( collidedTop( collAupdated, collA, collB ) )
-					collAside = Top;
-				else if ( collidedDown( collAupdated, collA, collB ) )
-					collAside = Down;
-
-				resolveCollision( colliders[j], colliders[i], collAside );
+				resolveCollision( colliders[j], colliders[i], getCollisionSide( collAupdated, collA, collB ) );
 			}
 	}
 
@@ -99,13 +89,20 @@ namespace kd
 			a.top <= b.top + b.height;
 	}
 
-	bool PhysicsChecker::shouldCheckForPhysics( size_t i, size_t j )
+	collisionSide_t PhysicsChecker::getCollisionSide( const sf::FloatRect& collAupdated, const sf::FloatRect& collA, const sf::FloatRect& collB )
 	{
-		if ( i == j ||
-			colliders[j]->parentPointer->GetType() == entityID_t::BORDER )
-			return false;
+		collisionSide_t collAside = None;
 
-		return true;
+		if ( collidedLeft( collAupdated, collA, collB ) )
+			collAside = Left;
+		else if ( collidedRight( collAupdated, collA, collB ) )
+			collAside = Right;
+		else if ( collidedTop( collAupdated, collA, collB ) )
+			collAside = Top;
+		else if ( collidedDown( collAupdated, collA, collB ) )
+			collAside = Down;
+
+		return collAside;
 	}
 
 	void PhysicsChecker::resolveCollision( std::shared_ptr<BoxCollider> collA, std::shared_ptr<BoxCollider> collB, collisionSide_t collAside )
@@ -115,9 +112,6 @@ namespace kd
 
 		if ( typeA == entityID_t::PLAYER)
 		{
-			if ( typeB == entityID_t::BORDER )
-				CollisionSolver::EntityEntity( collA, collB, collAside );
-			else if ( typeB == entityID_t::ENEMY )
 				CollisionSolver::EntityEntity( collA, collB, collAside );
 		} else if ( typeA == entityID_t::ENEMY )
 		{
