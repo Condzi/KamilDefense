@@ -32,12 +32,12 @@ namespace kd
 	void Player::SetTexture( std::shared_ptr<sf::Texture> tex )
 	{
 		if ( !tex )
-			cgf::Logger::log( "Player texture is not assigned", cgf::Logger::WARNING );
+			cgf::Logger::Log( "Player texture is not assigned", cgf::Logger::WARNING );
 		else
 		{
 			this->texture = tex;
 
-			this->sprite.setTexture( *this->texture );
+			this->sprite.setTexture( *this->texture.lock() );
 			this->sprite.setScale( SCALE, SCALE );
 
 			this->rectangle = this->sprite.getGlobalBounds();
@@ -58,6 +58,15 @@ namespace kd
 			this->armor = MAX_ARMOR;
 		else
 			this->armor = val;
+	}
+
+	void Player::AddDamage( uint8_t val )
+	{
+		if ( this->damageBlockTime == 0 )
+		{
+			this->pendingDamage = val;
+			this->damageBlockTime = DAMAGE_BLOCK_TIME;
+		}
 	}
 
 	void Player::Update( seconds_t dt )
@@ -84,8 +93,8 @@ namespace kd
 
 	void Player::Draw( sf::RenderTarget& target )
 	{
-		if ( !this->texture )
-			cgf::Logger::log( "Player texture is not set, nothing will be drawn", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
+		if ( this->texture.expired() )
+			cgf::Logger::Log( "Player texture is not set, nothing will be drawn", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 		else
 			target.draw( this->sprite );
 	}

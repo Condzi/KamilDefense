@@ -7,59 +7,54 @@
 
 namespace kd
 {
-	void PlayState::onStart()
+	void PlayState::OnStart()
 	{
-		startThread();
+		this->StartThread();
 
-		if ( !font.loadFromFile( FONT ) )
-			cgf::Logger::log( "Cannot load font file!", cgf::Logger::ERROR );
+		if ( !this->font.loadFromFile( FONT ) )
+			cgf::Logger::Log( "Cannot load font file!", cgf::Logger::ERROR );
 		else
 		{
-			healthText[0].setFont( font );
-			healthText[1].setFont( font );
-			healthText[2].setFont( font );
+			this->healthText[0].setFont( this->font );
+			this->healthText[1].setFont( this->font );
+			this->healthText[2].setFont( this->font );
 
-			armorText.setFont( font );
+			this->armorText.setFont( this->font );
 
-			baseHealthText.setFont( font );
+			this->baseHealthText.setFont( this->font );
 		}
 
 		{
-			healthText[0].setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
-			healthText[1].setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
-			healthText[2].setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
+			this->healthText[0].setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
+			this->healthText[1].setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
+			this->healthText[2].setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
 
-			armorText.setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
+			this->armorText.setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
 
-			baseHealthText.setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
+			this->baseHealthText.setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
 		}
 
 		{
-			healthText[0].setPosition( 64.5f * SCALE, 0 );
-			healthText[1].setPosition( 64.5f * SCALE, 5 * SCALE );
-			healthText[2].setPosition( 64.5f * SCALE, 10 * SCALE );
+			this->healthText[0].setPosition( 64.5f * SCALE, 0 );
+			this->healthText[1].setPosition( 64.5f * SCALE, 5 * SCALE );
+			this->healthText[2].setPosition( 64.5f * SCALE, 10 * SCALE );
 
-			armorText.setPosition( 1 * SCALE, 62 * SCALE );
+			this->armorText.setPosition( 1 * SCALE, 62 * SCALE );
 
-			baseHealthText.setPosition( 64 * SCALE, 62 * SCALE );
+			this->baseHealthText.setPosition( 64 * SCALE, 62 * SCALE );
 		}
 
 		// Loading textures
 		{
-			textures.emplace_back();
-			textures.back().loadFromMemory( new sf::Texture );
-			textures.back().get()->loadFromFile( PLAYER_TEXTURE );
-			textures.back().setUniqueID( static_cast<unique_resource_id_t>( entityID_t::PLAYER ) );
+			this->textures[entityID_t::PLAYER] = std::make_shared<sf::Texture>();
+			this->textures[entityID_t::PLAYER]->loadFromFile( PLAYER_TEXTURE );
 
-			textures.emplace_back();
-			textures.back().loadFromMemory( new sf::Texture );
-			textures.back().get()->loadFromFile( BACKGROUND_TEXTURE );
-			textures.back().setUniqueID( static_cast<unique_resource_id_t>( entityID_t::BACKGROUND ) );
 
-			textures.emplace_back();
-			textures.back().loadFromMemory( new sf::Texture );
-			textures.back().get()->loadFromFile( ENEMY_TEXTURE );
-			textures.back().setUniqueID( static_cast<unique_resource_id_t>( entityID_t::ENEMY ) );
+			this->textures[entityID_t::BACKGROUND] = std::make_shared<sf::Texture>();
+			this->textures[entityID_t::BACKGROUND]->loadFromFile( BACKGROUND_TEXTURE );
+
+			this->textures[entityID_t::ENEMY] = std::make_shared<sf::Texture>();
+			this->textures[entityID_t::ENEMY]->loadFromFile( ENEMY_TEXTURE );
 		}
 
 		auto bg = std::make_shared<Background>();
@@ -71,21 +66,21 @@ namespace kd
 
 		// Initializing player
 		{
-			playerPointer = player;
+			this->playerPointer = player;
 
 			player->SetHealth( MAX_HEALTH );
 			player->SetArmor( MAX_ARMOR );
 
 			bool found = false;
-			for ( auto& t : textures )
-				if ( t.getUniqueID() == static_cast<unique_resource_id_t>( entityID_t::PLAYER ) )
+			for ( auto& t : this->textures )
+				if ( t.first == entityID_t::PLAYER )
 				{
 					found = true;
-					player->SetTexture( t.get() );
+					player->SetTexture( t.second );
 				}
 
 			if ( !found )
-				cgf::Logger::log( "Cannot find PLAYER texture!", cgf::Logger::ERROR );
+				cgf::Logger::Log( "Cannot find PLAYER texture!", cgf::Logger::ERROR );
 
 			player->SetPosition( { static_cast<float>( WINDOW_SIZE.x / 2 ), static_cast<float>( WINDOW_SIZE.y / 2 ) } );
 			player->SetMovementKeys( movementKeys_t( sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space ) );
@@ -95,15 +90,15 @@ namespace kd
 		// Initializing bg
 		{
 			bool found = false;
-			for ( auto& t : textures )
-				if ( t.getUniqueID() == static_cast<unique_resource_id_t>( entityID_t::BACKGROUND ) )
+			for ( auto& t : this->textures )
+				if ( t.first == entityID_t::BACKGROUND )
 				{
 					found = true;
-					bg->SetTexture( t.get() );
+					bg->SetTexture( t.second );
 				}
 
 			if ( !found )
-				cgf::Logger::log( "Cannot find BACKGROUND texture!", cgf::Logger::ERROR );
+				cgf::Logger::Log( "Cannot find BACKGROUND texture!", cgf::Logger::ERROR );
 		}
 
 		// test enemy
@@ -111,15 +106,15 @@ namespace kd
 			testEnemy->SetHealth( 100 );
 
 			bool found = false;
-			for ( auto& t : textures )
-				if ( t.getUniqueID() == static_cast<unique_resource_id_t>( entityID_t::ENEMY ) )
+			for ( auto& t : this->textures )
+				if ( t.first == entityID_t::ENEMY )
 				{
 					found = true;
-					testEnemy->SetTexture( t.get() );
+					testEnemy->SetTexture( t.second );
 				}
 
 			if ( !found )
-				cgf::Logger::log( "Cannot find ENEMY texture!", cgf::Logger::ERROR );
+				cgf::Logger::Log( "Cannot find ENEMY texture!", cgf::Logger::ERROR );
 
 			testEnemy->SetPosition( { 0.0f,0.0f } );
 		}
@@ -161,45 +156,47 @@ namespace kd
 		borderPlatformRight->rectangle.width = 8 * SCALE * 2;
 		borderPlatformRight->rectangle.height = 1 * SCALE * 2;
 
-		entities.push_back( bg );
-		entities.push_back( player );
-		entities.push_back( borderWallDown );
-		entities.push_back( borderWallRight );
-		entities.push_back( borderWallLeft );
-		entities.push_back( borderPlatformLeft );
-		entities.push_back( borderPlatformMiddle );
-		entities.push_back( borderPlatformRight );
-		entities.push_back( testEnemy );
+		this->entities.push_back( bg );
+		this->entities.push_back( player );
+		this->entities.push_back( borderWallDown );
+		this->entities.push_back( borderWallRight );
+		this->entities.push_back( borderWallLeft );
+		this->entities.push_back( borderPlatformLeft );
+		this->entities.push_back( borderPlatformMiddle );
+		this->entities.push_back( borderPlatformRight );
+		this->entities.push_back( testEnemy );
 
-		physicsChecker.AddBoxCollider( player );
-		physicsChecker.AddBoxCollider( borderWallDown );
-		physicsChecker.AddBoxCollider( borderWallRight );
-		physicsChecker.AddBoxCollider( borderWallLeft );
-		physicsChecker.AddBoxCollider( borderPlatformLeft );
-		physicsChecker.AddBoxCollider( borderPlatformMiddle );
-		physicsChecker.AddBoxCollider( borderPlatformRight );
-		physicsChecker.AddBoxCollider( testEnemy );
+		this->physicsChecker.AddBoxCollider( player );
+		this->physicsChecker.AddBoxCollider( borderWallDown );
+		this->physicsChecker.AddBoxCollider( borderWallRight );
+		this->physicsChecker.AddBoxCollider( borderWallLeft );
+		this->physicsChecker.AddBoxCollider( borderPlatformLeft );
+		this->physicsChecker.AddBoxCollider( borderPlatformMiddle );
+		this->physicsChecker.AddBoxCollider( borderPlatformRight );
+		this->physicsChecker.AddBoxCollider( testEnemy );
 
-		endThread();
+		this->EndThread();
 	}
 
-	void PlayState::onStop()
+	void PlayState::OnStop()
 	{
-		startThread();
+		this->StartThread();
 
-		entities.clear();
+		this->playerPointer.reset();
+		this->entities.clear();
+		this->textures.clear();
 
-		endThread();
+		this->EndThread();
 	}
 
-	state_id_t PlayState::run()
+	state_id_t PlayState::Run()
 	{
 		bool end = false;
 		sf::Event event;
 
 		while ( !end )
 		{
-			while ( windowPtr->pollEvent( event ) )
+			while ( this->windowPtr->pollEvent( event ) )
 			{
 				if ( event.type == sf::Event::Closed )
 					return state_t::EXIT;
@@ -209,35 +206,35 @@ namespace kd
 						end = true;
 			}
 
-			for ( auto& e : entities )
+			for ( auto& e : this->entities )
 				e->Update( 1.f / FPS_LIMIT );
 
-			removeUnusedEntities();
+			this->removeUnusedEntities();
 
-			updateUI();
+			this->updateUI();
 
-			playerPointer->CheckEvents();
-			physicsChecker.Update( 1.f / FPS_LIMIT );
+			this->playerPointer->CheckEvents();
+			this->physicsChecker.Update( 1.f / FPS_LIMIT );
 
-			windowPtr->clear( sf::Color( 100, 100, 100 ) );
+			this->windowPtr->clear( sf::Color( 100, 100, 100 ) );
 
-			for ( auto& e : entities )
-				e->Draw( *windowPtr );
+			for ( auto& e : this->entities )
+				e->Draw( *this->windowPtr );
 
-			windowPtr->draw( healthText[0] );
-			windowPtr->draw( healthText[1] );
-			windowPtr->draw( healthText[2] );
-			windowPtr->draw( armorText );
-			windowPtr->draw( baseHealthText );
+			this->windowPtr->draw( healthText[0] );
+			this->windowPtr->draw( healthText[1] );
+			this->windowPtr->draw( healthText[2] );
+			this->windowPtr->draw( armorText );
+			this->windowPtr->draw( baseHealthText );
 
-			windowPtr->display();
+			this->windowPtr->display();
 		}
 
 		// Change in future to ::MENU
 		return state_t::EXIT;
 	}
 
-	void PlayState::updateThread( seconds_t dt, window_t& w )
+	void PlayState::UpdateThread( seconds_t dt, window_t& w )
 	{
 		static sf::RectangleShape rectangle;
 		rectangle.setFillColor( sf::Color::Transparent );
@@ -257,37 +254,37 @@ namespace kd
 		w.draw( rectangle );
 		w.display();
 
-		cgf::Logger::log( "Thread update...", cgf::Logger::INFO, cgf::Logger::CONSOLE );
+		cgf::Logger::Log( "Thread update...", cgf::Logger::INFO, cgf::Logger::CONSOLE );
 	}
 
 
 	void PlayState::updateUI()
 	{
-		auto hp = playerPointer->GetHealth();
+		auto hp = this->playerPointer->GetHealth();
 
 		if ( hp >= 100 )
-			healthText[2].setString( sf::String( std::to_string( hp )[2] ) );
+			this->healthText[2].setString( sf::String( std::to_string( hp )[2] ) );
 		else
-			healthText[2].setString( "-" );
+			this->healthText[2].setString( "-" );
 
 		if ( hp >= 10 )
-			healthText[1].setString( sf::String( std::to_string( hp )[1] ) );
+			this->healthText[1].setString( sf::String( std::to_string( hp )[1] ) );
 		else
-			healthText[1].setString( "-" );
+			this->healthText[1].setString( "-" );
 
-		healthText[0].setString( sf::String( std::to_string( hp )[0] ) );
+		this->healthText[0].setString( sf::String( std::to_string( hp )[0] ) );
 
-		armorText.setString( std::to_string( playerPointer->GetArmor() ) );
+		this->armorText.setString( std::to_string( playerPointer->GetArmor() ) );
 
-		baseHealthText.setString( "0" );
+		this->baseHealthText.setString( "0" );
 	}
 
 	void PlayState::removeUnusedEntities()
 	{
-		for ( auto it = entities.begin(); it != entities.end();)
+		for ( auto it = this->entities.begin(); it != this->entities.end();)
 		{
 			if ( ( *it )->IsWishingDelete() )
-				it = entities.erase( it );
+				it = this->entities.erase( it );
 			else
 				it++;
 		}

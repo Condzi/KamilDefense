@@ -17,7 +17,7 @@ namespace CGF_NAMESPACE
 	class StateMachine final
 	{
 	private:
-		State* createState( state_id_t id );
+		std::unique_ptr<State> createState( state_id_t id );
 
 	public:
 		StateMachine( state_id_t startState = 0 ) :
@@ -27,24 +27,24 @@ namespace CGF_NAMESPACE
 		StateMachine( const StateMachine& ) = delete;
 		const StateMachine& operator=( const StateMachine& ) = delete;
 
-		void setCurrentStateID( state_id_t id ) { actualState = id; }
+		void SetCurrentStateID( state_id_t id ) { this->actualState = id; }
 
 		template<class T, typename... Args>
-		void registerState( state_id_t id, Args&&... args )
+		void RegisterState( state_id_t id, Args&&... args )
 		{
 			static_assert( std::is_base_of<State, T>::value, "T must derive from State class" );
 
-			factories[id] = [&args..., this]()
+			this->factories[id] = [&args..., this]()
 			{
-				return new T( std::forward<Args>( args )... );
+				return std::make_unique<T>( std::forward<Args>( args )... );
 			};
 		}
 
-		void run();
+		void Run();
 
 	private:
 		std::vector<std::unique_ptr<State>> stack;
-		std::unordered_map<state_id_t, std::function<State*( )>> factories;
+		std::unordered_map<state_id_t, std::function<std::unique_ptr<State>()>> factories;
 
 		state_id_t actualState;
 	};

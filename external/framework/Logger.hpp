@@ -30,15 +30,14 @@ namespace CGF_NAMESPACE
 			BOTH
 		};
 
-	private:
-		static std::ofstream file;
-
-	public:
 		Logger() = delete;
 
-		static void initialize();
-		static void shutdown();
+		static void Initialize();
+		static void Shutdown();
 
-		static void log( const std::string& msg, prefix_t prefix = INFO, output_t output = BOTH );
+		static void Log( const std::string& msg, prefix_t prefix = INFO, output_t output = BOTH );
+
+	private:
+		static std::ofstream file;
 	};
 }

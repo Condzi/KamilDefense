@@ -25,20 +25,20 @@ namespace CGF_NAMESPACE
 
 		virtual ~State() = default;
 
-		void setWindowPtr( window_t* window ) { windowPtr = window; }
+		void SetWindowPtr( window_t* window ) { this->windowPtr = window; }
 
-		virtual void onStart() = 0;
-		virtual void onStop() = 0;
-		virtual state_id_t run() = 0;
+		virtual void OnStart() = 0;
+		virtual void OnStop() = 0;
+		virtual state_id_t Run() = 0;
 
 		// Call it when you need to load resources and you don't want to freeze window
-		// Don't forget to call endThread() 
-		void startThread();
-		void endThread();
+		// Don't forget to call EndThread() 
+		void StartThread();
+		void EndThread();
 		// updates thread (like update method in entities)
-		virtual void updateThread( seconds_t time, window_t& window ) = 0;
+		virtual void UpdateThread( seconds_t time, window_t& window ) = 0;
 		// This method is called when thread is stared - it is its loop
-		virtual void threadMethod();
+		virtual void ThreadMethod();
 
 	protected:
 		virtual void unlockWindowContext() = 0;

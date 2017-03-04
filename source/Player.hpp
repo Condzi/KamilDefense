@@ -39,14 +39,7 @@ namespace kd
 		void SetMovementKeys( const movementKeys_t& keys ) { this->movementKeys = keys; }
 		void SetMovementForces( const movementForces_t& forces ) { this->movementForces = forces; }
 
-		void AddDamage( uint8_t val )
-		{
-			if ( this->damageBlockTime == 0 )
-			{
-				this->pendingDamage = val;
-				this->damageBlockTime = DAMAGE_BLOCK_TIME;
-			}
-		}
+		void AddDamage( uint8_t val );
 
 		void Update( seconds_t dt ) override;
 		void CheckEvents();
@@ -61,7 +54,7 @@ namespace kd
 		movementKeys_t movementKeys;
 		movementForces_t movementForces;
 
-		std::shared_ptr<sf::Texture> texture;
+		std::weak_ptr<sf::Texture> texture;
 		sf::Sprite sprite;
 
 	private:

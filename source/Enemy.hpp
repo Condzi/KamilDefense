@@ -29,20 +29,13 @@ namespace kd
 		void SetTexture( std::shared_ptr<sf::Texture> tex );
 		void SetPosition( const sf::Vector2f& pos ) override;
 
-		void AddDamage( uint8_t val )
-		{
-			if ( this->damageBlockTime == 0 )
-			{
-				this->pendingDamage = val;
-				this->damageBlockTime = DAMAGE_BLOCK_TIME;
-			}
-		}
+		void AddDamage( uint8_t val );
 
 		void Update( seconds_t dt ) override;
 		void Draw( sf::RenderTarget& target );
 
 	private:
-		std::shared_ptr<sf::Texture> texture;
+		std::weak_ptr<sf::Texture> texture;
 		sf::Sprite sprite;
 
 		uint8_t health;

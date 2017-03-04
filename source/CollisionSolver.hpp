@@ -19,7 +19,6 @@ namespace kd
 	public:
 		CollisionSolver() = delete;
 
-		//static void bulletEntity(...);
 		static void EntityEntity( std::shared_ptr<BoxCollider> colliderA, std::shared_ptr<BoxCollider> colliderB, collisionSide_t colliderAcollisionSide );
 		static void EnemyEntity( std::shared_ptr<BoxCollider> enemyCollider, std::shared_ptr<BoxCollider> colliderB, collisionSide_t enemyCollisionSide );
 		static void EnemyPlayer( std::shared_ptr<BoxCollider> enemyCollider, std::shared_ptr<BoxCollider> colliderB, collisionSide_t enemyCollisionSide );

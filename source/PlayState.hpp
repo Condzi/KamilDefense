@@ -12,7 +12,6 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Window/Event.hpp>
 
-#include <Resource.hpp>
 #include <Logger.hpp>
 #include <State.hpp>
 
@@ -33,16 +32,16 @@ namespace kd
 			cgf::State( window )
 		{}
 
-		void onStart() override;
-		void onStop() override;
-		state_id_t run() override;
+		void OnStart() override;
+		void OnStop() override;
+		state_id_t Run() override;
 
-		void updateThread( seconds_t dt, window_t& w ) override;
+		void UpdateThread( seconds_t dt, window_t& w ) override;
 
 	private:
 		std::vector<std::shared_ptr<Entity>> entities;
 		std::shared_ptr<Player> playerPointer;
-		std::vector<cgf::Resource<sf::Texture>> textures;
+		std::map<entityID_t, std::shared_ptr<sf::Texture>> textures;
 
 		sf::Font font;
 		sf::Text healthText[3];
@@ -50,7 +49,7 @@ namespace kd
 		sf::Text baseHealthText;
 
 		PhysicsChecker physicsChecker;
-	
+
 	private:
 		void unlockWindowContext() override { windowPtr->setActive( true ); }
 		void lockWindowContext() override { windowPtr->setActive( false ); }

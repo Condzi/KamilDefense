@@ -27,7 +27,7 @@ namespace kd
 		void Draw( sf::RenderTarget& target ) override;
 
 	private:
-		std::shared_ptr<sf::Texture> texture;
+		std::weak_ptr<sf::Texture> texture;
 		sf::Sprite sprite;
 	};
 }

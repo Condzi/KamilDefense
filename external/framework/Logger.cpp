@@ -10,36 +10,35 @@ namespace CGF_NAMESPACE
 	std::ofstream Logger::file;
 
 
-	void Logger::initialize()
+	void Logger::Initialize()
 	{
-		if (!Logger::file.is_open())
+		if ( !Logger::file.is_open() )
 		{
-			Logger::file.open(LOG_FILE_PATH);
-			Logger::log("Logger initialized!");
-		}
-		else
-			Logger::log("Logger already initialized!");
+			Logger::file.open( LOG_FILE_PATH );
+			Logger::Log( "Logger initialized!" );
+		} else
+			Logger::Log( "Logger already initialized!" );
 	}
 
-	void Logger::shutdown()
+	void Logger::Shutdown()
 	{
-		Logger::log("Logger shutdown!"); 
+		Logger::Log( "Logger shutdown!" );
 		Logger::file.close();
 	}
 
-	void Logger::log(const std::string & msg, prefix_t prefix, output_t output)
+	void Logger::Log( const std::string& msg, prefix_t prefix, output_t output )
 	{
-		if (output == FILE || output == BOTH)
+		if ( output == FILE || output == BOTH )
 		{
-			if (prefix != NONE)
+			if ( prefix != NONE )
 				Logger::file << "[" << LOGGER_PREFIX[prefix] << "]";
 
 			Logger::file << msg << "\n";
 		}
 
-		if (output == CONSOLE || output == BOTH)
+		if ( output == CONSOLE || output == BOTH )
 		{
-			if (prefix != NONE)
+			if ( prefix != NONE )
 				LOGGER_STREAM << "[" << LOGGER_PREFIX[prefix] << "]";
 
 			LOGGER_STREAM << msg << "\n";

@@ -30,7 +30,7 @@ namespace CGF_NAMESPACE
 	// Max amount of handled resources (3565 for default) per one ResourceManager
 	constexpr size_t MAX_RESOURCES = 0xded;
 
-	// ID that never should be used to normal state - return this in State::run if you want to exit State Machine
+	// ID that never should be used to normal state - return this in State::Run if you want to exit State Machine
 	constexpr state_id_t EXIT_STATE = -0xded;
 
 	static auto& LOGGER_STREAM = std::cout;

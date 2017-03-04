@@ -18,12 +18,12 @@ namespace kd
 	void Enemy::SetTexture( std::shared_ptr<sf::Texture> tex )
 	{
 		if ( !tex )
-			cgf::Logger::log( "Enemy texture is not assigned", cgf::Logger::WARNING );
+			cgf::Logger::Log( "Enemy texture is not assigned", cgf::Logger::WARNING );
 		else
 		{
 			this->texture = tex;
 
-			this->sprite.setTexture( *this->texture );
+			this->sprite.setTexture( *this->texture.lock() );
 			this->sprite.setScale( SCALE, SCALE );
 
 			this->rectangle = this->sprite.getGlobalBounds();
@@ -35,6 +35,15 @@ namespace kd
 		this->position = pos;
 		this->rectangle.left = pos.x;
 		this->rectangle.top = pos.y;
+	}
+
+	void Enemy::AddDamage( uint8_t val )
+	{
+		if ( this->damageBlockTime == 0 )
+		{
+			this->pendingDamage = val;
+			this->damageBlockTime = DAMAGE_BLOCK_TIME;
+		}
 	}
 
 	void Enemy::Update( seconds_t dt )
@@ -57,8 +66,8 @@ namespace kd
 	}
 	void Enemy::Draw( sf::RenderTarget& target )
 	{
-		if ( !this->texture )
-			cgf::Logger::log( "Enemy texture is not set, nothing will be drawn", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
+		if ( this->texture.expired() )
+			cgf::Logger::Log( "Enemy texture is not set, nothing will be drawn", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 		else
 			target.draw( this->sprite );
 	}

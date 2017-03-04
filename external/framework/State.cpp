@@ -7,31 +7,31 @@
 
 namespace CGF_NAMESPACE
 {
-	void State::startThread()
+	void State::StartThread()
 	{
-		lockWindowContext();
-		threadRunning = true;
+		this->lockWindowContext();
+		this->threadRunning = true;
 
-		thread = std::thread( &State::threadMethod, this );
+		this->thread = std::thread( &State::ThreadMethod, this );
 	}
 
-	void State::endThread()
+	void State::EndThread()
 	{
-		threadRunning = false;
-		thread.join();
+		this->threadRunning = false;
+		this->thread.join();
 
-		unlockWindowContext();
+		this->unlockWindowContext();
 	}
 
-	void State::threadMethod()
+	void State::ThreadMethod()
 	{
-		unlockWindowContext();
+		this->unlockWindowContext();
 
-		while ( threadRunning )
+		while ( this->threadRunning )
 		{
-			updateThread( 1 / 30.f, *windowPtr );
+			this->UpdateThread( 1 / 30.f, *this->windowPtr );
 		}
 
-		lockWindowContext();
+		this->lockWindowContext();
 	}
 }

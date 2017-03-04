@@ -7,31 +7,31 @@
 
 namespace CGF_NAMESPACE
 {
-	State* StateMachine::createState( state_id_t id )
+	std::unique_ptr<State> StateMachine::createState( state_id_t id )
 	{
-		auto result = factories.find( id );
+		auto result = this->factories.find( id );
 
 		// There is no states registered / cannot find state of that id
-		assert( !( result == factories.end() ) );
+		assert( !( result == this->factories.end() ) );
 
-		return result->second();
+		return std::move( result->second() );
 	}
 
-	void StateMachine::run()
+	void StateMachine::Run()
 	{
-		state_id_t nextState = actualState;
+		state_id_t nextState = this->actualState;
 
-		stack.resize( factories.size() );
+		this->stack.resize( this->factories.size() );
 
-		while ( actualState != EXIT_STATE )
+		while ( this->actualState != EXIT_STATE )
 		{
-			stack[actualState].reset( createState( actualState ) );
+			this->stack[actualState] = std::move( this->createState( this->actualState ) );
 
-			stack[actualState]->onStart();
-			nextState = stack[actualState]->run();
-			stack[actualState]->onStop();
+			this->stack[actualState]->OnStart();
+			nextState = this->stack[actualState]->Run();
+			this->stack[actualState]->OnStop();
 
-			actualState = nextState;
+			this->actualState = nextState;
 		}
 	}
 }

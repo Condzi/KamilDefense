@@ -11,19 +11,19 @@ namespace kd
 	{
 		if ( !collider )
 		{
-			cgf::Logger::log( "Cannot add collider to PhysicsChecker - collider pointer is not assigned", cgf::Logger::ERROR );
+			cgf::Logger::Log( "Cannot add collider to PhysicsChecker - collider pointer is not assigned", cgf::Logger::ERROR );
 		}
 
 		for ( auto ptr : this->colliders )
 			if ( ptr == collider )
 			{
-				cgf::Logger::log( "Cannot add collider to PhysicsChecker - found pointer pointing to same collider", cgf::Logger::ERROR );
+				cgf::Logger::Log( "Cannot add collider to PhysicsChecker - found pointer pointing to same collider", cgf::Logger::ERROR );
 				return false;
 			}
 
 		this->colliders.push_back( collider );
 
-		cgf::Logger::log( "Added collider to PhysicsChecker, total colliders: " + std::to_string( colliders.size() ) );
+		cgf::Logger::Log( "Added collider to PhysicsChecker, total colliders: " + std::to_string( colliders.size() ) );
 
 		return true;
 	}

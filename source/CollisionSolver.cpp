@@ -11,7 +11,7 @@ namespace kd
 	{
 		if ( colliderAcollisionSide == None )
 		{
-			cgf::Logger::log( "Collision solver have wrong collision side info - possible error!", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
+			cgf::Logger::Log( "Collision solver have wrong collision side info - possible error!", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 			return;
 		}
 
@@ -42,7 +42,7 @@ namespace kd
 	{
 		if ( enemyCollisionSide == None )
 		{
-			cgf::Logger::log( "Collision solver have wrong collision side info - possible error!", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
+			cgf::Logger::Log( "Collision solver have wrong collision side info - possible error!", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 			return;
 		}
 
