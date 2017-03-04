@@ -7,7 +7,7 @@
 
 namespace kd
 {
-	void CollisionSolver::EntityEntity( std::shared_ptr<BoxCollider> colliderA, std::shared_ptr<BoxCollider> colliderB, collisionSide_t colliderAcollisionSide )
+	void CollisionSolver::EntityEntity( std::weak_ptr<BoxCollider> colliderA, std::weak_ptr<BoxCollider> colliderB, collisionSide_t colliderAcollisionSide )
 	{
 		if ( colliderAcollisionSide == None )
 		{
@@ -15,30 +15,30 @@ namespace kd
 			return;
 		}
 
-		auto& rectA = colliderA->rectangle;
-		auto& rectB = colliderB->rectangle;
+		auto& rectA = colliderA.lock()->rectangle;
+		auto& rectB = colliderB.lock()->rectangle;
 
 		if ( colliderAcollisionSide == Left )
 		{
 			rectA.left = rectB.left - rectA.width;
-			colliderA->velocity.x = 0;
+			colliderA.lock()->velocity.x = 0;
 		} else if ( colliderAcollisionSide == Right )
 		{
 			rectA.left = rectB.left + rectB.width;
-			colliderA->velocity.x = 0;
+			colliderA.lock()->velocity.x = 0;
 		} else if ( colliderAcollisionSide == Down )
 		{
 			rectA.top = rectB.top - rectA.height;
-			colliderA->velocity.y = 0;
-			colliderA->grounded = true;
+			colliderA.lock()->velocity.y = 0;
+			colliderA.lock()->grounded = true;
 		} else if ( colliderAcollisionSide == Top )
 		{
 			rectA.top = rectB.top + rectB.height;
-			colliderA->velocity.y = 0;
+			colliderA.lock()->velocity.y = 0;
 		}
 	}
 
-	void CollisionSolver::EnemyEntity( std::shared_ptr<BoxCollider> enemyCollider, std::shared_ptr<BoxCollider> colliderB, collisionSide_t enemyCollisionSide )
+	void CollisionSolver::EnemyEntity( std::weak_ptr<BoxCollider> enemyCollider, std::weak_ptr<BoxCollider> colliderB, collisionSide_t enemyCollisionSide )
 	{
 		if ( enemyCollisionSide == None )
 		{
@@ -46,32 +46,32 @@ namespace kd
 			return;
 		}
 
-		auto& rectA = enemyCollider->rectangle;
-		auto& rectB = colliderB->rectangle;
+		auto& rectA = enemyCollider.lock()->rectangle;
+		auto& rectB = colliderB.lock()->rectangle;
 
 		if ( enemyCollisionSide == Left )
 		{
 			rectA.left = rectB.left - rectA.width;
-			enemyCollider->velocity.x = -enemyCollider->velocity.x;
+			enemyCollider.lock()->velocity.x = -enemyCollider.lock()->velocity.x;
 		} else if ( enemyCollisionSide == Right )
 		{
 			rectA.left = rectB.left + rectB.width;
-			enemyCollider->velocity.x = -enemyCollider->velocity.x;
+			enemyCollider.lock()->velocity.x = -enemyCollider.lock()->velocity.x;
 		} else if ( enemyCollisionSide == Down )
 		{
 			rectA.top = rectB.top - rectA.height;
-			enemyCollider->velocity.y = 0;
+			enemyCollider.lock()->velocity.y = 0;
 		} else if ( enemyCollisionSide == Top )
 		{
 			rectA.top = rectB.top + rectB.height;
-			enemyCollider->velocity.y = 0;
+			enemyCollider.lock()->velocity.y = 0;
 		}
 	}
 
-	void CollisionSolver::EnemyPlayer( std::shared_ptr<BoxCollider> enemyCollider, std::shared_ptr<BoxCollider> playerCollider, collisionSide_t enemyCollisionSide )
+	void CollisionSolver::EnemyPlayer( std::weak_ptr<BoxCollider> enemyCollider, std::weak_ptr<BoxCollider> playerCollider, collisionSide_t enemyCollisionSide )
 	{
-		Enemy* enemyPtr = dynamic_cast<Enemy*>( enemyCollider->parentPointer );
-		Player* playerPtr = dynamic_cast<Player*>( playerCollider->parentPointer );
+		Enemy* enemyPtr = dynamic_cast<Enemy*>( enemyCollider.lock()->parentPointer );
+		Player* playerPtr = dynamic_cast<Player*>( playerCollider.lock()->parentPointer );
 
 		enemyPtr->AddDamage( 10 );
 		playerPtr->AddDamage( 20 );

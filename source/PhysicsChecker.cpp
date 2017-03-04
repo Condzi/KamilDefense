@@ -15,7 +15,7 @@ namespace kd
 		}
 
 		for ( auto ptr : this->colliders )
-			if ( ptr == collider )
+			if ( ptr.lock() == collider )
 			{
 				cgf::Logger::Log( "Cannot add collider to PhysicsChecker - found pointer pointing to same collider", cgf::Logger::ERROR );
 				return false;
@@ -36,14 +36,14 @@ namespace kd
 			for ( size_t j = 0; j < this->colliders.size(); j++ )
 			{
 				if ( i == j ||
-					colliders[j]->parentPointer->GetType() == entityID_t::BORDER )
+					colliders[j].lock()->parentPointer->GetType() == entityID_t::BORDER )
 					continue;
 
-				sf::FloatRect& collA = colliders[j]->rectangle;
-				sf::FloatRect& collB = colliders[i]->rectangle;
+				sf::FloatRect& collA = colliders[j].lock()->rectangle;
+				sf::FloatRect& collB = colliders[i].lock()->rectangle;
 				sf::FloatRect collAupdated = collA;
-				collAupdated.left += colliders[j]->velocity.x * dt;
-				collAupdated.top += colliders[j]->velocity.y * dt;
+				collAupdated.left += colliders[j].lock()->velocity.x * dt;
+				collAupdated.top += colliders[j].lock()->velocity.y * dt;
 
 				if ( !collAupdated.intersects( collB ) )
 					continue;
@@ -57,7 +57,7 @@ namespace kd
 	{
 		for ( auto it = this->colliders.begin(); it != this->colliders.end();)
 		{
-			if ( ( *it )->parentPointer->IsWishingDelete() )
+			if ( it->expired() || it->lock()->parentPointer->IsWishingDelete() )
 				it = this->colliders.erase( it );
 			else
 				it++;
@@ -105,10 +105,10 @@ namespace kd
 		return collAside;
 	}
 
-	void PhysicsChecker::resolveCollision( std::shared_ptr<BoxCollider> collA, std::shared_ptr<BoxCollider> collB, collisionSide_t collAside )
+	void PhysicsChecker::resolveCollision( std::weak_ptr<BoxCollider> collA, std::weak_ptr<BoxCollider> collB, collisionSide_t collAside )
 	{
-		entityID_t typeA = collA->parentPointer->GetType();
-		entityID_t typeB = collB->parentPointer->GetType();
+		entityID_t typeA = collA.lock()->parentPointer->GetType();
+		entityID_t typeB = collB.lock()->parentPointer->GetType();
 
 		if ( typeA == entityID_t::PLAYER )
 		{
