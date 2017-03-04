@@ -25,7 +25,8 @@ namespace kd
 			armor( 0 ),
 			damageBlockTime( DAMAGE_BLOCK_TIME ),
 			pendingDamage( 0 ),
-			movementKeys( sf::Keyboard::Left, sf::Keyboard::Right, sf::Keyboard::Up ),
+			shootingKeys( sf::Keyboard::Left, sf::Keyboard::Right ),
+			movementKeys( sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space ),
 			movementForces( -25.0f, 25.0f, 50.0f )
 		{}
 
@@ -51,6 +52,7 @@ namespace kd
 		uint8_t pendingDamage;
 		seconds_t damageBlockTime;
 
+		shootingKeys_t shootingKeys;
 		movementKeys_t movementKeys;
 		movementForces_t movementForces;
 

@@ -50,8 +50,8 @@ namespace kd
 	{
 		this->velocity.y += GRAVITY * OBJECT_WEIGHT * dt;
 
-		this->rectangle.left += velocity.x * dt;
-		this->rectangle.top += velocity.y * dt;
+		this->rectangle.left += this->velocity.x * dt;
+		this->rectangle.top += this->velocity.y * dt;
 
 		this->position = { this->rectangle.left, this->rectangle.top };
 

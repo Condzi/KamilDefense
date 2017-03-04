@@ -23,6 +23,15 @@ namespace kd
 		Top
 	};
 
+	struct shootingKeys_t final
+	{
+		sf::Keyboard::Key left, right;
+
+		shootingKeys_t( sf::Keyboard::Key l, sf::Keyboard::Key r ) :
+			left( l ), right( r )
+		{}
+	};
+
 	struct movementKeys_t final
 	{
 		sf::Keyboard::Key left, right, jump;
