@@ -66,10 +66,17 @@ namespace kd
 	{
 		for ( auto it = MissileManager::missiles.begin(); it != MissileManager::missiles.end();)
 		{
-			if ( ( *it )->IsWishingDelete() )
+			if ( ( *it )->IsWishingDelete() || 
+				!MissileManager::isInWindowBounds( ( *it )->GetPosition() ) )
 				it = MissileManager::missiles.erase( it );
 			else
 				it++;
 		}
+	}
+
+	bool MissileManager::isInWindowBounds( const sf::Vector2f& pos )
+	{
+		return pos.x > WINDOW_SIZE.x || pos.y > WINDOW_SIZE.y ||
+			pos.x < 0 || pos.y > 0;
 	}
 }

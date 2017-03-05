@@ -31,5 +31,6 @@ namespace kd
 		static PhysicsChecker* physicChecker;
 
 		static void removeUnusedMissiles();
+		static bool isInWindowBounds( const sf::Vector2f& pos );
 	};
 }

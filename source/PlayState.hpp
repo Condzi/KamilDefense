@@ -25,7 +25,8 @@
 
 namespace kd
 {
-	class PlayState final : public cgf::State
+	class PlayState final : 
+		public cgf::State
 	{
 	public:
 		PlayState( window_t* window ) :
