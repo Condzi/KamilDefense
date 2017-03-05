@@ -18,7 +18,9 @@
 
 namespace kd
 {
-	class Player final : public Entity, public BoxCollider
+	class Player final :
+		public Entity,
+		public BoxCollider
 	{
 	public:
 		Player() :

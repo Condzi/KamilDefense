@@ -14,7 +14,9 @@ namespace kd
 {
 	class MissileManager;
 
-	class Missile final : public Entity, public BoxCollider
+	class Missile final :
+		public Entity,
+		public BoxCollider
 	{
 		friend class CollisionSolver;
 

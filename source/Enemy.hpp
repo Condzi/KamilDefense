@@ -15,10 +15,17 @@
 
 namespace kd
 {
-	class Enemy : public Entity, public BoxCollider
+	class Enemy :
+		public Entity,
+		public BoxCollider
 	{
 	public:
-		Enemy() : BoxCollider( this ), health( 0 ), pendingDamage( 0 ), damageBlockTime( DAMAGE_BLOCK_TIME )
+		Enemy() :
+			BoxCollider( this ),
+			health( 0 ),
+			pendingDamage( 0 ),
+			damageBlockTime( DAMAGE_BLOCK_TIME ),
+			shootTime( ENEMY_SHOOT_COOLDOWN )
 		{
 			// temporary
 			this->velocity = { 250.f, 0.0f };

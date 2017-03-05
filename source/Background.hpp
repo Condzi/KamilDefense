@@ -17,7 +17,8 @@
 
 namespace kd
 {
-	class Background final : public Entity
+	class Background final :
+		public Entity
 	{
 	public:
 		Background()

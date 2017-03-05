@@ -13,10 +13,13 @@
 
 namespace kd
 {
-	class Border final : public Entity, public BoxCollider
+	class Border final :
+		public Entity,
+		public BoxCollider
 	{
 	public:
-		Border() : BoxCollider( this )
+		Border() :
+			BoxCollider( this )
 		{}
 
 		void SetPosition( const sf::Vector2f& pos ) override { this->position = pos; this->rectangle.left = this->position.x; this->rectangle.top = this->position.y; }
