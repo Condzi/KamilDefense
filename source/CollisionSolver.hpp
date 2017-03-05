@@ -24,6 +24,8 @@ namespace kd
 		static void EnemyPlayer( std::weak_ptr<BoxCollider> enemyCollider, std::weak_ptr<BoxCollider> colliderB, collisionSide_t enemyCollisionSide );
 		static void BulletEntity( std::weak_ptr<BoxCollider> bulletCollider);
 		static void BulletEnemy( std::weak_ptr<BoxCollider> bulletCollider, std::weak_ptr<BoxCollider> colliderB );
+		static void BulletPlayer( std::weak_ptr<BoxCollider> bulletCollider, std::weak_ptr<BoxCollider> colliderB );
+
 	};
 }
 

@@ -126,6 +126,12 @@ namespace kd
 				CollisionSolver::BulletEntity( collA );
 			else if ( typeB == entityID_t::ENEMY )
 				CollisionSolver::BulletEnemy( collA, collB );
+		} else if ( typeA == entityID_t::BULLET_ENEMY )
+		{
+			if ( typeB == entityID_t::BORDER )
+				CollisionSolver::BulletEntity( collA );
+			else if ( typeB == entityID_t::PLAYER )
+				CollisionSolver::BulletPlayer( collA, collB );
 		}
 	}
 }

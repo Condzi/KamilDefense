@@ -62,24 +62,14 @@ namespace kd
 
 	void Player::Update( seconds_t dt )
 	{
-		if ( velocity.y != 0.0f )
-			this->grounded = false;
-
-		this->velocity.y += GRAVITY * OBJECT_WEIGHT * dt;
-
-		this->rectangle.left += this->velocity.x * dt;
-		this->rectangle.top += this->velocity.y * dt;
-
-		this->position = { this->rectangle.left, this->rectangle.top };
-
-		this->sprite.setPosition( this->position );
+		this->updateMovement( dt );
 
 		if ( this->damageBlockTime > 0 )
 			this->damageBlockTime -= dt;
 		if ( this->damageBlockTime <= 0 )
 			this->damageBlockTime = 0;
 
-		addPendingDamage();
+		this->addPendingDamage();
 	}
 
 	void Player::Draw( sf::RenderTarget& target )
@@ -89,6 +79,7 @@ namespace kd
 		else
 			target.draw( this->sprite );
 	}
+
 	void Player::addPendingDamage()
 	{
 		if ( this->pendingDamage > this->armor )
@@ -156,5 +147,20 @@ namespace kd
 			missile->velocity.x = bulletVelocityX;
 			MissileManager::AddMissile( missile );
 		}
+	}
+
+	void Player::updateMovement( seconds_t dt )
+	{
+		if ( velocity.y != 0.0f )
+			this->grounded = false;
+
+		this->velocity.y += GRAVITY * OBJECT_WEIGHT * dt;
+
+		this->rectangle.left += this->velocity.x * dt;
+		this->rectangle.top += this->velocity.y * dt;
+
+		this->position = { this->rectangle.left, this->rectangle.top };
+
+		this->sprite.setPosition( this->position );
 	}
 }

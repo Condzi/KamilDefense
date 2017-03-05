@@ -30,6 +30,7 @@ namespace kd
 	constexpr uint8_t MAX_HEALTH = 200;
 	constexpr uint8_t MAX_ARMOR = 100;
 	constexpr seconds_t DAMAGE_BLOCK_TIME = 0.32f;
+	constexpr seconds_t ENEMY_SHOOT_COOLDOWN = 0.5f;
 
 	constexpr auto FONT = "data/fonts/wendy.ttf";
 	constexpr auto PLAYER_TEXTURE = "data/textures/player.png";

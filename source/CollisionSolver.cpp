@@ -90,4 +90,13 @@ namespace kd
 			bulletCollider.lock()->parentPointer->SetWishDelete( true );
 		}
 	}
+
+	void CollisionSolver::BulletPlayer( std::weak_ptr<BoxCollider> bulletCollider, std::weak_ptr<BoxCollider> colliderB )
+	{
+		if ( bulletCollider.lock()->parentPointer->GetType() == entityID_t::BULLET_ENEMY )
+		{
+			dynamic_cast<Player*>( colliderB.lock()->parentPointer )->AddDamage( 20 );
+			bulletCollider.lock()->parentPointer->SetWishDelete( true );
+		}
+	}
 }

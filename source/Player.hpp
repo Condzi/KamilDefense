@@ -66,5 +66,7 @@ namespace kd
 
 		void checkMovementEvents();
 		void checkShootingEvents();
+
+		void updateMovement( seconds_t dt );
 	};
 }

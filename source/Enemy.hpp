@@ -11,6 +11,7 @@
 
 #include "BoxCollider.hpp"
 #include "Entity.hpp"
+#include "MissileManager.hpp"
 
 namespace kd
 {
@@ -42,7 +43,11 @@ namespace kd
 		uint8_t pendingDamage;
 		seconds_t damageBlockTime;
 
+		seconds_t shootTime;
+
 	private:
 		void addPendingDamage();
+		void updateMovement( seconds_t dt );
+		void shoot();
 	};
 }
