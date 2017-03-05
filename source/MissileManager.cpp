@@ -9,9 +9,9 @@ namespace kd
 {
 	bool MissileManager::correctInitialization;
 	std::vector<std::shared_ptr<Missile>> MissileManager::missiles;
-	std::weak_ptr<PhysicsChecker> MissileManager::physicChecker;
+	PhysicsChecker* MissileManager::physicChecker;
 
-	void MissileManager::Initialize( std::shared_ptr<PhysicsChecker> physicCh )
+	void MissileManager::Initialize( PhysicsChecker* physicCh )
 	{
 		correctInitialization = true;
 
@@ -39,7 +39,7 @@ namespace kd
 			return;
 
 		MissileManager::missiles.push_back( std::move( missile ) );
-		MissileManager::physicChecker.lock()->AddBoxCollider( MissileManager::missiles.back() );
+		MissileManager::physicChecker->AddBoxCollider( MissileManager::missiles.back() );
 	}
 
 	void MissileManager::Update( seconds_t dt )

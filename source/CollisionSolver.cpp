@@ -76,4 +76,18 @@ namespace kd
 		enemyPtr->AddDamage( 10 );
 		playerPtr->AddDamage( 20 );
 	}
+
+	void CollisionSolver::BulletEntity( std::weak_ptr<BoxCollider> bulletCollider )
+	{
+		bulletCollider.lock()->parentPointer->SetWishDelete( true );
+	}
+
+	void CollisionSolver::BulletEnemy( std::weak_ptr<BoxCollider> bulletCollider, std::weak_ptr<BoxCollider> colliderB )
+	{
+		if ( bulletCollider.lock()->parentPointer->GetType() == entityID_t::BULLET_PLAYER )
+		{
+			dynamic_cast<Enemy*>( colliderB.lock()->parentPointer )->AddDamage( 8 );
+			bulletCollider.lock()->parentPointer->SetWishDelete( true );
+		}
+	}
 }

@@ -11,6 +11,8 @@ namespace kd
 	{
 		this->StartThread();
 
+		MissileManager::Initialize( &this->physicsChecker );
+
 		if ( !this->font.loadFromFile( FONT ) )
 			cgf::Logger::Log( "Cannot load font file!", cgf::Logger::ERROR );
 		else
@@ -124,37 +126,37 @@ namespace kd
 		borderWallDown->SetType( entityID_t::BORDER );
 		borderWallDown->SetPosition( { 0, 31 * 2 * SCALE } );
 		borderWallDown->rectangle.width = 32 * 2 * SCALE;
-		borderWallDown->rectangle.height = 1.f;
+		borderWallDown->rectangle.height = 2.0f * SCALE;
 
 		auto borderWallRight = std::make_shared<Border>();
 		borderWallRight->SetType( entityID_t::BORDER );
 		borderWallRight->SetPosition( { 32 * 2 * SCALE, 0 } );
-		borderWallRight->rectangle.width = 1.f;
+		borderWallRight->rectangle.width = 2.0f * SCALE;
 		borderWallRight->rectangle.height = 32 * 2 * SCALE;
 
 		auto borderWallLeft = std::make_shared<Border>();
 		borderWallLeft->SetType( entityID_t::BORDER );
-		borderWallLeft->SetPosition( { -1.0f, 0.0f } );
-		borderWallLeft->rectangle.width = 1.f;
+		borderWallLeft->SetPosition( { -(2.0f * SCALE) , 0.0f } );
+		borderWallLeft->rectangle.width = 2.0f * SCALE;
 		borderWallLeft->rectangle.height = 32 * 2 * SCALE;
 
 		auto borderPlatformLeft = std::make_shared<Border>();
 		borderPlatformLeft->SetType( entityID_t::BORDER );
 		borderPlatformLeft->SetPosition( { 0.0f, 21 * SCALE * 2 } );
 		borderPlatformLeft->rectangle.width = 8 * SCALE * 2;
-		borderPlatformLeft->rectangle.height = 1 * SCALE * 2;
+		borderPlatformLeft->rectangle.height = 2.0f * SCALE;;
 
 		auto borderPlatformMiddle = std::make_shared<Border>();
 		borderPlatformMiddle->SetType( entityID_t::BORDER );
 		borderPlatformMiddle->SetPosition( { 11.0f * 2 * SCALE, 15 * SCALE * 2 } );
 		borderPlatformMiddle->rectangle.width = 10 * SCALE * 2;
-		borderPlatformMiddle->rectangle.height = 1 * SCALE * 2;
+		borderPlatformMiddle->rectangle.height = 2.0f * SCALE;;
 
 		auto borderPlatformRight = std::make_shared<Border>();
 		borderPlatformRight->SetType( entityID_t::BORDER );
 		borderPlatformRight->SetPosition( { 24 * 2 * SCALE, 21 * SCALE * 2 } );
 		borderPlatformRight->rectangle.width = 8 * SCALE * 2;
-		borderPlatformRight->rectangle.height = 1 * SCALE * 2;
+		borderPlatformRight->rectangle.height = 2.0f * SCALE;;
 
 		this->entities.push_back( bg );
 		this->entities.push_back( player );
@@ -185,6 +187,7 @@ namespace kd
 		this->playerPointer.reset();
 		this->entities.clear();
 		this->textures.clear();
+		MissileManager::Shutdown();
 
 		this->EndThread();
 	}
@@ -213,8 +216,9 @@ namespace kd
 
 			this->updateUI();
 
+			MissileManager::Update( 1.0f / FPS_LIMIT );
 			this->playerPointer->CheckEvents();
-			this->physicsChecker.Update( 1.f / FPS_LIMIT );
+			this->physicsChecker.Update( 1.0f / FPS_LIMIT );
 
 			this->windowPtr->clear( sf::Color( 100, 100, 100 ) );
 
@@ -226,6 +230,7 @@ namespace kd
 			this->windowPtr->draw( healthText[2] );
 			this->windowPtr->draw( armorText );
 			this->windowPtr->draw( baseHealthText );
+			MissileManager::Draw( *this->windowPtr );
 
 			this->windowPtr->display();
 		}

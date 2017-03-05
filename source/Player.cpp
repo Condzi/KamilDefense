@@ -9,17 +9,8 @@ namespace kd
 {
 	void Player::CheckEvents()
 	{
-		this->velocity.x = 0.0f;
-
-		if ( sf::Keyboard::isKeyPressed( this->movementKeys.left ) )
-			this->velocity.x = this->movementForces.left;
-
-		if ( sf::Keyboard::isKeyPressed( this->movementKeys.right ) )
-			this->velocity.x = this->movementForces.right;
-
-		if ( sf::Keyboard::isKeyPressed( this->movementKeys.jump ) &&
-			this->grounded )
-			this->velocity.y = movementForces.jump;
+		checkMovementEvents();
+		checkShootingEvents();
 	}
 
 	void Player::SetPosition( const sf::Vector2f& pos )
@@ -117,5 +108,53 @@ namespace kd
 		}
 
 		this->pendingDamage = 0;
+	}
+
+	void Player::checkMovementEvents()
+	{
+		this->velocity.x = 0.0f;
+
+		if ( sf::Keyboard::isKeyPressed( this->movementKeys.left ) )
+			this->velocity.x = this->movementForces.left;
+
+		if ( sf::Keyboard::isKeyPressed( this->movementKeys.right ) )
+			this->velocity.x = this->movementForces.right;
+
+		if ( sf::Keyboard::isKeyPressed( this->movementKeys.jump ) &&
+			this->grounded )
+			this->velocity.y = this->movementForces.jump;
+	}
+
+	void Player::checkShootingEvents()
+	{
+		float bulletVelocityX = 0.0f;
+		sf::Vector2f bulletStartPosition = { 0.0f,0.0f };
+		bool shoot = false;
+
+		if ( sf::Keyboard::isKeyPressed( this->shootingKeys.left ) )
+		{
+			bulletVelocityX = -MISSILE_X_VELOCITY;
+			shoot = true;
+		}
+
+		if ( sf::Keyboard::isKeyPressed( this->shootingKeys.right ) )
+		{
+			bulletVelocityX = MISSILE_X_VELOCITY;
+			shoot = true;
+		}
+
+		if ( shoot )
+		{
+			auto missile = std::make_shared<Missile>();
+
+			// temporary
+			bulletStartPosition = this->position;
+			missile->SetPosition( bulletStartPosition );
+			missile->rectangle.width = 5.0f;
+			missile->rectangle.height = 2.5f;
+			missile->SetType( entityID_t::BULLET_PLAYER );
+			missile->velocity.x = bulletVelocityX;
+			MissileManager::AddMissile( missile );
+		}
 	}
 }

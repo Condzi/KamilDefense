@@ -17,6 +17,7 @@ namespace kd
 	constexpr float SCALE = 10.0f;
 	constexpr float GRAVITY = 10.0f;
 	constexpr float OBJECT_WEIGHT = 50.0f;
+	constexpr float MISSILE_X_VELOCITY = 750.0f;
 
 	constexpr auto WINDOW_TITLE = "Kamil Defense";
 	struct
@@ -51,6 +52,7 @@ namespace kd
 		PLAYER,
 		ENEMY,
 
-		BULLET
+		BULLET_ENEMY,
+		BULLET_PLAYER
 	};
 }

@@ -10,15 +10,7 @@ namespace kd
 	Missile::Missile() :
 		BoxCollider( this )
 	{
-		this->shape.setSize( { this->rectangle.width, this->rectangle.height } );
-		this->shape.setFillColor( sf::Color::Transparent );
-		this->shape.setOutlineThickness( 0.5f );
 		this->shape.setPosition( this->position );
-
-		if ( this->GetType() == entityID_t::PLAYER )
-			shape.setOutlineColor( sf::Color::Yellow );
-		else
-			shape.setOutlineColor( sf::Color::Blue );
 	}
 
 	void Missile::SetPosition( const sf::Vector2f & pos )
@@ -31,7 +23,16 @@ namespace kd
 
 	void Missile::Update( seconds_t dt )
 	{
-		this->velocity.y += GRAVITY * ( OBJECT_WEIGHT / 10.0f ) * dt;
+		if ( this->shape.getFillColor() == sf::Color::White )
+		{
+			if ( this->GetType() == entityID_t::BULLET_PLAYER )
+				this->shape.setFillColor( sf::Color::Yellow );
+			else
+				this->shape.setFillColor( sf::Color::Blue );
+		}
+
+		this->velocity.y += GRAVITY * ( OBJECT_WEIGHT / 5.0f ) * dt;
+		this->shape.setSize( { this->rectangle.width, this->rectangle.height } );
 
 		this->rectangle.left += this->velocity.x * dt;
 		this->rectangle.top += this->velocity.y * dt;

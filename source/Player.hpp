@@ -7,12 +7,14 @@
 
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Window/Event.hpp>
 
 #include <Logger.hpp>
 
 #include "BoxCollider.hpp"
 #include "Entity.hpp" 
 #include "GameConfig.hpp"
+#include "MissileManager.hpp"
 
 namespace kd
 {
@@ -61,5 +63,8 @@ namespace kd
 
 	private:
 		void addPendingDamage();
+
+		void checkMovementEvents();
+		void checkShootingEvents();
 	};
 }

@@ -17,7 +17,7 @@ namespace kd
 	public:
 		MissileManager() = delete;
 
-		static void Initialize( std::shared_ptr<PhysicsChecker> physicCh );
+		static void Initialize( PhysicsChecker* physicCh );
 		static void Shutdown();
 
 		static void AddMissile( std::shared_ptr<Missile> missile );
@@ -28,7 +28,7 @@ namespace kd
 	private:
 		static bool correctInitialization;
 		static std::vector<std::shared_ptr<Missile>> missiles;
-		static std::weak_ptr<PhysicsChecker> physicChecker;
+		static PhysicsChecker* physicChecker;
 
 		static void removeUnusedMissiles();
 	};
