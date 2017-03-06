@@ -16,7 +16,7 @@ namespace kd
 		shape.setPosition( rectangle.left, rectangle.top );
 		shape.setSize( { rectangle.width, rectangle.height } );
 		shape.setFillColor( sf::Color::Transparent );
-		shape.setOutlineThickness( 2.f );
+		shape.setOutlineThickness( 2.0f );
 		shape.setOutlineColor( sf::Color::Red );
 
 		target.draw( shape );

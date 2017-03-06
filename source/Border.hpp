@@ -14,8 +14,8 @@
 namespace kd
 {
 	class Border final :
-		public Entity,
-		public BoxCollider
+		public BoxCollider,
+		public Entity
 	{
 	public:
 		Border() :

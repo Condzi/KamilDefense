@@ -29,7 +29,7 @@ namespace CGF_NAMESPACE
 
 		while ( this->threadRunning )
 		{
-			this->UpdateThread( 1 / 30.f, *this->windowPtr );
+			this->UpdateThread( 1 / 30.0f, *this->windowPtr );
 		}
 
 		this->lockWindowContext();

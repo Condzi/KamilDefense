@@ -35,41 +35,11 @@ namespace kd
 		}
 	}
 
-	void Player::SetHealth( uint8_t val, bool ignoreLimit )
-	{
-		if ( val > MAX_HEALTH && !ignoreLimit )
-			this->health = MAX_HEALTH;
-		else
-			this->health = val;
-	}
-
-	void Player::SetArmor( uint8_t val, bool ignoreLimit )
-	{
-		if ( val > MAX_ARMOR && !ignoreLimit )
-			this->armor = MAX_ARMOR;
-		else
-			this->armor = val;
-	}
-
-	void Player::AddDamage( uint8_t val )
-	{
-		if ( this->damageBlockTime == 0 )
-		{
-			this->pendingDamage = val;
-			this->damageBlockTime = DAMAGE_BLOCK_TIME;
-		}
-	}
-
 	void Player::Update( seconds_t dt )
 	{
 		this->updateMovement( dt );
 
-		if ( this->damageBlockTime > 0 )
-			this->damageBlockTime -= dt;
-		if ( this->damageBlockTime <= 0 )
-			this->damageBlockTime = 0;
-
-		this->addPendingDamage();
+		this->updateDamage( dt );
 	}
 
 	void Player::Draw( sf::RenderTarget& target )
@@ -78,27 +48,6 @@ namespace kd
 			cgf::Logger::Log( "Player texture is not set, nothing will be drawn", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 		else
 			target.draw( this->sprite );
-	}
-
-	void Player::addPendingDamage()
-	{
-		if ( this->pendingDamage > this->armor )
-			this->pendingDamage -= this->armor;
-		else
-		{
-			this->armor -= this->pendingDamage;
-			this->pendingDamage = 0;
-		}
-
-		if ( this->pendingDamage )
-		{
-			if ( this->pendingDamage > this->health )
-				this->health = 0;
-			else
-				this->health -= this->pendingDamage;
-		}
-
-		this->pendingDamage = 0;
 	}
 
 	void Player::checkMovementEvents()

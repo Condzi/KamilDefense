@@ -7,14 +7,6 @@
 
 namespace kd
 {
-	void Enemy::SetHealth( uint8_t val, bool ignoreLimit )
-	{
-		if ( val > MAX_HEALTH && !ignoreLimit )
-			this->health = MAX_HEALTH;
-		else
-			this->health = val;
-	}
-
 	void Enemy::SetTexture( std::shared_ptr<sf::Texture> tex )
 	{
 		if ( !tex )
@@ -37,25 +29,14 @@ namespace kd
 		this->rectangle.top = pos.y;
 	}
 
-	void Enemy::AddDamage( uint8_t val )
-	{
-		if ( this->damageBlockTime == 0 )
-		{
-			this->pendingDamage = val;
-			this->damageBlockTime = DAMAGE_BLOCK_TIME;
-		}
-	}
-
 	void Enemy::Update( seconds_t dt )
 	{
 		this->updateMovement( dt );
 
-		if ( this->damageBlockTime > 0 )
-			this->damageBlockTime -= dt;
-		if ( this->damageBlockTime <= 0 )
-			this->damageBlockTime = 0;
+		this->updateDamage( dt );
 
-		this->addPendingDamage();
+		if ( this->health == 0 )
+			this->wishDelete = true;
 
 		this->shootTime -= dt;
 		if ( this->shootTime <= 0.0f )
@@ -67,18 +48,6 @@ namespace kd
 			cgf::Logger::Log( "Enemy texture is not set, nothing will be drawn", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 		else
 			target.draw( this->sprite );
-	}
-
-	void Enemy::addPendingDamage()
-	{
-		if ( this->pendingDamage )
-		{
-			if ( this->pendingDamage > this->health )
-				this->wishDelete = true;
-			else
-				this->health -= this->pendingDamage;
-		}
-		this->pendingDamage = 0;
 	}
 
 	void Enemy::updateMovement( seconds_t dt )
@@ -96,10 +65,10 @@ namespace kd
 	void Enemy::shoot()
 	{
 		this->shootTime = ENEMY_SHOOT_COOLDOWN;
-		
+
 		auto missileLeft = std::make_shared<Missile>();
 		auto missileRight = std::make_shared<Missile>();
-	
+
 		missileLeft->SetType( entityID_t::BULLET_ENEMY );
 		missileRight->SetType( entityID_t::BULLET_ENEMY );
 

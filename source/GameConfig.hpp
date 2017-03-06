@@ -39,6 +39,7 @@ namespace kd
 
 	enum state_t
 	{
+		NONE = -1,
 		EXIT = cgf::EXIT_STATE,
 		MENU = 0,
 		PLAY

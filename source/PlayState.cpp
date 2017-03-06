@@ -86,7 +86,7 @@ namespace kd
 
 			player->SetPosition( { static_cast<float>( WINDOW_SIZE.x / 2 ), static_cast<float>( WINDOW_SIZE.y / 2 ) } );
 			player->SetMovementKeys( movementKeys_t( sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space ) );
-			player->SetMovementForces( movementForces_t( -250.f, 250.f, -500.f ) );
+			player->SetMovementForces( movementForces_t( -250.0f, 250.0f, -500.0f ) );
 		}
 
 		// Initializing bg
@@ -136,7 +136,7 @@ namespace kd
 
 		auto borderWallLeft = std::make_shared<Border>();
 		borderWallLeft->SetType( entityID_t::BORDER );
-		borderWallLeft->SetPosition( { -(2.0f * SCALE) , 0.0f } );
+		borderWallLeft->SetPosition( { -( 2.0f * SCALE ) , 0.0f } );
 		borderWallLeft->rectangle.width = 2.0f * SCALE;
 		borderWallLeft->rectangle.height = 32 * 2 * SCALE;
 
@@ -194,45 +194,22 @@ namespace kd
 
 	state_id_t PlayState::Run()
 	{
-		bool end = false;
 		sf::Event event;
 
-		while ( !end )
+		while ( !this->exit )
 		{
-			while ( this->windowPtr->pollEvent( event ) )
-			{
-				if ( event.type == sf::Event::Closed )
-					return state_t::EXIT;
-
-				if ( event.type == sf::Event::KeyReleased )
-					if ( event.key.code == sf::Keyboard::Escape )
-						end = true;
-			}
-
-			for ( auto& e : this->entities )
-				e->Update( 1.f / FPS_LIMIT );
-
 			this->removeUnusedEntities();
 
-			this->updateUI();
+			state_t stateToSwitch = this->processEvents( event );
 
-			MissileManager::Update( 1.0f / FPS_LIMIT );
-			this->playerPointer->CheckEvents();
-			this->physicsChecker.Update( 1.0f / FPS_LIMIT );
+			if ( stateToSwitch != state_t::NONE )
+			{
+				return static_cast<state_id_t>( stateToSwitch );
+			}
 
-			this->windowPtr->clear( sf::Color( 100, 100, 100 ) );
+			this->update( 1.0f / FPS_LIMIT );
 
-			for ( auto& e : this->entities )
-				e->Draw( *this->windowPtr );
-
-			this->windowPtr->draw( healthText[0] );
-			this->windowPtr->draw( healthText[1] );
-			this->windowPtr->draw( healthText[2] );
-			this->windowPtr->draw( armorText );
-			this->windowPtr->draw( baseHealthText );
-			MissileManager::Draw( *this->windowPtr );
-
-			this->windowPtr->display();
+			this->draw();
 		}
 
 		// Change in future to ::MENU
@@ -244,7 +221,7 @@ namespace kd
 		static sf::RectangleShape rectangle;
 		rectangle.setFillColor( sf::Color::Transparent );
 		rectangle.setOutlineColor( sf::Color( 125, 125, 125 ) );
-		rectangle.setOutlineThickness( 5.f );
+		rectangle.setOutlineThickness( 5.0f );
 		rectangle.setPosition( static_cast<float>( WINDOW_SIZE.x / 2 ), static_cast<float>( WINDOW_SIZE.y / 2 ) );
 		rectangle.setSize( sf::Vector2f( static_cast<float>( WINDOW_SIZE.x / 2 ), static_cast<float>( WINDOW_SIZE.y / 2 ) ) );
 		rectangle.setOrigin( rectangle.getSize().x / 2, rectangle.getSize().y / 2 );
@@ -252,7 +229,7 @@ namespace kd
 		rectangle.rotate( 90 * dt );
 		static uint32_t i = 1;
 
-		rectangle.setScale( std::fabs( std::sinf( i * 3.14f / 180.f ) ), std::fabs( std::sinf( i * 3.14f / 180.f ) ) );
+		rectangle.setScale( std::fabs( std::sinf( i * 3.14f / 180.0f ) ), std::fabs( std::sinf( i * 3.14f / 180.0f ) ) );
 		i++;
 
 		w.clear( sf::Color( 100, 100, 100 ) );
@@ -293,5 +270,50 @@ namespace kd
 			else
 				it++;
 		}
+	}
+
+	state_t PlayState::processEvents( sf::Event& ev )
+	{
+		while ( this->windowPtr->pollEvent( ev ) )
+		{
+			if ( ev.type == sf::Event::Closed )
+				return state_t::EXIT;
+
+			if ( ev.type == sf::Event::KeyReleased )
+				if ( ev.key.code == sf::Keyboard::Escape )
+					this->exit = true;
+		}
+
+		return state_t::NONE;
+	}
+
+	void PlayState::update( seconds_t dt )
+	{
+		for ( auto& e : this->entities )
+			e->Update( dt );
+
+		this->updateUI();
+		this->playerPointer->CheckEvents();
+
+		MissileManager::Update( 1.0f / FPS_LIMIT );
+		this->physicsChecker.Update( 1.0f / FPS_LIMIT );
+	}
+
+	void PlayState::draw()
+	{
+
+		this->windowPtr->clear( sf::Color( 100, 100, 100 ) );
+
+		for ( auto& e : this->entities )
+			e->Draw( *this->windowPtr );
+
+		this->windowPtr->draw( healthText[0] );
+		this->windowPtr->draw( healthText[1] );
+		this->windowPtr->draw( healthText[2] );
+		this->windowPtr->draw( armorText );
+		this->windowPtr->draw( baseHealthText );
+		MissileManager::Draw( *this->windowPtr );
+
+		this->windowPtr->display();
 	}
 }
