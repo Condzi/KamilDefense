@@ -73,14 +73,15 @@ namespace kd
 		missileRight->SetType( entityID_t::BULLET_ENEMY );
 
 		missileLeft->SetPosition( this->position );
-		missileRight->SetPosition( this->position );
+		missileRight->SetPosition( { this->position.x + ( 4 * SCALE ), this->position.y } );
 
 		missileLeft->velocity.x = -MISSILE_X_VELOCITY;
 		missileRight->velocity.x = MISSILE_X_VELOCITY;
 
 		missileLeft->rectangle.width = 5.0f;
 		missileLeft->rectangle.height = 2.5f;
-		missileRight->rectangle = missileLeft->rectangle;
+		missileRight->rectangle.width = missileLeft->rectangle.width;
+		missileRight->rectangle.height = missileLeft->rectangle.height;
 
 		MissileManager::AddMissile( missileLeft );
 		MissileManager::AddMissile( missileRight );

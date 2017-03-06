@@ -68,7 +68,7 @@ namespace kd
 	void Player::checkShootingEvents()
 	{
 		float bulletVelocityX = 0.0f;
-		sf::Vector2f bulletStartPosition = { 0.0f,0.0f };
+		float posXoffset = 0.0f;
 		bool shoot = false;
 
 		if ( sf::Keyboard::isKeyPressed( this->shootingKeys.left ) )
@@ -80,6 +80,7 @@ namespace kd
 		if ( sf::Keyboard::isKeyPressed( this->shootingKeys.right ) )
 		{
 			bulletVelocityX = MISSILE_X_VELOCITY;
+			posXoffset = -1.5f * SCALE;
 			shoot = true;
 		}
 
@@ -87,9 +88,7 @@ namespace kd
 		{
 			auto missile = std::make_shared<Missile>();
 
-			// temporary
-			bulletStartPosition = this->position;
-			missile->SetPosition( bulletStartPosition );
+			missile->SetPosition( { this->position.x + ( 3 * SCALE ) + posXoffset, this->position.y + ( 5 * SCALE ) } );
 			missile->rectangle.width = 5.0f;
 			missile->rectangle.height = 2.5f;
 			missile->SetType( entityID_t::BULLET_PLAYER );
