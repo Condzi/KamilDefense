@@ -73,13 +73,13 @@ namespace kd
 
 		if ( sf::Keyboard::isKeyPressed( this->shootingKeys.left ) )
 		{
-			bulletVelocityX = -MISSILE_X_VELOCITY;
+			bulletVelocityX = -PLAYER_MISSILE_SPEED;
 			shoot = true;
 		}
 
 		if ( sf::Keyboard::isKeyPressed( this->shootingKeys.right ) )
 		{
-			bulletVelocityX = MISSILE_X_VELOCITY;
+			bulletVelocityX = PLAYER_MISSILE_SPEED;
 			posXoffset = -1.5f * SCALE;
 			shoot = true;
 		}

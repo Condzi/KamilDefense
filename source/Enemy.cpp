@@ -75,8 +75,8 @@ namespace kd
 		missileLeft->SetPosition( this->position );
 		missileRight->SetPosition( { this->position.x + ( 4 * SCALE ), this->position.y } );
 
-		missileLeft->velocity.x = -MISSILE_X_VELOCITY;
-		missileRight->velocity.x = MISSILE_X_VELOCITY;
+		missileLeft->velocity.x = -ENEMY_MISSILE_SPEED;
+		missileRight->velocity.x = ENEMY_MISSILE_SPEED;
 
 		missileLeft->rectangle.width = 5.0f;
 		missileLeft->rectangle.height = 2.5f;

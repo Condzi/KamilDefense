@@ -28,7 +28,7 @@ namespace kd
 			if ( this->GetType() == entityID_t::BULLET_PLAYER )
 				this->shape.setFillColor( sf::Color::Yellow );
 			else
-				this->shape.setFillColor( sf::Color::Blue );
+				this->shape.setFillColor( sf::Color::Green );
 		}
 
 		this->velocity.y += GRAVITY * ( OBJECT_WEIGHT / 5.0f ) * dt;
