@@ -13,7 +13,7 @@ namespace kd
 		this->shape.setPosition( this->position );
 	}
 
-	void Missile::SetPosition( const sf::Vector2f & pos )
+	void Missile::SetPosition( const sf::Vector2f& pos )
 	{
 		this->position = pos;
 		this->rectangle.left = pos.x;

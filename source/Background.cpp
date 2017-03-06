@@ -20,7 +20,7 @@ namespace kd
 		}
 	}
 
-	void Background::Draw( sf::RenderTarget & target )
+	void Background::Draw( sf::RenderTarget& target )
 	{
 		if ( this->texture.expired() )
 		{

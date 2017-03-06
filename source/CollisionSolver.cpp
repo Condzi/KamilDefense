@@ -99,4 +99,10 @@ namespace kd
 			bulletCollider.lock()->parentPointer->SetWishDelete( true );
 		}
 	}
+
+	void CollisionSolver::BulletBullet( std::weak_ptr<BoxCollider> bulletColliderA, std::weak_ptr<BoxCollider> bulletColliderB )
+	{
+		bulletColliderA.lock()->parentPointer->SetWishDelete( true );
+		bulletColliderB.lock()->parentPointer->SetWishDelete( true );
+	}
 }
