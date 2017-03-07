@@ -40,6 +40,17 @@ namespace kd
 			this->damageBlockTime = 0.0f;
 
 		this->addPendingDamage();
+		this->updateLifeState();
+	}
+
+	void Damagable::updateLifeState()
+	{
+		if ( this->health > 0 )
+			this->lifeState = lifeState_t::Alive;
+		else if ( this->lifeState == lifeState_t::Dying )
+			this->lifeState = lifeState_t::Dead;
+		else if ( this->health <= 0 && this->lifeState != lifeState_t::Dead )
+			this->lifeState = lifeState_t::Dying;
 	}
 
 	void Damagable::addPendingDamage()

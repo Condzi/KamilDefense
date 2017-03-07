@@ -35,7 +35,7 @@ namespace kd
 
 		this->updateDamage( dt );
 
-		if ( this->health == 0 )
+		if ( this->lifeState == lifeState_t::Dead )
 			this->wishDelete = true;
 
 		this->shootTime -= dt;

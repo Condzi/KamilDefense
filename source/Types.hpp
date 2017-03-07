@@ -23,6 +23,13 @@ namespace kd
 		Top
 	};
 
+	enum lifeState_t
+	{
+		Alive = 0,
+		Dying,
+		Dead
+	};
+
 	struct shootingKeys_t final
 	{
 		sf::Keyboard::Key left, right;
