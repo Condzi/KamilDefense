@@ -7,20 +7,20 @@
 
 namespace kd
 {
-	bool MissileManager::correctInitialization;
+	bool MissileManager::initielized;
 	std::vector<std::shared_ptr<Missile>> MissileManager::missiles;
 	PhysicsChecker* MissileManager::physicChecker;
 
 	void MissileManager::Initialize( PhysicsChecker* physicCh )
 	{
-		correctInitialization = true;
+		initielized = true;
 
 		if ( !physicCh )
-			correctInitialization = false;
+			initielized = false;
 		else
 			MissileManager::physicChecker = physicCh;
 
-		if ( !correctInitialization )
+		if ( !initielized )
 			cgf::Logger::Log( "Cannot initialize Missile Manager, unassigned physicChecker!", cgf::Logger::ERROR );
 		else
 			cgf::Logger::Log( "Missile Manager initialized!" );
@@ -35,7 +35,7 @@ namespace kd
 
 	void MissileManager::AddMissile( std::shared_ptr<Missile> missile )
 	{
-		if ( !MissileManager::correctInitialization )
+		if ( !MissileManager::initielized )
 			return;
 
 		MissileManager::missiles.push_back( std::move( missile ) );
@@ -44,7 +44,7 @@ namespace kd
 
 	void MissileManager::Update( seconds_t dt )
 	{
-		if ( !MissileManager::correctInitialization )
+		if ( !MissileManager::initielized )
 			return;
 
 		MissileManager::removeUnusedMissiles();
@@ -55,7 +55,7 @@ namespace kd
 
 	void MissileManager::Draw( sf::RenderTarget& target )
 	{
-		if ( !MissileManager::correctInitialization )
+		if ( !MissileManager::initielized )
 			return;
 
 		for ( auto ptr : missiles )

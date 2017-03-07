@@ -47,8 +47,6 @@ namespace kd
 	{
 		if ( this->health > 0 )
 			this->lifeState = lifeState_t::Alive;
-		else if ( this->lifeState == lifeState_t::Dying )
-			this->lifeState = lifeState_t::Dead;
 		else if ( this->health <= 0 && this->lifeState != lifeState_t::Dead )
 			this->lifeState = lifeState_t::Dying;
 	}

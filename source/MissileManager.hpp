@@ -26,7 +26,7 @@ namespace kd
 		static void Draw( sf::RenderTarget& target );
 
 	private:
-		static bool correctInitialization;
+		static bool initielized;
 		static std::vector<std::shared_ptr<Missile>> missiles;
 		static PhysicsChecker* physicChecker;
 
