@@ -42,11 +42,6 @@ namespace kd
 		void Draw( sf::RenderTarget& target ) override;
 
 	private:
-		uint8_t health;
-		uint8_t armor;
-		uint8_t pendingDamage;
-		seconds_t damageBlockTime;
-
 		shootingKeys_t shootingKeys;
 		movementKeys_t movementKeys;
 		movementForces_t movementForces;

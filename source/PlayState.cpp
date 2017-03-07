@@ -63,8 +63,29 @@ namespace kd
 		bg->SetType( entityID_t::BACKGROUND );
 		auto player = std::make_shared<Player>();
 		player->SetType( entityID_t::PLAYER );
-		auto testEnemy = std::make_shared<Enemy>();
-		testEnemy->SetType( entityID_t::ENEMY );
+		auto enemySpawnerLeft = std::make_shared<EnemySpawner>();
+		enemySpawnerLeft->SetType( entityID_t::ENEMY_SPAWNER );
+		auto enemySpawnerRight = std::make_shared<EnemySpawner>();
+		enemySpawnerRight->SetType( entityID_t::ENEMY_SPAWNER );
+
+		{
+			enemySpawnerLeft->SetEnemyTexture( this->textures[entityID_t::ENEMY] );
+			enemySpawnerLeft->SetPosition( { 1 * 2 * SCALE, 13 * 2 * SCALE } );
+			enemySpawnerLeft->SetPhysicChecker( &this->physicsChecker );
+			enemySpawnerLeft->SetEntitiesVector( &this->entities );
+			enemySpawnerLeft->SetStartVelocity( { 250.0f, -250.0f } );
+			enemySpawnerLeft->SetSpawningTime( 5.0f );
+		}
+
+
+		{
+			enemySpawnerRight->SetEnemyTexture( this->textures[entityID_t::ENEMY] );
+			enemySpawnerRight->SetPosition( { 20 * 2 * SCALE, 13 * 2 * SCALE } );
+			enemySpawnerRight->SetPhysicChecker( &this->physicsChecker );
+			enemySpawnerRight->SetEntitiesVector( &this->entities );
+			enemySpawnerRight->SetStartVelocity( { -250.0f, -250.0f } );
+			enemySpawnerRight->SetSpawningTime( 1.0f );
+		}
 
 		// Initializing player
 		{
@@ -103,23 +124,6 @@ namespace kd
 				cgf::Logger::Log( "Cannot find BACKGROUND texture!", cgf::Logger::ERROR );
 		}
 
-		// test enemy
-		{
-			testEnemy->SetHealth( 100 );
-
-			bool found = false;
-			for ( auto& t : this->textures )
-				if ( t.first == entityID_t::ENEMY )
-				{
-					found = true;
-					testEnemy->SetTexture( t.second );
-				}
-
-			if ( !found )
-				cgf::Logger::Log( "Cannot find ENEMY texture!", cgf::Logger::ERROR );
-
-			testEnemy->SetPosition( { 0.0f,0.0f } );
-		}
 
 
 		auto borderWallDown = std::make_shared<Border>();
@@ -158,6 +162,8 @@ namespace kd
 		borderPlatformRight->rectangle.width = 8 * SCALE * 2;
 		borderPlatformRight->rectangle.height = 2.0f * SCALE;;
 
+	//	this->entities.push_back( enemySpawnerLeft );
+		this->entities.push_back( enemySpawnerRight );
 		this->entities.push_back( bg );
 		this->entities.push_back( player );
 		this->entities.push_back( borderWallDown );
@@ -166,7 +172,6 @@ namespace kd
 		this->entities.push_back( borderPlatformLeft );
 		this->entities.push_back( borderPlatformMiddle );
 		this->entities.push_back( borderPlatformRight );
-		this->entities.push_back( testEnemy );
 
 		this->physicsChecker.AddBoxCollider( player );
 		this->physicsChecker.AddBoxCollider( borderWallDown );
@@ -175,7 +180,6 @@ namespace kd
 		this->physicsChecker.AddBoxCollider( borderPlatformLeft );
 		this->physicsChecker.AddBoxCollider( borderPlatformMiddle );
 		this->physicsChecker.AddBoxCollider( borderPlatformRight );
-		this->physicsChecker.AddBoxCollider( testEnemy );
 
 		this->EndThread();
 	}
@@ -289,8 +293,8 @@ namespace kd
 
 	void PlayState::update( seconds_t dt )
 	{
-		for ( auto& e : this->entities )
-			e->Update( dt );
+		for ( size_t i = 0; i < this->entities.size(); i++ )
+			this->entities[i]->Update( dt );
 
 		this->updateUI();
 		this->playerPointer->CheckEvents();

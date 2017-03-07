@@ -56,6 +56,8 @@ namespace kd
 		ENEMY,
 
 		BULLET_ENEMY,
-		BULLET_PLAYER
+		BULLET_PLAYER,
+
+		ENEMY_SPAWNER
 	};
 }

@@ -20,6 +20,7 @@
 #include "GameConfig.hpp"
 #include "Entity.hpp"
 #include "Enemy.hpp"
+#include "EnemySpawner.hpp"
 #include "Player.hpp"
 #include "PhysicsChecker.hpp"
 
@@ -51,6 +52,7 @@ namespace kd
 		sf::Text baseHealthText;
 
 		PhysicsChecker physicsChecker;
+
 		bool exit;
 
 		void unlockWindowContext() override { windowPtr->setActive( true ); }
