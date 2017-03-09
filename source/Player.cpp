@@ -26,12 +26,11 @@ namespace kd
 			cgf::Logger::Log( "Player texture is not assigned", cgf::Logger::WARNING );
 		else
 		{
-			this->texture = tex;
-
-			this->sprite.setTexture( *this->texture.lock() );
+			this->sprite.setTexture( *tex );
 			this->sprite.setScale( SCALE, SCALE );
 
-			this->rectangle = this->sprite.getGlobalBounds();
+			this->rectangle.width = this->sprite.getGlobalBounds().width;
+			this->rectangle.height = this->sprite.getGlobalBounds().height;
 		}
 	}
 
@@ -44,7 +43,7 @@ namespace kd
 
 	void Player::Draw( sf::RenderTarget& target )
 	{
-		if ( this->texture.expired() )
+		if ( this->sprite.getTexture() == nullptr )
 			cgf::Logger::Log( "Player texture is not set, nothing will be drawn", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 		else
 			target.draw( this->sprite );

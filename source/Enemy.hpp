@@ -37,7 +37,6 @@ namespace kd
 		void Draw( sf::RenderTarget& target );
 
 	private:
-		std::weak_ptr<sf::Texture> texture;
 		sf::Sprite sprite;
 
 		seconds_t shootTime;

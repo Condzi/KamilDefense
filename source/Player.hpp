@@ -46,7 +46,6 @@ namespace kd
 		movementKeys_t movementKeys;
 		movementForces_t movementForces;
 
-		std::weak_ptr<sf::Texture> texture;
 		sf::Sprite sprite;
 
 	private:

@@ -13,8 +13,7 @@ namespace kd
 			cgf::Logger::Log( "Background texture is not assigned", cgf::Logger::WARNING );
 		else
 		{
-			this->texture = tex;
-			this->sprite.setTexture( *texture.lock() );
+			this->sprite.setTexture( *tex );
 			this->sprite.scale( 2.0f, 2.0f );
 			this->sprite.scale( SCALE, SCALE );
 		}
@@ -22,12 +21,9 @@ namespace kd
 
 	void Background::Draw( sf::RenderTarget& target )
 	{
-		if ( this->texture.expired() )
-		{
+		if ( this->sprite.getTexture() == nullptr )
 			cgf::Logger::Log( "Background texture is not set, nothing will be drawn", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
-			return;
-		}
-
-		target.draw( this->sprite );
+		else
+			target.draw( this->sprite );
 	}
 }

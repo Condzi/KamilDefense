@@ -13,9 +13,7 @@ namespace kd
 			cgf::Logger::Log( "Enemy texture is not assigned", cgf::Logger::WARNING );
 		else
 		{
-			this->texture = tex;
-
-			this->sprite.setTexture( *this->texture.lock() );
+			this->sprite.setTexture( *tex );
 			this->sprite.setScale( SCALE, SCALE );
 
 			this->rectangle.width = this->sprite.getGlobalBounds().width;
@@ -47,7 +45,7 @@ namespace kd
 
 	void Enemy::Draw( sf::RenderTarget& target )
 	{
-		if ( this->texture.expired() )
+		if ( this->sprite.getTexture() == nullptr )
 			cgf::Logger::Log( "Enemy texture is not set, nothing will be drawn", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 		else
 			target.draw( this->sprite );
