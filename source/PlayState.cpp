@@ -70,21 +70,20 @@ namespace kd
 
 		{
 			enemySpawnerLeft->SetEnemyTexture( this->textures[entityID_t::ENEMY] );
-			enemySpawnerLeft->SetPosition( { 1 * 2 * SCALE, 13 * 2 * SCALE } );
+			enemySpawnerLeft->SetPosition( { 1 * 2 * SCALE, 10 * 2 * SCALE } );
 			enemySpawnerLeft->SetPhysicChecker( &this->physicsChecker );
 			enemySpawnerLeft->SetEntitiesVector( &this->entities );
 			enemySpawnerLeft->SetStartVelocity( { 250.0f, -250.0f } );
 			enemySpawnerLeft->SetSpawningTime( 5.0f );
 		}
-
-
+		
 		{
 			enemySpawnerRight->SetEnemyTexture( this->textures[entityID_t::ENEMY] );
-			enemySpawnerRight->SetPosition( { 20 * 2 * SCALE, 13 * 2 * SCALE } );
+			enemySpawnerRight->SetPosition( { 28 * 2 * SCALE, 10 * 2 * SCALE } );
 			enemySpawnerRight->SetPhysicChecker( &this->physicsChecker );
 			enemySpawnerRight->SetEntitiesVector( &this->entities );
 			enemySpawnerRight->SetStartVelocity( { -250.0f, -250.0f } );
-			enemySpawnerRight->SetSpawningTime( 1.0f );
+			enemySpawnerRight->SetSpawningTime( 5.0f );
 		}
 
 		// Initializing player
@@ -162,7 +161,7 @@ namespace kd
 		borderPlatformRight->rectangle.width = 8 * SCALE * 2;
 		borderPlatformRight->rectangle.height = 2.0f * SCALE;;
 
-	//	this->entities.push_back( enemySpawnerLeft );
+		this->entities.push_back( enemySpawnerLeft );
 		this->entities.push_back( enemySpawnerRight );
 		this->entities.push_back( bg );
 		this->entities.push_back( player );

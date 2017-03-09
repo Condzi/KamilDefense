@@ -18,7 +18,8 @@ namespace kd
 			this->sprite.setTexture( *this->texture.lock() );
 			this->sprite.setScale( SCALE, SCALE );
 
-			this->rectangle = this->sprite.getGlobalBounds();
+			this->rectangle.width = this->sprite.getGlobalBounds().width;
+			this->rectangle.height = this->sprite.getGlobalBounds().height;
 		}
 	}
 
@@ -43,6 +44,7 @@ namespace kd
 		if ( this->shootTime <= 0.0f )
 			this->shoot();
 	}
+
 	void Enemy::Draw( sf::RenderTarget& target )
 	{
 		if ( this->texture.expired() )
