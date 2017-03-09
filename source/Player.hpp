@@ -38,7 +38,6 @@ namespace kd
 		void SetMovementForces( const movementForces_t& forces ) { this->movementForces = forces; }
 
 		void Update( seconds_t dt ) override;
-		void CheckEvents();
 		void Draw( sf::RenderTarget& target ) override;
 
 	private:
@@ -48,9 +47,9 @@ namespace kd
 
 		sf::Sprite sprite;
 
-	private:
 		void checkMovementEvents();
 		void checkShootingEvents();
+		void checkEvents();
 
 		void updateMovement( seconds_t dt );
 	};

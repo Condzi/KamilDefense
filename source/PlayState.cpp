@@ -295,11 +295,11 @@ namespace kd
 		for ( size_t i = 0; i < this->entities.size(); i++ )
 			this->entities[i]->Update( dt );
 
+		this->physicsChecker.Update( 1.0f / FPS_LIMIT );
+	
 		this->updateUI();
-		this->playerPointer->CheckEvents();
 
 		MissileManager::Update( 1.0f / FPS_LIMIT );
-		this->physicsChecker.Update( 1.0f / FPS_LIMIT );
 	}
 
 	void PlayState::draw()

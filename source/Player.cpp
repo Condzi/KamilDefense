@@ -7,12 +7,6 @@
 
 namespace kd
 {
-	void Player::CheckEvents()
-	{
-		checkMovementEvents();
-		checkShootingEvents();
-	}
-
 	void Player::SetPosition( const sf::Vector2f& pos )
 	{
 		this->position = pos;
@@ -37,7 +31,7 @@ namespace kd
 	void Player::Update( seconds_t dt )
 	{
 		this->updateMovement( dt );
-
+		this->checkEvents();
 		this->updateDamage( dt );
 	}
 
@@ -109,5 +103,11 @@ namespace kd
 		this->position = { this->rectangle.left, this->rectangle.top };
 
 		this->sprite.setPosition( this->position );
+	}
+
+	void Player::checkEvents()
+	{
+		checkMovementEvents();
+		checkShootingEvents();
 	}
 }
