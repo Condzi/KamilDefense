@@ -20,13 +20,13 @@ namespace kd
 		{}
 		virtual ~Entity() = default;
 
-		entityID_t GetType() { return this->type; }
-		sf::Vector2f GetPosition() { return this->position; }
-		bool IsWishingDelete() { return this->wishDelete; }
+		virtual sf::Vector2f GetPosition() { return this->position; }
+		virtual bool IsWishingDelete() { return this->wishDelete; }
+		virtual entityID_t GetType() { return this->type; }
 
-		void SetType( entityID_t t ) { this->type = t; }
 		virtual void SetPosition( const sf::Vector2f& pos ) { this->position = pos; }
-		void SetWishDelete( bool val ) { this->wishDelete = val; }
+		virtual void SetWishDelete( bool val ) { this->wishDelete = val; }
+		virtual void SetType( entityID_t t ) { this->type = t; }
 
 		virtual void Update( seconds_t dt ) {};
 		virtual void Draw( sf::RenderTarget& target ) {};
