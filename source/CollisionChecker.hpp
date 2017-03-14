@@ -16,10 +16,10 @@
 
 namespace kd
 {
-	class PhysicsChecker final
+	class CollisionChecker final
 	{
 	public:
-		PhysicsChecker()
+		CollisionChecker()
 		{}
 
 		bool AddBoxCollider( std::shared_ptr<BoxCollider> collider );
@@ -32,10 +32,10 @@ namespace kd
 	private:
 		void removeUnusedEntities();
 
-		bool collidedLeft( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b );
-		bool collidedRight( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b );
-		bool collidedDown( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b );
-		bool collidedTop( const sf::FloatRect& a, const sf::FloatRect& a_old, const sf::FloatRect& b );
+		bool collidedLeft( const sf::FloatRect& a, const sf::FloatRect& aOld, const sf::FloatRect& b );
+		bool collidedRight( const sf::FloatRect& a, const sf::FloatRect& aOld, const sf::FloatRect& b );
+		bool collidedDown( const sf::FloatRect& a, /*const sf::FloatRect& aOld,*/ const sf::FloatRect& b );
+		bool collidedTop( const sf::FloatRect& a, const sf::FloatRect& aOld, const sf::FloatRect& b );
 
 		collisionSide_t getCollisionSide( const sf::FloatRect& collAupdated, const sf::FloatRect& collA, const sf::FloatRect& collB );
 		void resolveCollision( std::weak_ptr<BoxCollider> collA, std::weak_ptr<BoxCollider> collB, collisionSide_t collAside );
