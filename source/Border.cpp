@@ -7,6 +7,13 @@
 
 namespace kd
 {
+	void Border::SetPosition( const sf::Vector2f & pos )
+	{
+		this->position = pos;
+		this->rectangle.left = this->position.x;
+		this->rectangle.top = this->position.y;
+	}
+
 	void Border::Draw( sf::RenderTarget& target )
 	{
 		if ( !DEBUG_DRAW_BORDERS )

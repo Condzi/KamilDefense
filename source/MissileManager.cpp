@@ -9,9 +9,9 @@ namespace kd
 {
 	bool MissileManager::initielized;
 	std::vector<std::shared_ptr<Missile>> MissileManager::missiles;
-	PhysicsChecker* MissileManager::physicChecker;
+	CollisionChecker* MissileManager::physicChecker;
 
-	void MissileManager::Initialize( PhysicsChecker* physicCh )
+	void MissileManager::Initialize( CollisionChecker* physicCh )
 	{
 		initielized = true;
 

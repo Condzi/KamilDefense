@@ -94,7 +94,7 @@ namespace kd
 			player->SetArmor( MAX_ARMOR );
 
 			bool found = false;
-			for ( auto& t : this->textures )
+			for ( auto t : this->textures )
 				if ( t.first == entityID_t::PLAYER )
 				{
 					found = true;
@@ -112,7 +112,7 @@ namespace kd
 		// Initializing bg
 		{
 			bool found = false;
-			for ( auto& t : this->textures )
+			for ( auto t : this->textures )
 				if ( t.first == entityID_t::BACKGROUND )
 				{
 					found = true;
@@ -187,7 +187,6 @@ namespace kd
 	{
 		this->StartThread();
 
-		this->playerPointer.reset();
 		this->entities.clear();
 		this->textures.clear();
 		MissileManager::Shutdown();
@@ -245,7 +244,7 @@ namespace kd
 
 	void PlayState::updateUI()
 	{
-		auto hp = this->playerPointer->GetHealth();
+		auto hp = this->playerPointer.lock()->GetHealth();
 
 		if ( hp >= 100 )
 			this->healthText[2].setString( sf::String( std::to_string( hp )[2] ) );
@@ -259,7 +258,7 @@ namespace kd
 
 		this->healthText[0].setString( sf::String( std::to_string( hp )[0] ) );
 
-		this->armorText.setString( std::to_string( playerPointer->GetArmor() ) );
+		this->armorText.setString( std::to_string( playerPointer.lock()->GetArmor() ) );
 
 		this->baseHealthText.setString( "0" );
 	}

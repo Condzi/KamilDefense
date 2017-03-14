@@ -16,9 +16,6 @@ namespace CGF_NAMESPACE
 {
 	class StateMachine final
 	{
-	private:
-		std::unique_ptr<State> createState( state_id_t id );
-
 	public:
 		StateMachine( state_id_t startState = 0 ) :
 			actualState( startState )
@@ -47,5 +44,8 @@ namespace CGF_NAMESPACE
 		std::unordered_map<state_id_t, std::function<std::unique_ptr<State>()>> factories;
 
 		state_id_t actualState;
+
+		std::unique_ptr<State> createState( state_id_t id );
+
 	};
 }

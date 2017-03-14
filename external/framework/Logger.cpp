@@ -22,8 +22,8 @@ namespace CGF_NAMESPACE
 
 	void Logger::Shutdown()
 	{
-		Logger::file.close();
 		Logger::Log( "Logger shutdown!" );
+		Logger::file.close();
 	}
 
 	void Logger::Log( const std::string& msg, prefix_t prefix, output_t output )

@@ -7,7 +7,7 @@
 
 #include <Logger.hpp>
 
-#include "PhysicsChecker.hpp"
+#include "CollisionChecker.hpp"
 #include "Missile.hpp"
 
 namespace kd
@@ -17,7 +17,7 @@ namespace kd
 	public:
 		MissileManager() = delete;
 
-		static void Initialize( PhysicsChecker* physicCh );
+		static void Initialize( CollisionChecker* physicCh );
 		static void Shutdown();
 
 		static void AddMissile( std::shared_ptr<Missile> missile );
@@ -28,7 +28,7 @@ namespace kd
 	private:
 		static bool initielized;
 		static std::vector<std::shared_ptr<Missile>> missiles;
-		static PhysicsChecker* physicChecker;
+		static CollisionChecker* physicChecker;
 
 		static void removeUnusedMissiles();
 		static bool isInWindowBounds( const sf::Vector2f& pos );

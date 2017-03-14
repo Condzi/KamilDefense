@@ -7,7 +7,7 @@
 
 namespace kd
 {
-	void EnemySpawner::SetPhysicChecker( PhysicsChecker * phChPtr )
+	void EnemySpawner::SetPhysicChecker( CollisionChecker * phChPtr )
 	{
 		if ( !phChPtr )
 			cgf::Logger::Log( "PhysicChecker pointer is not assinged in EnemySpawner", cgf::Logger::WARNING );

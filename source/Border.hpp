@@ -22,7 +22,7 @@ namespace kd
 			BoxCollider( this )
 		{}
 
-		void SetPosition( const sf::Vector2f& pos ) override { this->position = pos; this->rectangle.left = this->position.x; this->rectangle.top = this->position.y; }
+		void SetPosition( const sf::Vector2f& pos ) override;
 		void Draw( sf::RenderTarget& target ) override;
 	};
 }

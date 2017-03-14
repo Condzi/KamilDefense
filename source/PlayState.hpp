@@ -22,7 +22,7 @@
 #include "Enemy.hpp"
 #include "EnemySpawner.hpp"
 #include "Player.hpp"
-#include "PhysicsChecker.hpp"
+#include "CollisionChecker.hpp"
 
 namespace kd
 {
@@ -43,7 +43,7 @@ namespace kd
 
 	private:
 		std::vector<std::shared_ptr<Entity>> entities;
-		std::shared_ptr<Player> playerPointer;
+		std::weak_ptr<Player> playerPointer;
 		std::map<entityID_t, std::shared_ptr<sf::Texture>> textures;
 
 		sf::Font font;
@@ -51,7 +51,7 @@ namespace kd
 		sf::Text armorText;
 		sf::Text baseHealthText;
 
-		PhysicsChecker physicsChecker;
+		CollisionChecker physicsChecker;
 
 		bool exit;
 

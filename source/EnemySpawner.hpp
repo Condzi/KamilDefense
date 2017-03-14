@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "Enemy.hpp"
-#include "PhysicsChecker.hpp"
+#include "CollisionChecker.hpp"
 
 namespace kd
 {
@@ -25,7 +25,7 @@ namespace kd
 			spawningTime( 0 )
 		{}
 
-		void SetPhysicChecker( PhysicsChecker* phChPtr );
+		void SetPhysicChecker( CollisionChecker* phChPtr );
 		void SetEntitiesVector( std::vector<std::shared_ptr<Entity>>* enVecPtr );
 		void SetEnemyTexture( std::shared_ptr<sf::Texture> tex );
 		void SetStartVelocity( const sf::Vector2f& vel )
@@ -40,7 +40,7 @@ namespace kd
 		void Update( seconds_t dt ) override;
 
 	private:
-		PhysicsChecker* physicCheckerPtr;
+		CollisionChecker* physicCheckerPtr;
 		std::vector<std::shared_ptr<Entity>>* entitiesVectorPtr;
 		std::weak_ptr<sf::Texture> enemyTexture;
 
