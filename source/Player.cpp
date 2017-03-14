@@ -14,13 +14,13 @@ namespace kd
 		this->rectangle.top = pos.y;
 	}
 
-	void Player::SetTexture( std::shared_ptr<sf::Texture> tex )
+	void Player::SetTexture( std::weak_ptr<sf::Texture> tex )
 	{
-		if ( !tex )
-			cgf::Logger::Log( "Player texture is not assigned", cgf::Logger::WARNING );
+		if ( tex.expired() )
+			cgf::Logger::Log( "Player texture is not assigned / is expired", cgf::Logger::ERROR );
 		else
 		{
-			this->sprite.setTexture( *tex );
+			this->sprite.setTexture( *tex.lock() );
 			this->sprite.setScale( SCALE, SCALE );
 
 			this->rectangle.width = this->sprite.getGlobalBounds().width;

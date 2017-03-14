@@ -7,13 +7,13 @@
 
 namespace kd
 {
-	void Enemy::SetTexture( std::shared_ptr<sf::Texture> tex )
+	void Enemy::SetTexture( std::weak_ptr<sf::Texture> tex )
 	{
-		if ( !tex )
-			cgf::Logger::Log( "Enemy texture is not assigned", cgf::Logger::WARNING );
+		if ( tex.expired() )
+			cgf::Logger::Log( "Enemy texture is not assigned / is expired", cgf::Logger::ERROR );
 		else
 		{
-			this->sprite.setTexture( *tex );
+			this->sprite.setTexture( *tex.lock() );
 			this->sprite.setScale( SCALE, SCALE );
 
 			this->rectangle.width = this->sprite.getGlobalBounds().width;

@@ -66,8 +66,8 @@ namespace kd
 		for ( auto spawner : this->spawners )
 			entitiesPtr->push_back( spawner );
 
-		// Here will be bug with drawing order - I need to implement drawing layers to prevent it.
 		entitiesPtr->push_back( this->background );
+		this->background->SetDrawLayer( 0 );
 
 		for ( auto border : this->borders )
 			collisionCheckerPtr->AddBoxCollider( border );

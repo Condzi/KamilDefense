@@ -76,7 +76,7 @@ namespace kd
 			enemySpawnerLeft->SetStartVelocity( { 250.0f, -250.0f } );
 			enemySpawnerLeft->SetSpawningTime( 5.0f );
 		}
-		
+
 		{
 			enemySpawnerRight->SetEnemyTexture( this->textures[entityID_t::ENEMY] );
 			enemySpawnerRight->SetPosition( { 28 * 2 * SCALE, 10 * 2 * SCALE } );
@@ -274,6 +274,18 @@ namespace kd
 		}
 	}
 
+	void PlayState::updateDrawables()
+	{
+		// temporary
+		this->drawables.clear();
+
+		for ( auto entity : this->entities )
+		{
+			if ( std::dynamic_pointer_cast<Drawable>( entity ) )
+				this->drawables.push_back( std::dynamic_pointer_cast<Drawable>( entity ) );
+		}
+	}
+
 	state_t PlayState::processEvents( sf::Event& ev )
 	{
 		while ( this->windowPtr->pollEvent( ev ) )
@@ -295,19 +307,20 @@ namespace kd
 			this->entities[i]->Update( dt );
 
 		this->physicsChecker.Update( 1.0f / FPS_LIMIT );
-	
+
 		this->updateUI();
 
 		MissileManager::Update( 1.0f / FPS_LIMIT );
+
+		this->updateDrawables();
 	}
 
 	void PlayState::draw()
 	{
-
 		this->windowPtr->clear( sf::Color( 100, 100, 100 ) );
 
-		for ( auto& e : this->entities )
-			e->Draw( *this->windowPtr );
+		for ( auto d : this->drawables )
+			d.lock()->Draw( *this->windowPtr );
 
 		this->windowPtr->draw( healthText[0] );
 		this->windowPtr->draw( healthText[1] );

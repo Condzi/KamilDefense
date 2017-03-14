@@ -43,6 +43,7 @@ namespace kd
 
 	private:
 		std::vector<std::shared_ptr<Entity>> entities;
+		std::vector<std::weak_ptr<Drawable>> drawables;
 		std::weak_ptr<Player> playerPointer;
 		std::map<entityID_t, std::shared_ptr<sf::Texture>> textures;
 
@@ -55,11 +56,18 @@ namespace kd
 
 		bool exit;
 
-		void unlockWindowContext() override { windowPtr->setActive( true ); }
-		void lockWindowContext() override { windowPtr->setActive( false ); }
+		void unlockWindowContext() override 
+		{ 
+			windowPtr->setActive( true ); 
+		}
+		void lockWindowContext() override 
+		{ 
+			windowPtr->setActive( false ); 
+		}
 
 		void updateUI();
 		void removeUnusedEntities();
+		void updateDrawables();
 
 		state_t processEvents( sf::Event& ev );
 		void update( seconds_t dt );

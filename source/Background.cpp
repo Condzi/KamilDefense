@@ -7,13 +7,13 @@
 
 namespace kd
 {
-	void Background::SetTexture( std::shared_ptr<sf::Texture> tex )
+	void Background::SetTexture( std::weak_ptr<sf::Texture> tex )
 	{
-		if ( !tex )
-			cgf::Logger::Log( "Background texture is not assigned", cgf::Logger::WARNING );
+		if ( tex.expired() )
+			cgf::Logger::Log( "Background texture is not assigned / is expired", cgf::Logger::ERROR );
 		else
 		{
-			this->sprite.setTexture( *tex );
+			this->sprite.setTexture( *tex.lock() );
 			this->sprite.scale( 2.0f, 2.0f );
 			this->sprite.scale( SCALE, SCALE );
 		}

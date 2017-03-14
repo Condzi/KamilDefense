@@ -11,6 +11,7 @@
 
 #include "BoxCollider.hpp"
 #include "Damagable.hpp"
+#include "Drawable.hpp"
 #include "Entity.hpp"
 #include "MissileManager.hpp"
 
@@ -18,6 +19,7 @@ namespace kd
 {
 	class Enemy :
 		public Damagable,
+		public Drawable,
 		public BoxCollider,
 		public Entity
 	{
@@ -27,11 +29,11 @@ namespace kd
 			shootTime( ENEMY_SHOOT_COOLDOWN )
 		{}
 
-		void SetTexture( std::shared_ptr<sf::Texture> tex );
+		void SetTexture( std::weak_ptr<sf::Texture> tex ) override;
 		void SetPosition( const sf::Vector2f& pos ) override;
 
 		void Update( seconds_t dt ) override;
-		void Draw( sf::RenderTarget& target );
+		void Draw( sf::RenderTarget& target ) override;
 
 	private:
 		sf::Sprite sprite;

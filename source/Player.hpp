@@ -13,6 +13,7 @@
 
 #include "BoxCollider.hpp"
 #include "Damagable.hpp"
+#include "Drawable.hpp"
 #include "Entity.hpp" 
 #include "GameConfig.hpp"
 #include "MissileManager.hpp"
@@ -20,8 +21,9 @@
 namespace kd
 {
 	class Player final :
-		public Entity,
 		public BoxCollider,
+		public Drawable,
+		public Entity,
 		public Damagable
 	{
 	public:
@@ -33,9 +35,15 @@ namespace kd
 		{}
 
 		void SetPosition( const sf::Vector2f& pos ) override;
-		void SetTexture( std::shared_ptr<sf::Texture> texture );
-		void SetMovementKeys( const movementKeys_t& keys ) { this->movementKeys = keys; }
-		void SetMovementForces( const movementForces_t& forces ) { this->movementForces = forces; }
+		void SetTexture( std::weak_ptr<sf::Texture> texture ) override;
+		void SetMovementKeys( const movementKeys_t& keys )
+		{
+			this->movementKeys = keys;
+		}
+		void SetMovementForces( const movementForces_t& forces )
+		{
+			this->movementForces = forces;
+		}
 
 		void Update( seconds_t dt ) override;
 		void Draw( sf::RenderTarget& target ) override;

@@ -29,7 +29,6 @@ namespace kd
 		virtual void SetType( entityID_t t ) { this->type = t; }
 
 		virtual void Update( seconds_t dt ) {};
-		virtual void Draw( sf::RenderTarget& target ) {};
 
 	protected:
 		sf::Vector2f position;
