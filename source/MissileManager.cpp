@@ -7,21 +7,21 @@
 
 namespace kd
 {
-	bool MissileManager::initielized;
+	bool MissileManager::initialized;
 	std::vector<std::shared_ptr<Missile>> MissileManager::missiles;
-	CollisionChecker* MissileManager::physicChecker;
+	CollisionChecker* MissileManager::collisionChecker;
 
 	void MissileManager::Initialize( CollisionChecker* physicCh )
 	{
-		initielized = true;
+		initialized = true;
 
 		if ( !physicCh )
-			initielized = false;
+			initialized = false;
 		else
-			MissileManager::physicChecker = physicCh;
+			MissileManager::collisionChecker = physicCh;
 
-		if ( !initielized )
-			cgf::Logger::Log( "Cannot initialize Missile Manager, unassigned physicChecker!", cgf::Logger::ERROR );
+		if ( !initialized )
+			cgf::Logger::Log( "Cannot initialize Missile Manager, unassigned collisionChecker!", cgf::Logger::ERROR );
 		else
 			cgf::Logger::Log( "Missile Manager initialized!" );
 
@@ -35,16 +35,16 @@ namespace kd
 
 	void MissileManager::AddMissile( std::shared_ptr<Missile> missile )
 	{
-		if ( !MissileManager::initielized )
+		if ( !MissileManager::initialized )
 			return;
 
 		MissileManager::missiles.push_back( std::move( missile ) );
-		MissileManager::physicChecker->AddBoxCollider( MissileManager::missiles.back() );
+		MissileManager::collisionChecker->AddBoxCollider( MissileManager::missiles.back() );
 	}
 
 	void MissileManager::Update( seconds_t dt )
 	{
-		if ( !MissileManager::initielized )
+		if ( !MissileManager::initialized )
 			return;
 
 		MissileManager::removeUnusedMissiles();
@@ -55,7 +55,7 @@ namespace kd
 
 	void MissileManager::Draw( sf::RenderTarget& target )
 	{
-		if ( !MissileManager::initielized )
+		if ( !MissileManager::initialized )
 			return;
 
 		for ( auto ptr : missiles )

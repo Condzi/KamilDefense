@@ -276,7 +276,7 @@ namespace kd
 
 	void PlayState::updateDrawables()
 	{
-		// temporary
+		// temporary?
 		this->drawables.clear();
 
 		for ( auto entity : this->entities )
@@ -319,8 +319,16 @@ namespace kd
 	{
 		this->windowPtr->clear( sf::Color( 100, 100, 100 ) );
 
-		for ( auto d : this->drawables )
-			d.lock()->Draw( *this->windowPtr );
+		size_t entitiesAlreadyDrawed = 0;
+		for ( int8_t currentLayer = -128; ( currentLayer < 127 && entitiesAlreadyDrawed < this->drawables.size() ); currentLayer++ )
+		{
+			for ( auto drawable : this->drawables )
+				if ( drawable.lock()->GetDrawLayer() == currentLayer )
+				{
+					drawable.lock()->Draw( *this->windowPtr );
+					entitiesAlreadyDrawed++;
+				}
+		}
 
 		this->windowPtr->draw( healthText[0] );
 		this->windowPtr->draw( healthText[1] );

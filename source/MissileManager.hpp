@@ -26,9 +26,10 @@ namespace kd
 		static void Draw( sf::RenderTarget& target );
 
 	private:
-		static bool initielized;
+		static bool initialized;
 		static std::vector<std::shared_ptr<Missile>> missiles;
-		static CollisionChecker* physicChecker;
+		// Why I don't add them once to CollisionChecker and entityHolder?
+		static CollisionChecker* collisionChecker;
 
 		static void removeUnusedMissiles();
 		static bool isInWindowBounds( const sf::Vector2f& pos );
