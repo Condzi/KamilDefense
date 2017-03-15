@@ -17,19 +17,18 @@ namespace kd
 	public:
 		MissileManager() = delete;
 
-		static void Initialize( CollisionChecker* physicCh );
+		static void Initialize( CollisionChecker* physicCh, std::vector<std::shared_ptr<Entity>>* entPtr );
 		static void Shutdown();
 
 		static void AddMissile( std::shared_ptr<Missile> missile );
 
 		static void Update( seconds_t dt );
-		static void Draw( sf::RenderTarget& target );
 
 	private:
 		static bool initialized;
-		static std::vector<std::shared_ptr<Missile>> missiles;
-		// Why I don't add them once to CollisionChecker and entityHolder?
-		static CollisionChecker* collisionChecker;
+		static std::vector<std::weak_ptr<Missile>> missiles;
+		static CollisionChecker* collisionCheckerPtr;
+		static std::vector<std::shared_ptr<Entity>>* entitiesPtr;
 
 		static void removeUnusedMissiles();
 		static bool isInWindowBounds( const sf::Vector2f& pos );

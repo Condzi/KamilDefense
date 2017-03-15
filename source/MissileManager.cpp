@@ -8,28 +8,42 @@
 namespace kd
 {
 	bool MissileManager::initialized;
-	std::vector<std::shared_ptr<Missile>> MissileManager::missiles;
-	CollisionChecker* MissileManager::collisionChecker;
+	std::vector<std::weak_ptr<Missile>> MissileManager::missiles;
+	CollisionChecker* MissileManager::collisionCheckerPtr;
+	std::vector<std::shared_ptr<Entity>>* MissileManager::entitiesPtr;
 
-	void MissileManager::Initialize( CollisionChecker* physicCh )
+	void MissileManager::Initialize( CollisionChecker* physicCh, std::vector<std::shared_ptr<Entity>>* entPtr )
 	{
-		initialized = true;
+		MissileManager::initialized = true;
 
 		if ( !physicCh )
-			initialized = false;
+			MissileManager::initialized = false;
 		else
-			MissileManager::collisionChecker = physicCh;
+			MissileManager::collisionCheckerPtr = physicCh;
+
+		if ( !entPtr )
+			MissileManager::initialized = false;
+		else
+			MissileManager::entitiesPtr = entPtr;
+
 
 		if ( !initialized )
-			cgf::Logger::Log( "Cannot initialize Missile Manager, unassigned collisionChecker!", cgf::Logger::ERROR );
+			cgf::Logger::Log( "Cannot initialize Missile Manager, unassigned collisionCheckerPtr or entitiesPtr", cgf::Logger::ERROR );
 		else
 			cgf::Logger::Log( "Missile Manager initialized!" );
-
 	}
 
 	void MissileManager::Shutdown()
 	{
+		if ( !MissileManager::initialized )
+			cgf::Logger::Log( "Trying to shutdown unitialized missile manager...", cgf::Logger::WARNING );
+
+		for ( auto ptr : MissileManager::missiles )
+			if ( !ptr.expired() )
+				ptr.lock()->SetWishDelete( true );
+
 		MissileManager::missiles.clear();
+		MissileManager::initialized = false;
 		cgf::Logger::Log( "Missile Manager shutdown!" );
 	}
 
@@ -38,8 +52,9 @@ namespace kd
 		if ( !MissileManager::initialized )
 			return;
 
-		MissileManager::missiles.push_back( std::move( missile ) );
-		MissileManager::collisionChecker->AddBoxCollider( MissileManager::missiles.back() );
+		MissileManager::missiles.push_back( missile );
+		MissileManager::collisionCheckerPtr->AddBoxCollider( missile );
+		MissileManager::entitiesPtr->push_back( missile );
 	}
 
 	void MissileManager::Update( seconds_t dt )
@@ -48,26 +63,18 @@ namespace kd
 			return;
 
 		MissileManager::removeUnusedMissiles();
-
-		for ( auto ptr : missiles )
-			ptr->Update( dt );
-	}
-
-	void MissileManager::Draw( sf::RenderTarget& target )
-	{
-		if ( !MissileManager::initialized )
-			return;
-
-		for ( auto ptr : missiles )
-			ptr->Draw( target );
 	}
 
 	void MissileManager::removeUnusedMissiles()
 	{
+		for ( auto ptr : MissileManager::missiles )
+			if ( !MissileManager::isInWindowBounds( ( ptr.lock()->GetPosition() ) ) )
+				ptr.lock()->SetWishDelete( true );
+
 		for ( auto it = MissileManager::missiles.begin(); it != MissileManager::missiles.end();)
 		{
-			if ( ( *it )->IsWishingDelete() || 
-				!MissileManager::isInWindowBounds( ( *it )->GetPosition() ) )
+			if ( ( *it ).expired() ||
+				( *it ).lock()->IsWishingDelete() )
 				it = MissileManager::missiles.erase( it );
 			else
 				it++;

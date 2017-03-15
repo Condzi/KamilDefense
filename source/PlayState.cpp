@@ -11,7 +11,7 @@ namespace kd
 	{
 		this->StartThread();
 
-		MissileManager::Initialize( &this->physicsChecker );
+		MissileManager::Initialize( &this->physicsChecker, &this->entities );
 
 		if ( !this->font.loadFromFile( FONT ) )
 			cgf::Logger::Log( "Cannot load font file!", cgf::Logger::ERROR );
@@ -335,7 +335,6 @@ namespace kd
 		this->windowPtr->draw( healthText[2] );
 		this->windowPtr->draw( armorText );
 		this->windowPtr->draw( baseHealthText );
-		MissileManager::Draw( *this->windowPtr );
 
 		this->windowPtr->display();
 	}
