@@ -21,8 +21,7 @@ namespace kd
 			physicCheckerPtr( nullptr ),
 			entitiesVectorPtr( nullptr ),
 			startVelocity( 0, 0 ),
-			spawningTimeEleapsed( 0 ),
-			spawningTime( 0 )
+			spawningTimeEleapsed( 0 ), spawningTime( 0 )
 		{}
 
 		void SetPhysicChecker( CollisionChecker* phChPtr );
@@ -45,8 +44,7 @@ namespace kd
 		std::weak_ptr<sf::Texture> enemyTexture;
 
 		sf::Vector2f startVelocity;
-		seconds_t spawningTimeEleapsed;
-		seconds_t spawningTime;
+		seconds_t spawningTimeEleapsed, spawningTime;
 
 		void spawnEnemy();
 	};

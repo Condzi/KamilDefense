@@ -18,7 +18,7 @@ int main()
 
 	cgf::StateMachine stateMachine;
 
-	stateMachine.RegisterState<kd::PlayState>( static_cast<stateID_t>( kd::state_t::MENU ), &window );
+	stateMachine.RegisterState<kd::PlayState>( static_cast<int16_t>( kd::state_t::MENU ), &window );
 
 	stateMachine.Run();
 

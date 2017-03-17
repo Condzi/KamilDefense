@@ -224,7 +224,7 @@ namespace kd
 		this->EndThread();
 	}
 
-	stateID_t PlayState::Run()
+	int16_t PlayState::Run()
 	{
 		sf::Event event;
 
@@ -236,7 +236,7 @@ namespace kd
 
 			if ( stateToSwitch != state_t::NONE )
 			{
-				return static_cast<stateID_t>( stateToSwitch );
+				return static_cast<int16_t>( stateToSwitch );
 			}
 
 			this->update( 1.0f / FPS_LIMIT );
@@ -245,7 +245,7 @@ namespace kd
 		}
 
 		// Change in future to ::MENU
-		return static_cast<stateID_t>( state_t::EXIT );
+		return static_cast<int16_t>( state_t::EXIT );
 	}
 
 	void PlayState::UpdateThread( seconds_t dt, window_t& w )

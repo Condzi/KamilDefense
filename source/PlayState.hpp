@@ -36,7 +36,7 @@ namespace kd
 
 		void OnStart() override;
 		void OnStop() override;
-		stateID_t Run() override;
+		int16_t Run() override;
 
 		void UpdateThread( seconds_t dt, window_t& w ) override;
 

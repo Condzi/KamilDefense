@@ -29,7 +29,7 @@ namespace CGF_NAMESPACE
 
 		virtual void OnStart() = 0;
 		virtual void OnStop() = 0;
-		virtual stateID_t Run() = 0;
+		virtual int16_t Run() = 0;
 
 		// Call it when you need to load resources and you don't want to freeze window
 		// Don't forget to call EndThread() 

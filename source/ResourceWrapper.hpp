@@ -15,13 +15,11 @@ namespace kd
 	{
 	public:
 		ResourceWrapper() :
-			priority( 0 ),
-			resourceID( 0 )
+			priority( 0 ), resourceID( 0 )
 		{}
 		ResourceWrapper( const Resource& res ) :
 			Resource( res ),
-			priority( 0 ),
-			resourceID( 0 )
+			priority( 0 ), resourceID( 0 )
 		{}
 
 		uint8_t GetResourcePriority()
@@ -43,7 +41,6 @@ namespace kd
 		}
 
 	private:
-		uint8_t priority;
-		uint8_t resourceID;
+		uint8_t priority, resourceID;
 	};
 }

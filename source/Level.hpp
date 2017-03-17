@@ -58,14 +58,14 @@ namespace kd
 			this->levelData = lvlData;
 		}
 
-		internal::levelData_t& GetLEvelData()
+		internal::levelData_t& GetLevelData()
 		{
 			return this->levelData;
 		}
 
 		bool Load( const std::string& path );
 		void Save( const std::string& path );
-		// In future - maybe pass pointer to entityID_t::BACKGROUND only?
+		// !!! Uprgade it to new ResourceHolder! !!! 
 		void InitializeTextures( std::map<entityID_t, std::shared_ptr<sf::Texture>>* textures );
 		void InitializePlayer( std::shared_ptr<Player> player );
 
