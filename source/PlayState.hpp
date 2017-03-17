@@ -8,8 +8,6 @@
 #include <memory>
 
 #include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/Font.hpp>
-#include <SFML/Graphics/Text.hpp>
 #include <SFML/Window/Event.hpp>
 
 #include <Logger.hpp>
@@ -17,12 +15,13 @@
 
 #include "Border.hpp"
 #include "Background.hpp"
-#include "GameConfig.hpp"
+#include "CollisionChecker.hpp"
 #include "Entity.hpp"
 #include "Enemy.hpp"
 #include "EnemySpawner.hpp"
+#include "GameConfig.hpp"
 #include "Player.hpp"
-#include "CollisionChecker.hpp"
+#include "ResourceHolder.hpp"
 
 namespace kd
 {
@@ -37,7 +36,7 @@ namespace kd
 
 		void OnStart() override;
 		void OnStop() override;
-		state_id_t Run() override;
+		stateID_t Run() override;
 
 		void UpdateThread( seconds_t dt, window_t& w ) override;
 
@@ -45,12 +44,12 @@ namespace kd
 		std::vector<std::shared_ptr<Entity>> entities;
 		std::vector<std::weak_ptr<Drawable>> drawables;
 		std::weak_ptr<Player> playerPointer;
-		std::map<entityID_t, std::shared_ptr<sf::Texture>> textures;
+		//std::map<entityID_t, std::shared_ptr<sf::Texture>> textures;
 
-		sf::Font font;
-		sf::Text healthText[3];
-		sf::Text armorText;
-		sf::Text baseHealthText;
+		//sf::Font font;
+		//sf::Text healthText[3];
+		//sf::Text armorText;
+		//sf::Text baseHealthText;
 
 		CollisionChecker physicsChecker;
 

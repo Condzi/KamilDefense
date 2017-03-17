@@ -48,7 +48,7 @@ namespace kd
 				if ( !collAupdated.intersects( collB ) )
 					continue;
 
-				resolveCollision( colliders[j], colliders[i], getCollisionSide( collAupdated, collA, collB ) );
+				this->resolveCollision( colliders[j], colliders[i], getCollisionSide( collAupdated, collA, collB ) );
 			}
 	}
 
@@ -91,16 +91,16 @@ namespace kd
 
 	collisionSide_t CollisionChecker::getCollisionSide( const sf::FloatRect& collAupdated, const sf::FloatRect& collA, const sf::FloatRect& collB )
 	{
-		collisionSide_t collAside = None;
+		collisionSide_t collAside = collisionSide_t::NONE;
 
 		if ( collidedLeft( collAupdated, collA, collB ) )
-			collAside = Left;
+			collAside = collisionSide_t::LEFT;
 		else if ( collidedRight( collAupdated, collA, collB ) )
-			collAside = Right;
+			collAside = collisionSide_t::RIGHT;
 		else if ( collidedTop( collAupdated, collA, collB ) )
-			collAside = Top;
+			collAside = collisionSide_t::TOP;
 		else if ( collidedDown( collAupdated, /*collA,*/ collB ) )
-			collAside = Down;
+			collAside = collisionSide_t::DOWN;
 
 		return collAside;
 	}

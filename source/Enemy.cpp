@@ -35,7 +35,7 @@ namespace kd
 		this->updateDamage( dt );
 
 		// In future some cool animation after Dying
-		if ( this->lifeState == lifeState_t::Dying )
+		if ( this->lifeState == lifeState_t::DYING )
 			this->wishDelete = true;
 
 		this->shootTime -= dt;

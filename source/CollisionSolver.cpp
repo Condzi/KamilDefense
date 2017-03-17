@@ -9,7 +9,7 @@ namespace kd
 {
 	void CollisionSolver::EntityEntity( std::weak_ptr<BoxCollider> colliderA, std::weak_ptr<BoxCollider> colliderB, collisionSide_t colliderAcollisionSide )
 	{
-		if ( colliderAcollisionSide == None )
+		if ( colliderAcollisionSide == collisionSide_t::NONE )
 		{
 			cgf::Logger::Log( "Collision solver have wrong collision side info - possible error!", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 			return;
@@ -18,20 +18,20 @@ namespace kd
 		auto& rectA = colliderA.lock()->rectangle;
 		auto& rectB = colliderB.lock()->rectangle;
 
-		if ( colliderAcollisionSide == Left )
+		if ( colliderAcollisionSide == collisionSide_t::LEFT )
 		{
 			rectA.left = rectB.left - rectA.width;
 			colliderA.lock()->velocity.x = 0;
-		} else if ( colliderAcollisionSide == Right )
+		} else if ( colliderAcollisionSide == collisionSide_t::RIGHT )
 		{
 			rectA.left = rectB.left + rectB.width;
 			colliderA.lock()->velocity.x = 0;
-		} else if ( colliderAcollisionSide == Down )
+		} else if ( colliderAcollisionSide == collisionSide_t::DOWN )
 		{
 			rectA.top = rectB.top - rectA.height;
 			colliderA.lock()->velocity.y = 0;
 			colliderA.lock()->grounded = true;
-		} else if ( colliderAcollisionSide == Top )
+		} else if ( colliderAcollisionSide == collisionSide_t::TOP )
 		{
 			rectA.top = rectB.top + rectB.height;
 			colliderA.lock()->velocity.y = 0;
@@ -40,7 +40,7 @@ namespace kd
 
 	void CollisionSolver::EnemyEntity( std::weak_ptr<BoxCollider> enemyCollider, std::weak_ptr<BoxCollider> colliderB, collisionSide_t enemyCollisionSide )
 	{
-		if ( enemyCollisionSide == None )
+		if ( enemyCollisionSide == collisionSide_t::NONE )
 		{
 			cgf::Logger::Log( "Collision solver have wrong collision side info - possible error!", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 			return;
@@ -49,19 +49,19 @@ namespace kd
 		auto& rectA = enemyCollider.lock()->rectangle;
 		auto& rectB = colliderB.lock()->rectangle;
 
-		if ( enemyCollisionSide == Left )
+		if ( enemyCollisionSide == collisionSide_t::LEFT )
 		{
 			rectA.left = rectB.left - rectA.width;
 			enemyCollider.lock()->velocity.x = -enemyCollider.lock()->velocity.x;
-		} else if ( enemyCollisionSide == Right )
+		} else if ( enemyCollisionSide == collisionSide_t::RIGHT )
 		{
 			rectA.left = rectB.left + rectB.width;
 			enemyCollider.lock()->velocity.x = -enemyCollider.lock()->velocity.x;
-		} else if ( enemyCollisionSide == Down )
+		} else if ( enemyCollisionSide == collisionSide_t::DOWN )
 		{
 			rectA.top = rectB.top - rectA.height;
 			enemyCollider.lock()->velocity.y = 0;
-		} else if ( enemyCollisionSide == Top )
+		} else if ( enemyCollisionSide == collisionSide_t::TOP )
 		{
 			rectA.top = rectB.top + rectB.height;
 			enemyCollider.lock()->velocity.y = 0;
@@ -99,7 +99,7 @@ namespace kd
 			bulletCollider.lock()->parentPointer->SetWishDelete( true );
 		}
 	}
-
+	 
 	void CollisionSolver::BulletBullet( std::weak_ptr<BoxCollider> bulletColliderA, std::weak_ptr<BoxCollider> bulletColliderB )
 	{
 		bulletColliderA.lock()->parentPointer->SetWishDelete( true );

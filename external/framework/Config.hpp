@@ -16,7 +16,7 @@
 using seconds_t = float;
 // Use it instead of naming resources (create enum RESOURCES_ID {myResource = 1, other = 12} etc
 using unique_resource_id_t = int16_t;
-using state_id_t = int16_t;
+using stateID_t = int16_t;
 // Set this type to your window type. For example - if you are using SFML, set it to sf::RenderWindow
 using window_t = sf::RenderWindow;
 
@@ -31,7 +31,7 @@ namespace CGF_NAMESPACE
 	constexpr size_t MAX_RESOURCES = 0xded;
 
 	// ID that never should be used to normal state - return this in State::Run if you want to exit State Machine
-	constexpr state_id_t EXIT_STATE = -0xded;
+	constexpr stateID_t EXIT_STATE = -0xded;
 
 	static auto& LOGGER_STREAM = std::cout;
 

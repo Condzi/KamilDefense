@@ -46,9 +46,9 @@ namespace kd
 	void Damagable::updateLifeState()
 	{
 		if ( this->health > 0 )
-			this->lifeState = lifeState_t::Alive;
-		else if ( this->health <= 0 && this->lifeState != lifeState_t::Dead )
-			this->lifeState = lifeState_t::Dying;
+			this->lifeState = lifeState_t::ALIVE;
+		else if ( this->health <= 0 && this->lifeState != lifeState_t::DEAD )
+			this->lifeState = lifeState_t::DYING;
 	}
 
 	void Damagable::addPendingDamage()

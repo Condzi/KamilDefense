@@ -16,7 +16,7 @@ namespace kd
 		Entity() :
 			position( 0, 0 ),
 			wishDelete( false ),
-			type( UNINITIALIZED )
+			type( entityID_t::UNINITIALIZED )
 		{}
 		virtual ~Entity() = default;
 

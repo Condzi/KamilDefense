@@ -8,26 +8,91 @@
 #include <cinttypes>
 
 #include <SFML/Window/Keyboard.hpp>
-#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 #include <Config.hpp>
 
+#include "ResourceWrapper.hpp"
+
+
 namespace kd
 {
-	enum collisionSide_t
+	using textureResource_t = ResourceWrapper<sf::Texture>;
+	using fontResource_t = ResourceWrapper<sf::Font>;
+	using textResource_t = ResourceWrapper<sf::Text>;
+
+	enum class resourcePriorites_t
 	{
-		None = -1,
-		Left = 0,
-		Right,
-		Down,
-		Top
+		UI = 0,
+		ENTITIES,
+		LEVEL
 	};
 
-	enum lifeState_t
+	enum class textureResourceID_t
 	{
-		Alive = 0,
-		Dying,
-		Dead
+		LEVEL_BG = 0,
+		ENEMY,
+		PLAYER,
+
+		count
+	};
+
+	enum class textResourceID_t
+	{
+		HP_1 = static_cast<uint8_t>( textureResourceID_t::count ),
+		HP_2,
+		HP_3,
+		ARMOR,
+		BASE_HP,
+
+		count
+	};
+
+	enum class fontResourceID_t
+	{
+		UI_FONT = static_cast<uint8_t>( textResourceID_t::count ),
+
+		count
+	};
+
+	enum class collisionSide_t
+	{
+		NONE = -1,
+		LEFT = 0,
+		RIGHT,
+		DOWN,
+		TOP
+	};
+
+	enum class lifeState_t
+	{
+		ALIVE = 0,
+		DYING,
+		DEAD
+	};
+
+	enum class state_t
+	{
+		NONE = -1,
+		EXIT = cgf::EXIT_STATE,
+		MENU = 0,
+		PLAY
+	};
+
+	enum class entityID_t
+	{
+		UNINITIALIZED = -1,
+		BACKGROUND = 0,
+		BORDER,
+
+		PLAYER,
+		ENEMY,
+
+		BULLET_ENEMY,
+		BULLET_PLAYER,
+
+		ENEMY_SPAWNER
 	};
 
 	struct shootingKeys_t final

@@ -16,7 +16,7 @@ namespace kd
 		Damagable() :
 			health( 0 ),
 			armor( 0 ),
-			lifeState( lifeState_t::Alive ),
+			lifeState( lifeState_t::ALIVE ),
 			damageBlockTime( DAMAGE_BLOCK_TIME ),
 			pendingDamage( 0 )
 		{}

@@ -7,7 +7,7 @@
 
 namespace CGF_NAMESPACE
 {
-	std::unique_ptr<State> StateMachine::createState( state_id_t id )
+	std::unique_ptr<State> StateMachine::createState( stateID_t id )
 	{
 		auto result = this->factories.find( id );
 
@@ -19,7 +19,7 @@ namespace CGF_NAMESPACE
 
 	void StateMachine::Run()
 	{
-		state_id_t nextState = this->actualState;
+		stateID_t nextState = this->actualState;
 
 		this->stack.resize( this->factories.size() );
 

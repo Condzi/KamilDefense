@@ -11,16 +11,18 @@
 int main()
 {
 	cgf::Logger::Initialize();
+	kd::ResourceHolder::Initialize();
 
 	window_t window( { kd::WINDOW_SIZE.x, kd::WINDOW_SIZE.y }, kd::WINDOW_TITLE );
 	window.setFramerateLimit( kd::FPS_LIMIT );
 
 	cgf::StateMachine stateMachine;
 
-	stateMachine.RegisterState<kd::PlayState>( static_cast<state_id_t>( kd::state_t::MENU ), &window );
+	stateMachine.RegisterState<kd::PlayState>( static_cast<stateID_t>( kd::state_t::MENU ), &window );
 
 	stateMachine.Run();
 
+	kd::ResourceHolder::Shutdown();
 	cgf::Logger::Shutdown();
 
 	return 0;

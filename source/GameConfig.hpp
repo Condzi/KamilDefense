@@ -33,31 +33,8 @@ namespace kd
 	constexpr float PLAYER_MISSILE_SPEED = 750.0f;
 	constexpr float ENEMY_MISSILE_SPEED = 375.0f;
 
-	constexpr auto FONT = "data/fonts/wendy.ttf";
-	constexpr auto PLAYER_TEXTURE = "data/textures/player.png";
-	constexpr auto ENEMY_TEXTURE = "data/textures/enemy.png";
-	constexpr auto BACKGROUND_TEXTURE = "data/textures/base.png";
-
-	enum state_t
-	{
-		NONE = -1,
-		EXIT = cgf::EXIT_STATE,
-		MENU = 0,
-		PLAY
-	};
-
-	enum entityID_t
-	{
-		UNINITIALIZED = -1,
-		BACKGROUND = 0,
-		BORDER,
-
-		PLAYER,
-		ENEMY,
-
-		BULLET_ENEMY,
-		BULLET_PLAYER,
-
-		ENEMY_SPAWNER
-	};
+	constexpr auto FONT_PATH = "data/fonts/wendy.ttf";
+	constexpr auto PLAYER_TEXTURE_PATH = "data/textures/player.png";
+	constexpr auto ENEMY_TEXTURE_PATH = "data/textures/enemy.png";
+	constexpr auto BACKGROUND_TEXTURE_PATH = "data/textures/base.png";
 }

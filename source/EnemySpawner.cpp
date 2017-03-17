@@ -23,9 +23,9 @@ namespace kd
 		this->entitiesVectorPtr = enVecPtr;
 	}
 
-	void EnemySpawner::SetEnemyTexture( std::shared_ptr<sf::Texture> tex )
+	void EnemySpawner::SetEnemyTexture( std::weak_ptr<sf::Texture> tex )
 	{
-		if ( !tex )
+		if ( tex.expired() )
 			cgf::Logger::Log( "Texture pointer is not assigned in EnemySpawner", cgf::Logger::WARNING );
 
 		this->enemyTexture = tex;

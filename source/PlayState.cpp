@@ -13,50 +13,101 @@ namespace kd
 
 		MissileManager::Initialize( &this->physicsChecker, &this->entities );
 
-		if ( !this->font.loadFromFile( FONT ) )
-			cgf::Logger::Log( "Cannot load font file!", cgf::Logger::ERROR );
-		else
+		// Loading font
 		{
-			this->healthText[0].setFont( this->font );
-			this->healthText[1].setFont( this->font );
-			this->healthText[2].setFont( this->font );
-
-			this->armorText.setFont( this->font );
-
-			this->baseHealthText.setFont( this->font );
+			ResourceHolder::fonts.push_back( std::make_shared<fontResource_t>() );
+			if ( !ResourceHolder::fonts.back()->loadFromFile( FONT_PATH ) )
+			{
+				ResourceHolder::fonts.pop_back();
+				cgf::Logger::Log( "Cannot load font file!", cgf::Logger::ERROR );
+			} else
+			{
+				ResourceHolder::fonts.back()->SetResourceID( static_cast<uint8_t>( fontResourceID_t::UI_FONT ) );
+				ResourceHolder::fonts.back()->SetResourcePriority( static_cast<uint8_t>( resourcePriorites_t::UI ) );
+			}
 		}
-
+		// Initializing texts
 		{
-			this->healthText[0].setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
-			this->healthText[1].setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
-			this->healthText[2].setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
+			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
+			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( textResourceID_t::HP_1 ) );
+			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
+			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( textResourceID_t::HP_2 ) );
+			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
+			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( textResourceID_t::HP_3 ) );
+			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
+			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( textResourceID_t::ARMOR ) );
+			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
+			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( textResourceID_t::BASE_HP ) );
 
-			this->armorText.setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
-
-			this->baseHealthText.setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
+			for ( auto text : ResourceHolder::texts )
+				text->SetResourcePriority( static_cast<uint8_t>( resourcePriorites_t::UI ) );
 		}
-
+		// Initializing texts fonts
 		{
-			this->healthText[0].setPosition( 64.5f * SCALE, 0 );
-			this->healthText[1].setPosition( 64.5f * SCALE, 5 * SCALE );
-			this->healthText[2].setPosition( 64.5f * SCALE, 10 * SCALE );
-
-			this->armorText.setPosition( 1 * SCALE, 62 * SCALE );
-
-			this->baseHealthText.setPosition( 64 * SCALE, 62 * SCALE );
+			// if there is font
+			if ( ResourceHolder::fonts.size() )
+			{
+				for ( auto text : ResourceHolder::texts )
+					text->setFont( *ResourceHolder::fonts.back().get() );
+			}
+		}
+		// Initializing texts sizes
+		{
+			for ( auto text : ResourceHolder::texts )
+				text->setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
+		}
+		// Initializing texts posiion
+		{
+			for ( auto text : ResourceHolder::texts )
+			{
+				if ( text->GetResourceID() == static_cast<uint8_t>( textResourceID_t::HP_1 ) )
+					text->setPosition( 64.5f * SCALE, 0 );
+				else if ( text->GetResourceID() == static_cast<uint8_t>( textResourceID_t::HP_2 ) )
+					text->setPosition( 64.5f * SCALE, 5 * SCALE );
+				else if ( text->GetResourceID() == static_cast<uint8_t>( textResourceID_t::HP_3 ) )
+					text->setPosition( 64.5f * SCALE, 10 * SCALE );
+				else if ( text->GetResourceID() == static_cast<uint8_t>( textResourceID_t::ARMOR ) )
+					text->setPosition( 1 * SCALE, 62 * SCALE );
+				else if ( text->GetResourceID() == static_cast<uint8_t>( textResourceID_t::BASE_HP ) )
+					text->setPosition( 64 * SCALE, 62 * SCALE );
+			}
 		}
 
 		// Loading textures
 		{
-			this->textures[entityID_t::PLAYER] = std::make_shared<sf::Texture>();
-			this->textures[entityID_t::PLAYER]->loadFromFile( PLAYER_TEXTURE );
+			ResourceHolder::textures.push_back( std::make_shared<textureResource_t>() );
 
+			if ( !ResourceHolder::textures.back()->loadFromFile( PLAYER_TEXTURE_PATH ) )
+			{
+				ResourceHolder::textures.pop_back();
+				cgf::Logger::Log( "Cannot load texture from path \"" + std::string( PLAYER_TEXTURE_PATH ) + "\"", cgf::Logger::ERROR );
+			} else
+			{
+				ResourceHolder::textures.back()->SetResourceID( static_cast<uint8_t>( textureResourceID_t::PLAYER ) );
+				ResourceHolder::textures.back()->SetResourcePriority( static_cast<uint8_t>( resourcePriorites_t::ENTITIES ) );
+			}
 
-			this->textures[entityID_t::BACKGROUND] = std::make_shared<sf::Texture>();
-			this->textures[entityID_t::BACKGROUND]->loadFromFile( BACKGROUND_TEXTURE );
+			ResourceHolder::textures.push_back( std::make_shared<textureResource_t>() );
+			if ( !ResourceHolder::textures.back()->loadFromFile( ENEMY_TEXTURE_PATH ) )
+			{
+				ResourceHolder::textures.pop_back();
+				cgf::Logger::Log( "Cannot load texture from path \"" + std::string( ENEMY_TEXTURE_PATH ) + "\"", cgf::Logger::ERROR );
+			} else
+			{
+				ResourceHolder::textures.back()->SetResourceID( static_cast<uint8_t>( textureResourceID_t::ENEMY ) );
+				ResourceHolder::textures.back()->SetResourcePriority( static_cast<uint8_t>( resourcePriorites_t::ENTITIES ) );
+			}
 
-			this->textures[entityID_t::ENEMY] = std::make_shared<sf::Texture>();
-			this->textures[entityID_t::ENEMY]->loadFromFile( ENEMY_TEXTURE );
+			ResourceHolder::textures.push_back( std::make_shared<textureResource_t>() );
+			if ( !ResourceHolder::textures.back()->loadFromFile( BACKGROUND_TEXTURE_PATH ) )
+			{
+				ResourceHolder::textures.pop_back();
+				cgf::Logger::Log( "Cannot load texture from path \"" + std::string( BACKGROUND_TEXTURE_PATH ) + "\"", cgf::Logger::ERROR );
+			} else
+			{
+				ResourceHolder::textures.back()->SetResourceID( static_cast<uint8_t>( textureResourceID_t::LEVEL_BG ) );
+				ResourceHolder::textures.back()->SetResourcePriority( static_cast<uint8_t>( resourcePriorites_t::LEVEL ) );
+			}
 		}
 
 		auto bg = std::make_shared<Background>();
@@ -69,7 +120,7 @@ namespace kd
 		enemySpawnerRight->SetType( entityID_t::ENEMY_SPAWNER );
 
 		{
-			enemySpawnerLeft->SetEnemyTexture( this->textures[entityID_t::ENEMY] );
+			enemySpawnerLeft->SetEnemyTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::ENEMY ) ) );
 			enemySpawnerLeft->SetPosition( { 1 * 2 * SCALE, 10 * 2 * SCALE } );
 			enemySpawnerLeft->SetPhysicChecker( &this->physicsChecker );
 			enemySpawnerLeft->SetEntitiesVector( &this->entities );
@@ -78,7 +129,7 @@ namespace kd
 		}
 
 		{
-			enemySpawnerRight->SetEnemyTexture( this->textures[entityID_t::ENEMY] );
+			enemySpawnerRight->SetEnemyTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::ENEMY ) ) );
 			enemySpawnerRight->SetPosition( { 28 * 2 * SCALE, 10 * 2 * SCALE } );
 			enemySpawnerRight->SetPhysicChecker( &this->physicsChecker );
 			enemySpawnerRight->SetEntitiesVector( &this->entities );
@@ -93,16 +144,7 @@ namespace kd
 			player->SetHealth( MAX_HEALTH );
 			player->SetArmor( MAX_ARMOR );
 
-			bool found = false;
-			for ( auto t : this->textures )
-				if ( t.first == entityID_t::PLAYER )
-				{
-					found = true;
-					player->SetTexture( t.second );
-				}
-
-			if ( !found )
-				cgf::Logger::Log( "Cannot find PLAYER texture!", cgf::Logger::ERROR );
+			player->SetTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::PLAYER ) ) );
 
 			player->SetPosition( { static_cast<float>( WINDOW_SIZE.x / 2 ), static_cast<float>( WINDOW_SIZE.y / 2 ) } );
 			player->SetMovementKeys( movementKeys_t( sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space ) );
@@ -110,18 +152,7 @@ namespace kd
 		}
 
 		// Initializing bg
-		{
-			bool found = false;
-			for ( auto t : this->textures )
-				if ( t.first == entityID_t::BACKGROUND )
-				{
-					found = true;
-					bg->SetTexture( t.second );
-				}
-
-			if ( !found )
-				cgf::Logger::Log( "Cannot find BACKGROUND texture!", cgf::Logger::ERROR );
-		}
+		bg->SetTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::LEVEL_BG ) ) );
 
 
 
@@ -188,13 +219,12 @@ namespace kd
 		this->StartThread();
 
 		this->entities.clear();
-		this->textures.clear();
 		MissileManager::Shutdown();
 
 		this->EndThread();
 	}
 
-	state_id_t PlayState::Run()
+	stateID_t PlayState::Run()
 	{
 		sf::Event event;
 
@@ -206,7 +236,7 @@ namespace kd
 
 			if ( stateToSwitch != state_t::NONE )
 			{
-				return static_cast<state_id_t>( stateToSwitch );
+				return static_cast<stateID_t>( stateToSwitch );
 			}
 
 			this->update( 1.0f / FPS_LIMIT );
@@ -215,7 +245,7 @@ namespace kd
 		}
 
 		// Change in future to ::MENU
-		return state_t::EXIT;
+		return static_cast<stateID_t>( state_t::EXIT );
 	}
 
 	void PlayState::UpdateThread( seconds_t dt, window_t& w )
@@ -247,20 +277,20 @@ namespace kd
 		auto hp = this->playerPointer.lock()->GetHealth();
 
 		if ( hp >= 100 )
-			this->healthText[2].setString( sf::String( std::to_string( hp )[2] ) );
+			ResourceHolder::GetText(static_cast<uint8_t>(textResourceID_t::HP_3)).lock()->setString( sf::String( std::to_string( hp )[2] ) );
 		else
-			this->healthText[2].setString( "-" );
+			ResourceHolder::GetText( static_cast<uint8_t>( textResourceID_t::HP_3 ) ).lock()->setString( "-" );
 
 		if ( hp >= 10 )
-			this->healthText[1].setString( sf::String( std::to_string( hp )[1] ) );
+			ResourceHolder::GetText( static_cast<uint8_t>( textResourceID_t::HP_2 ) ).lock()->setString( sf::String( std::to_string( hp )[1] ) );
 		else
-			this->healthText[1].setString( "-" );
+			ResourceHolder::GetText( static_cast<uint8_t>( textResourceID_t::HP_2 ) ).lock()->setString( "-" );
 
-		this->healthText[0].setString( sf::String( std::to_string( hp )[0] ) );
+		ResourceHolder::GetText( static_cast<uint8_t>( textResourceID_t::HP_1 ) ).lock()->setString( sf::String( std::to_string( hp )[0] ) );
 
-		this->armorText.setString( std::to_string( playerPointer.lock()->GetArmor() ) );
+		ResourceHolder::GetText( static_cast<uint8_t>( textResourceID_t::ARMOR ) ).lock()->setString( std::to_string( playerPointer.lock()->GetArmor() ) );
 
-		this->baseHealthText.setString( "0" );
+		ResourceHolder::GetText( static_cast<uint8_t>( textResourceID_t::BASE_HP ) ).lock()->setString( "0" );
 	}
 
 	void PlayState::removeUnusedEntities()
@@ -330,11 +360,8 @@ namespace kd
 				}
 		}
 
-		this->windowPtr->draw( healthText[0] );
-		this->windowPtr->draw( healthText[1] );
-		this->windowPtr->draw( healthText[2] );
-		this->windowPtr->draw( armorText );
-		this->windowPtr->draw( baseHealthText );
+		for ( auto text : ResourceHolder::texts )
+			this->windowPtr->draw( *text );
 
 		this->windowPtr->display();
 	}

@@ -27,7 +27,7 @@ namespace kd
 
 		void SetPhysicChecker( CollisionChecker* phChPtr );
 		void SetEntitiesVector( std::vector<std::shared_ptr<Entity>>* enVecPtr );
-		void SetEnemyTexture( std::shared_ptr<sf::Texture> tex );
+		void SetEnemyTexture( std::weak_ptr<sf::Texture> tex );
 		void SetStartVelocity( const sf::Vector2f& vel )
 		{
 			this->startVelocity = vel;
