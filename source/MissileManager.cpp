@@ -52,6 +52,7 @@ namespace kd
 		if ( !MissileManager::initialized )
 			return;
 
+		missile->SetDrawLayer( 1 );
 		MissileManager::missiles.push_back( missile );
 		MissileManager::collisionCheckerPtr->AddBoxCollider( missile );
 		MissileManager::entitiesPtr->push_back( missile );

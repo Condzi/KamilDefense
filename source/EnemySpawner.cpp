@@ -47,6 +47,7 @@ namespace kd
 		auto enemy = std::make_shared<Enemy>();
 
 		enemy->SetType( entityID_t::ENEMY );
+		enemy->SetDrawLayer( 1 );
 		enemy->SetPosition( this->position );
 		enemy->SetHealth( 100 );
 		enemy->velocity = this->startVelocity;

@@ -11,7 +11,7 @@ namespace kd
 	{
 		this->StartThread();
 
-		MissileManager::Initialize( &this->physicsChecker, &this->entities );
+		MissileManager::Initialize( &this->collisionChecker, &this->entities );
 
 		// Loading font
 		{
@@ -110,33 +110,10 @@ namespace kd
 			}
 		}
 
-		auto bg = std::make_shared<Background>();
-		bg->SetType( entityID_t::BACKGROUND );
+
 		auto player = std::make_shared<Player>();
 		player->SetType( entityID_t::PLAYER );
-		auto enemySpawnerLeft = std::make_shared<EnemySpawner>();
-		enemySpawnerLeft->SetType( entityID_t::ENEMY_SPAWNER );
-		auto enemySpawnerRight = std::make_shared<EnemySpawner>();
-		enemySpawnerRight->SetType( entityID_t::ENEMY_SPAWNER );
-
-		{
-			enemySpawnerLeft->SetEnemyTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::ENEMY ) ) );
-			enemySpawnerLeft->SetPosition( { 1 * 2 * SCALE, 10 * 2 * SCALE } );
-			enemySpawnerLeft->SetPhysicChecker( &this->physicsChecker );
-			enemySpawnerLeft->SetEntitiesVector( &this->entities );
-			enemySpawnerLeft->SetStartVelocity( { 250.0f, -250.0f } );
-			enemySpawnerLeft->SetSpawningTime( 5.0f );
-		}
-
-		{
-			enemySpawnerRight->SetEnemyTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::ENEMY ) ) );
-			enemySpawnerRight->SetPosition( { 28 * 2 * SCALE, 10 * 2 * SCALE } );
-			enemySpawnerRight->SetPhysicChecker( &this->physicsChecker );
-			enemySpawnerRight->SetEntitiesVector( &this->entities );
-			enemySpawnerRight->SetStartVelocity( { -250.0f, -250.0f } );
-			enemySpawnerRight->SetSpawningTime( 5.0f );
-		}
-
+		player->SetDrawLayer( 1 );
 		// Initializing player
 		{
 			this->playerPointer = player;
@@ -151,65 +128,13 @@ namespace kd
 			player->SetMovementForces( movementForces_t( -250.0f, 250.0f, -500.0f ) );
 		}
 
-		// Initializing bg
-		bg->SetTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::LEVEL_BG ) ) );
-
-
-
-		auto borderWallDown = std::make_shared<Border>();
-		borderWallDown->SetType( entityID_t::BORDER );
-		borderWallDown->SetPosition( { 0, 31 * 2 * SCALE } );
-		borderWallDown->rectangle.width = 32 * 2 * SCALE;
-		borderWallDown->rectangle.height = 2.0f * SCALE;
-
-		auto borderWallRight = std::make_shared<Border>();
-		borderWallRight->SetType( entityID_t::BORDER );
-		borderWallRight->SetPosition( { 32 * 2 * SCALE, 0 } );
-		borderWallRight->rectangle.width = 2.0f * SCALE;
-		borderWallRight->rectangle.height = 32 * 2 * SCALE;
-
-		auto borderWallLeft = std::make_shared<Border>();
-		borderWallLeft->SetType( entityID_t::BORDER );
-		borderWallLeft->SetPosition( { -( 2.0f * SCALE ) , 0.0f } );
-		borderWallLeft->rectangle.width = 2.0f * SCALE;
-		borderWallLeft->rectangle.height = 32 * 2 * SCALE;
-
-		auto borderPlatformLeft = std::make_shared<Border>();
-		borderPlatformLeft->SetType( entityID_t::BORDER );
-		borderPlatformLeft->SetPosition( { 0.0f, 21 * SCALE * 2 } );
-		borderPlatformLeft->rectangle.width = 8 * SCALE * 2;
-		borderPlatformLeft->rectangle.height = 2.0f * SCALE;
-
-		auto borderPlatformMiddle = std::make_shared<Border>();
-		borderPlatformMiddle->SetType( entityID_t::BORDER );
-		borderPlatformMiddle->SetPosition( { 11.0f * 2 * SCALE, 15 * SCALE * 2 } );
-		borderPlatformMiddle->rectangle.width = 10 * SCALE * 2;
-		borderPlatformMiddle->rectangle.height = 2.0f * SCALE;
-
-		auto borderPlatformRight = std::make_shared<Border>();
-		borderPlatformRight->SetType( entityID_t::BORDER );
-		borderPlatformRight->SetPosition( { 24 * 2 * SCALE, 21 * SCALE * 2 } );
-		borderPlatformRight->rectangle.width = 8 * SCALE * 2;
-		borderPlatformRight->rectangle.height = 2.0f * SCALE;
-
-		this->entities.push_back( enemySpawnerLeft );
-		this->entities.push_back( enemySpawnerRight );
-		this->entities.push_back( bg );
 		this->entities.push_back( player );
-		this->entities.push_back( borderWallDown );
-		this->entities.push_back( borderWallRight );
-		this->entities.push_back( borderWallLeft );
-		this->entities.push_back( borderPlatformLeft );
-		this->entities.push_back( borderPlatformMiddle );
-		this->entities.push_back( borderPlatformRight );
+		this->collisionChecker.AddBoxCollider( player );
 
-		this->physicsChecker.AddBoxCollider( player );
-		this->physicsChecker.AddBoxCollider( borderWallDown );
-		this->physicsChecker.AddBoxCollider( borderWallRight );
-		this->physicsChecker.AddBoxCollider( borderWallLeft );
-		this->physicsChecker.AddBoxCollider( borderPlatformLeft );
-		this->physicsChecker.AddBoxCollider( borderPlatformMiddle );
-		this->physicsChecker.AddBoxCollider( borderPlatformRight );
+		this->level.Load( "data/TestLevel.lvl" );
+		this->level.AddEntities( &this->entities, &this->collisionChecker );
+		this->level.InitializeTextures();
+		this->level.SetPlayerPosition( &*this->playerPointer.lock() );
 
 		this->EndThread();
 	}
@@ -218,6 +143,7 @@ namespace kd
 	{
 		this->StartThread();
 
+		this->level.RemoveEntities();
 		this->entities.clear();
 		MissileManager::Shutdown();
 
@@ -336,7 +262,7 @@ namespace kd
 		for ( size_t i = 0; i < this->entities.size(); i++ )
 			this->entities[i]->Update( dt );
 
-		this->physicsChecker.Update( 1.0f / FPS_LIMIT );
+		this->collisionChecker.Update( 1.0f / FPS_LIMIT );
 
 		this->updateUI();
 

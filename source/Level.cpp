@@ -93,6 +93,9 @@ namespace kd
 			this->background->SetTexture( ResourceHolder::textures.back() );
 			this->background->SetSpriteScale( this->levelData.backgroundTextureScale );
 		}
+
+		for(auto spawner : this->spawners)
+			spawner->SetEnemyTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::ENEMY ) ) );
 	}
 
 	void Level::SetPlayerPosition( Player* player )
@@ -106,7 +109,11 @@ namespace kd
 			entitiesPtr->push_back( border );
 
 		for ( auto spawner : this->spawners )
+		{
+			spawner->SetPhysicChecker( collisionCheckerPtr );
+			spawner->SetEntitiesVector( entitiesPtr );
 			entitiesPtr->push_back( spawner );
+		}
 
 		entitiesPtr->push_back( this->background );
 		this->background->SetDrawLayer( 0 );

@@ -20,8 +20,9 @@
 #include "Enemy.hpp"
 #include "EnemySpawner.hpp"
 #include "GameConfig.hpp"
-#include "Player.hpp"
+#include "Level.hpp"
 #include "ResourceHolder.hpp"
+#include "Player.hpp"
 
 namespace kd
 {
@@ -45,7 +46,9 @@ namespace kd
 		std::vector<std::weak_ptr<Drawable>> drawables;
 		std::weak_ptr<Player> playerPointer;
 
-		CollisionChecker physicsChecker;
+		CollisionChecker collisionChecker;
+
+		Level level;
 
 		bool exit;
 
