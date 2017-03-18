@@ -44,12 +44,6 @@ namespace kd
 		std::vector<std::shared_ptr<Entity>> entities;
 		std::vector<std::weak_ptr<Drawable>> drawables;
 		std::weak_ptr<Player> playerPointer;
-		//std::map<entityID_t, std::shared_ptr<sf::Texture>> textures;
-
-		//sf::Font font;
-		//sf::Text healthText[3];
-		//sf::Text armorText;
-		//sf::Text baseHealthText;
 
 		CollisionChecker physicsChecker;
 

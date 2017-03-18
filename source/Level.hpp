@@ -16,6 +16,7 @@
 #include "CollisionChecker.hpp"
 #include "Entity.hpp"
 #include "EnemySpawner.hpp"
+#include "ResourceHolder.hpp"
 
 namespace kd
 {
@@ -40,10 +41,10 @@ namespace kd
 			std::vector<sf::FloatRect> bordersRects;
 			std::vector<internal::enemySpawnerData_t> spawnersData;
 			std::string backgroundTexturePath = "";
+			sf::Vector2f backgroundTextureScale = { 2 * SCALE, 2 * SCALE };
 			// Base rect...
 		};
 	}
-
 
 
 	class Level final
@@ -65,9 +66,12 @@ namespace kd
 
 		bool Load( const std::string& path );
 		void Save( const std::string& path );
-		// !!! Uprgade it to new ResourceHolder! !!! 
-		void InitializeTextures( std::map<entityID_t, std::shared_ptr<sf::Texture>>* textures );
-		void InitializePlayer( std::shared_ptr<Player> player );
+		/*
+			Loads level texture and removes old one.
+			Before calling it you should load Enemy texture.
+		*/
+		void InitializeTextures();
+		void SetPlayerPosition( Player* player );
 
 		void AddEntities( std::vector<std::shared_ptr<Entity>>* entitiesPtr, CollisionChecker* collisionCheckerPtr );
 		// Removes Entities (Borders, Spawners and Background) from PlayState Entity vector and CollisionChecker - just simply mark them as WishDelete.

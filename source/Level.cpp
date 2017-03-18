@@ -17,7 +17,30 @@ namespace kd
 			cgf::Logger::Log( "Level loading error - cannot open file", cgf::Logger::ERROR );
 			return false;
 		}
-		levelFile.read( reinterpret_cast<char*>( &this->levelData ), sizeof( internal::levelData_t ) );
+
+		size_t bordersSznew = 0;
+		size_t spawnersSznew = 0;
+		size_t strSznew = 0;
+
+		// loading new size for borders and spawners vector
+		levelFile.read( reinterpret_cast<char*>( &bordersSznew ), sizeof( bordersSznew ) );
+		levelFile.read( reinterpret_cast<char*>( &spawnersSznew ), sizeof( spawnersSznew ) );
+		// applying new size
+		this->levelData.bordersRects.resize( bordersSznew );
+		this->levelData.spawnersData.resize( spawnersSznew );
+
+		// loading bg path size and data
+		levelFile.read( reinterpret_cast<char*>( &strSznew ), sizeof( strSznew ) );
+		this->levelData.backgroundTexturePath.resize( strSznew );
+		levelFile.read( &levelData.backgroundTexturePath[0], strSznew );
+
+		// loading borders and spawners vectors data
+		levelFile.read( reinterpret_cast<char*>( &this->levelData.bordersRects[0] ), bordersSznew * sizeof( this->levelData.bordersRects[0] ) );
+		levelFile.read( reinterpret_cast<char*>( &this->levelData.spawnersData[0] ), spawnersSznew * sizeof( this->levelData.spawnersData[0] ) );
+
+		// loading player spawn position and bg scale
+		levelFile.read( reinterpret_cast<char*>( &this->levelData.playerSpawnPosition ), sizeof( this->levelData.playerSpawnPosition ) );
+		levelFile.read( reinterpret_cast<char*>( &this->levelData.backgroundTextureScale ), sizeof( this->levelData.backgroundTextureScale ) );
 
 		cgf::Logger::Log( "Level loading finished" );
 
@@ -32,28 +55,47 @@ namespace kd
 		cgf::Logger::Log( "Level saving started..." );
 
 		std::ofstream levelFile( path, std::ios::binary | std::ios::trunc );
-		levelFile.write( reinterpret_cast<char*>( &this->levelData ), sizeof( internal::levelData_t ) );
+		// Saving vectors sizes to file
+		size_t bordersSz = this->levelData.bordersRects.size();
+		size_t spawnersSz = this->levelData.spawnersData.size();
+		size_t strSz = this->levelData.backgroundTexturePath.size();
+
+		levelFile.write( reinterpret_cast<const char*>( &bordersSz ), sizeof( bordersSz ) );
+		levelFile.write( reinterpret_cast<const char*>( &spawnersSz ), sizeof( spawnersSz ) );
+		// Saving bg path size and data
+		levelFile.write( reinterpret_cast<const char*>( &strSz ), sizeof( strSz ) );
+		levelFile.write( &this->levelData.backgroundTexturePath[0], strSz );
+		// saving std::vectors data
+		levelFile.write( reinterpret_cast<const char*>( &this->levelData.bordersRects[0] ), bordersSz * sizeof( this->levelData.bordersRects[0] ) );
+		levelFile.write( reinterpret_cast<const char*>( &this->levelData.spawnersData[0] ), spawnersSz * sizeof( this->levelData.spawnersData[0] ) );
+
+		// saving playerSpawnPosition and bgScale
+		levelFile.write( reinterpret_cast<const char*>( &this->levelData.playerSpawnPosition ), sizeof( this->levelData.playerSpawnPosition ) );
+		levelFile.write( reinterpret_cast<const char*>( &this->levelData.backgroundTextureScale ), sizeof( this->levelData.backgroundTextureScale ) );
 
 		cgf::Logger::Log( "Level saving finished" );
 	}
 
-	void Level::InitializeTextures( std::map<entityID_t, std::shared_ptr<sf::Texture>>* textures )
+	void Level::InitializeTextures()
 	{
-		for ( auto t : *textures )
-			if ( t.first == entityID_t::BACKGROUND )
-				t.second.reset();
+		ResourceHolder::DeleteAllResourcesByPriority( static_cast<uint8_t>( resourcePriorites_t::LEVEL ) );
 
-		( *textures )[entityID_t::BACKGROUND] = std::make_shared<sf::Texture>();
-		if ( !( *textures )[entityID_t::BACKGROUND]->loadFromFile( this->levelData.backgroundTexturePath ) )
+		ResourceHolder::textures.push_back( std::make_shared<textureResource_t>() );
+
+		if ( !ResourceHolder::textures.back()->loadFromFile( this->levelData.backgroundTexturePath ) )
 		{
-			cgf::Logger::Log( "Cannot load BACKGROUND texture ('" + this->levelData.backgroundTexturePath + "')", cgf::Logger::ERROR );
-			( *textures )[entityID_t::BACKGROUND].reset();
+			ResourceHolder::textures.pop_back();
+			cgf::Logger::Log( "Cannot load Level Background Texture \"" + this->levelData.backgroundTexturePath + "\"", cgf::Logger::ERROR );
+		} else
+		{
+			ResourceHolder::textures.back()->SetResourceID( static_cast<uint8_t>( textureResourceID_t::LEVEL_BG ) );
+			ResourceHolder::textures.back()->SetResourcePriority( static_cast<uint8_t>( resourcePriorites_t::LEVEL ) );
+			this->background->SetTexture( ResourceHolder::textures.back() );
+			this->background->SetSpriteScale( this->levelData.backgroundTextureScale );
 		}
-		else
-			this->background->SetTexture( ( *textures )[entityID_t::BACKGROUND] );
 	}
 
-	void Level::InitializePlayer( std::shared_ptr<Player> player )
+	void Level::SetPlayerPosition( Player* player )
 	{
 		player->SetPosition( this->levelData.playerSpawnPosition );
 	}
@@ -81,7 +123,8 @@ namespace kd
 		for ( auto spawner : this->spawners )
 			spawner->SetWishDelete( true );
 
-		this->background->SetWishDelete( true );
+		if ( this->background )
+			this->background->SetWishDelete( true );
 
 		this->borders.clear();
 		this->spawners.clear();

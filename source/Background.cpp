@@ -12,11 +12,12 @@ namespace kd
 		if ( tex.expired() )
 			cgf::Logger::Log( "Background texture is not assigned / is expired", cgf::Logger::ERROR );
 		else
-		{
 			this->sprite.setTexture( *tex.lock() );
-			this->sprite.scale( 2.0f, 2.0f );
-			this->sprite.scale( SCALE, SCALE );
-		}
+	}
+
+	void Background::SetSpriteScale( const sf::Vector2f& scale )
+	{
+		this->sprite.setScale( scale );
 	}
 
 	void Background::Draw( sf::RenderTarget& target )

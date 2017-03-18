@@ -178,19 +178,19 @@ namespace kd
 		borderPlatformLeft->SetType( entityID_t::BORDER );
 		borderPlatformLeft->SetPosition( { 0.0f, 21 * SCALE * 2 } );
 		borderPlatformLeft->rectangle.width = 8 * SCALE * 2;
-		borderPlatformLeft->rectangle.height = 2.0f * SCALE;;
+		borderPlatformLeft->rectangle.height = 2.0f * SCALE;
 
 		auto borderPlatformMiddle = std::make_shared<Border>();
 		borderPlatformMiddle->SetType( entityID_t::BORDER );
 		borderPlatformMiddle->SetPosition( { 11.0f * 2 * SCALE, 15 * SCALE * 2 } );
 		borderPlatformMiddle->rectangle.width = 10 * SCALE * 2;
-		borderPlatformMiddle->rectangle.height = 2.0f * SCALE;;
+		borderPlatformMiddle->rectangle.height = 2.0f * SCALE;
 
 		auto borderPlatformRight = std::make_shared<Border>();
 		borderPlatformRight->SetType( entityID_t::BORDER );
 		borderPlatformRight->SetPosition( { 24 * 2 * SCALE, 21 * SCALE * 2 } );
 		borderPlatformRight->rectangle.width = 8 * SCALE * 2;
-		borderPlatformRight->rectangle.height = 2.0f * SCALE;;
+		borderPlatformRight->rectangle.height = 2.0f * SCALE;
 
 		this->entities.push_back( enemySpawnerLeft );
 		this->entities.push_back( enemySpawnerRight );

@@ -27,6 +27,8 @@ namespace kd
 		{}
 
 		void SetTexture( std::weak_ptr<sf::Texture> tex ) override;
+		// Nominal is 2.0f * SCALE
+		void SetSpriteScale( const sf::Vector2f& scale );
 		void Draw( sf::RenderTarget& target ) override;
 
 	private:
