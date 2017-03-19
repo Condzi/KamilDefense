@@ -26,7 +26,6 @@ namespace kd
 		else
 			MissileManager::entitiesPtr = entPtr;
 
-
 		if ( !initialized )
 			cgf::Logger::Log( "Cannot initialize Missile Manager, unassigned collisionCheckerPtr or entitiesPtr", cgf::Logger::ERROR );
 		else

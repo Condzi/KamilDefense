@@ -13,6 +13,16 @@ namespace kd
 		this->shape.setPosition( this->position );
 	}
 
+	void Missile::SetType( entityID_t t )
+	{
+		this->Entity::SetType( t );
+
+		if ( t == entityID_t::BULLET_PLAYER )
+			this->shape.setFillColor( sf::Color::Yellow );
+		else
+			this->shape.setFillColor( sf::Color::Green );
+	}
+
 	void Missile::SetPosition( const sf::Vector2f& pos )
 	{
 		this->position = pos;
@@ -23,14 +33,6 @@ namespace kd
 
 	void Missile::Update( seconds_t dt )
 	{
-		if ( this->shape.getFillColor() == sf::Color::White )
-		{
-			if ( this->GetType() == entityID_t::BULLET_PLAYER )
-				this->shape.setFillColor( sf::Color::Yellow );
-			else
-				this->shape.setFillColor( sf::Color::Green );
-		}
-
 		this->velocity.y += GRAVITY * ( OBJECT_WEIGHT / 5.0f ) * dt;
 		this->shape.setSize( { this->rectangle.width, this->rectangle.height } );
 

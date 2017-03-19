@@ -27,6 +27,8 @@ namespace kd
 	public:
 		Missile();
 
+		void SetType( entityID_t type ) override;
+
 		void SetPosition( const sf::Vector2f& pos ) override;
 		void SetTexture( std::weak_ptr<sf::Texture> tex ) override
 		{

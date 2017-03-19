@@ -36,19 +36,22 @@ namespace kd
 			for ( size_t j = 0; j < this->colliders.size(); j++ )
 			{
 				if ( i == j ||
-					colliders[j].lock()->parentPointer->GetType() == entityID_t::BORDER )
+					this->colliders[j].lock()->parentPointer->GetType() == entityID_t::BORDER )
 					continue;
 
-				sf::FloatRect& collA = colliders[j].lock()->rectangle;
-				sf::FloatRect& collB = colliders[i].lock()->rectangle;
+				if ( ( this->colliders[i].lock()->parentPointer->GetType() == entityID_t::BULLET_ENEMY && this->colliders[j].lock()->parentPointer->GetType() == entityID_t::ENEMY ) )
+					continue;
+
+				sf::FloatRect& collA = this->colliders[j].lock()->rectangle;
+				sf::FloatRect& collB = this->colliders[i].lock()->rectangle;
 				sf::FloatRect collAupdated = collA;
-				collAupdated.left += colliders[j].lock()->velocity.x * dt;
-				collAupdated.top += colliders[j].lock()->velocity.y * dt;
+				collAupdated.left += this->colliders[j].lock()->velocity.x * dt;
+				collAupdated.top += this->colliders[j].lock()->velocity.y * dt;
 
 				if ( !collAupdated.intersects( collB ) )
 					continue;
 
-				this->resolveCollision( colliders[j], colliders[i], getCollisionSide( collAupdated, collA, collB ) );
+				this->resolveCollision( this->colliders[j], this->colliders[i], getCollisionSide( collAupdated, collA, collB ) );
 			}
 	}
 
@@ -105,7 +108,7 @@ namespace kd
 		return collAside;
 	}
 
-	void CollisionChecker::resolveCollision( std::weak_ptr<BoxCollider> collA, std::weak_ptr<BoxCollider> collB, collisionSide_t collAside )
+	void CollisionChecker::resolveCollision( std::weak_ptr<BoxCollider> collA, std::weak_ptr<BoxCollider> collB, const collisionSide_t collAside )
 	{
 		entityID_t typeA = collA.lock()->parentPointer->GetType();
 		entityID_t typeB = collB.lock()->parentPointer->GetType();

@@ -38,6 +38,6 @@ namespace kd
 		bool collidedTop( const sf::FloatRect& a, const sf::FloatRect& aOld, const sf::FloatRect& b );
 
 		collisionSide_t getCollisionSide( const sf::FloatRect& collAupdated, const sf::FloatRect& collA, const sf::FloatRect& collB );
-		void resolveCollision( std::weak_ptr<BoxCollider> collA, std::weak_ptr<BoxCollider> collB, collisionSide_t collAside );
+		void resolveCollision( std::weak_ptr<BoxCollider> collA, std::weak_ptr<BoxCollider> collB, const collisionSide_t collAside );
 	};
 }

@@ -18,7 +18,7 @@ namespace kd
 	{
 		if ( !DEBUG_DRAW_BORDERS )
 			return;
-
+	
 		sf::RectangleShape shape;
 		shape.setPosition( rectangle.left, rectangle.top );
 		shape.setSize( { rectangle.width, rectangle.height } );
