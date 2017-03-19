@@ -29,15 +29,15 @@ namespace kd
 		// Initializing texts
 		{
 			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
-			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( textResourceID_t::HP_1 ) );
+			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( uiTextResourceID_t::HP_1 ) );
 			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
-			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( textResourceID_t::HP_2 ) );
+			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( uiTextResourceID_t::HP_2 ) );
 			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
-			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( textResourceID_t::HP_3 ) );
+			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( uiTextResourceID_t::HP_3 ) );
 			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
-			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( textResourceID_t::ARMOR ) );
+			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( uiTextResourceID_t::ARMOR ) );
 			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
-			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( textResourceID_t::BASE_HP ) );
+			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( uiTextResourceID_t::BASE_HP ) );
 
 			for ( auto text : ResourceHolder::texts )
 				text->SetResourcePriority( static_cast<uint8_t>( resourcePriorites_t::UI ) );
@@ -60,15 +60,15 @@ namespace kd
 		{
 			for ( auto text : ResourceHolder::texts )
 			{
-				if ( text->GetResourceID() == static_cast<uint8_t>( textResourceID_t::HP_1 ) )
+				if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::HP_1 ) )
 					text->setPosition( 64.5f * SCALE, 0 );
-				else if ( text->GetResourceID() == static_cast<uint8_t>( textResourceID_t::HP_2 ) )
+				else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::HP_2 ) )
 					text->setPosition( 64.5f * SCALE, 5 * SCALE );
-				else if ( text->GetResourceID() == static_cast<uint8_t>( textResourceID_t::HP_3 ) )
+				else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::HP_3 ) )
 					text->setPosition( 64.5f * SCALE, 10 * SCALE );
-				else if ( text->GetResourceID() == static_cast<uint8_t>( textResourceID_t::ARMOR ) )
+				else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::ARMOR ) )
 					text->setPosition( 1 * SCALE, 62 * SCALE );
-				else if ( text->GetResourceID() == static_cast<uint8_t>( textResourceID_t::BASE_HP ) )
+				else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::BASE_HP ) )
 					text->setPosition( 64 * SCALE, 62 * SCALE );
 			}
 		}
@@ -191,20 +191,20 @@ namespace kd
 		auto hp = this->playerPointer.lock()->GetHealth();
 
 		if ( hp >= 100 )
-			ResourceHolder::GetText(static_cast<uint8_t>(textResourceID_t::HP_3)).lock()->setString( sf::String( std::to_string( hp )[2] ) );
+			ResourceHolder::GetText(static_cast<uint8_t>(uiTextResourceID_t::HP_3)).lock()->setString( sf::String( std::to_string( hp )[2] ) );
 		else
-			ResourceHolder::GetText( static_cast<uint8_t>( textResourceID_t::HP_3 ) ).lock()->setString( "-" );
+			ResourceHolder::GetText( static_cast<uint8_t>( uiTextResourceID_t::HP_3 ) ).lock()->setString( "-" );
 
 		if ( hp >= 10 )
-			ResourceHolder::GetText( static_cast<uint8_t>( textResourceID_t::HP_2 ) ).lock()->setString( sf::String( std::to_string( hp )[1] ) );
+			ResourceHolder::GetText( static_cast<uint8_t>( uiTextResourceID_t::HP_2 ) ).lock()->setString( sf::String( std::to_string( hp )[1] ) );
 		else
-			ResourceHolder::GetText( static_cast<uint8_t>( textResourceID_t::HP_2 ) ).lock()->setString( "-" );
+			ResourceHolder::GetText( static_cast<uint8_t>( uiTextResourceID_t::HP_2 ) ).lock()->setString( "-" );
 
-		ResourceHolder::GetText( static_cast<uint8_t>( textResourceID_t::HP_1 ) ).lock()->setString( sf::String( std::to_string( hp )[0] ) );
+		ResourceHolder::GetText( static_cast<uint8_t>( uiTextResourceID_t::HP_1 ) ).lock()->setString( sf::String( std::to_string( hp )[0] ) );
 
-		ResourceHolder::GetText( static_cast<uint8_t>( textResourceID_t::ARMOR ) ).lock()->setString( std::to_string( playerPointer.lock()->GetArmor() ) );
+		ResourceHolder::GetText( static_cast<uint8_t>( uiTextResourceID_t::ARMOR ) ).lock()->setString( std::to_string( playerPointer.lock()->GetArmor() ) );
 
-		ResourceHolder::GetText( static_cast<uint8_t>( textResourceID_t::BASE_HP ) ).lock()->setString( "0" );
+		ResourceHolder::GetText( static_cast<uint8_t>( uiTextResourceID_t::BASE_HP ) ).lock()->setString( "0" );
 	}
 
 	void PlayState::removeUnusedEntities()

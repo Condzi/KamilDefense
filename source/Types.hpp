@@ -38,7 +38,7 @@ namespace kd
 		count
 	};
 
-	enum class textResourceID_t
+	enum class uiTextResourceID_t
 	{
 		HP_1 = static_cast<uint8_t>( textureResourceID_t::count ),
 		HP_2,
@@ -51,7 +51,7 @@ namespace kd
 
 	enum class fontResourceID_t
 	{
-		UI_FONT = static_cast<uint8_t>( textResourceID_t::count ),
+		UI_FONT = static_cast<uint8_t>( uiTextResourceID_t::count ),
 
 		count
 	};
