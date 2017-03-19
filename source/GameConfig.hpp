@@ -11,7 +11,7 @@
 
 namespace kd
 {
-	constexpr bool DEBUG_DRAW_BORDERS = true;
+	constexpr bool DEBUG_DRAW_BORDERS = false;
 
 	// Sprites are very small so they must be scaled up
 	constexpr float SCALE = 10.0f;
@@ -36,5 +36,4 @@ namespace kd
 	constexpr auto FONT_PATH = "data/fonts/wendy.ttf";
 	constexpr auto PLAYER_TEXTURE_PATH = "data/textures/player.png";
 	constexpr auto ENEMY_TEXTURE_PATH = "data/textures/enemy.png";
-	constexpr auto BACKGROUND_TEXTURE_PATH = "data/textures/base.png";
 }

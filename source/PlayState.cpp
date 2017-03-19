@@ -97,17 +97,6 @@ namespace kd
 				ResourceHolder::textures.back()->SetResourceID( static_cast<uint8_t>( textureResourceID_t::ENEMY ) );
 				ResourceHolder::textures.back()->SetResourcePriority( static_cast<uint8_t>( resourcePriorites_t::ENTITIES ) );
 			}
-
-			ResourceHolder::textures.push_back( std::make_shared<textureResource_t>() );
-			if ( !ResourceHolder::textures.back()->loadFromFile( BACKGROUND_TEXTURE_PATH ) )
-			{
-				ResourceHolder::textures.pop_back();
-				cgf::Logger::Log( "Cannot load texture from path \"" + std::string( BACKGROUND_TEXTURE_PATH ) + "\"", cgf::Logger::ERROR );
-			} else
-			{
-				ResourceHolder::textures.back()->SetResourceID( static_cast<uint8_t>( textureResourceID_t::LEVEL_BG ) );
-				ResourceHolder::textures.back()->SetResourcePriority( static_cast<uint8_t>( resourcePriorites_t::LEVEL ) );
-			}
 		}
 
 
@@ -123,7 +112,6 @@ namespace kd
 
 			player->SetTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::PLAYER ) ) );
 
-			player->SetPosition( { static_cast<float>( WINDOW_SIZE.x / 2 ), static_cast<float>( WINDOW_SIZE.y / 2 ) } );
 			player->SetMovementKeys( movementKeys_t( sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space ) );
 			player->SetMovementForces( movementForces_t( -250.0f, 250.0f, -500.0f ) );
 		}

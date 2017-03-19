@@ -16,6 +16,8 @@ namespace kd
 {
 	struct ResourceHolder final
 	{
+		ResourceHolder() = delete;
+
 		static std::vector<std::shared_ptr<textureResource_t>> textures;
 		static std::vector<std::shared_ptr<textResource_t>> texts;
 		static std::vector<std::shared_ptr<fontResource_t>> fonts;
