@@ -105,4 +105,10 @@ namespace kd
 		bulletColliderA.lock()->parentPointer->SetWishDelete( true );
 		bulletColliderB.lock()->parentPointer->SetWishDelete( true );
 	}
+
+	void CollisionSolver::EnemyBase( std::weak_ptr<BoxCollider> enemy, std::weak_ptr<BoxCollider> base )
+	{
+		enemy.lock()->parentPointer->SetWishDelete( true );
+		dynamic_cast<PlayerBase*>( base.lock()->parentPointer )->GetPlayerPtr().lock()->AddBaseDamage( 1 );
+	}
 }

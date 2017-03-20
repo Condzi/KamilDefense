@@ -123,6 +123,8 @@ namespace kd
 				CollisionSolver::EnemyEntity( collA, collB, collAside );
 			else if ( typeB == entityID_t::PLAYER )
 				CollisionSolver::EnemyPlayer( collA, collB, collAside );
+			else if ( typeB == entityID_t::PLAYER_BASE )
+				CollisionSolver::EnemyBase( collA, collB );
 		} else if ( typeA == entityID_t::BULLET_PLAYER )
 		{
 			if ( typeB == entityID_t::BORDER )

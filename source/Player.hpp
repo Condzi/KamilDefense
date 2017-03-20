@@ -31,8 +31,15 @@ namespace kd
 			BoxCollider( this ),
 			shootingKeys( sf::Keyboard::Left, sf::Keyboard::Right ),
 			movementKeys( sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space ),
-			movementForces( -25.0f, 25.0f, 50.0f )
+			movementForces( -25.0f, 25.0f, 50.0f ),
+			baseHealth( 0 )
 		{}
+
+
+		int8_t GetBaseHealth()
+		{
+			return this->baseHealth;
+		}
 
 		void SetPosition( const sf::Vector2f& pos ) override;
 		void SetTexture( std::weak_ptr<sf::Texture> texture ) override;
@@ -44,6 +51,17 @@ namespace kd
 		{
 			this->movementForces = forces;
 		}
+		void SetBaseHealth( int8_t val )
+		{
+			if ( val < 0 )
+				cgf::Logger::Log( "Setting Player Base Health to value smaller than 0 (" + std::to_string( val ) + ")", cgf::Logger::WARNING );
+			
+			this->baseHealth = val;
+		}
+		void AddBaseDamage( int8_t val )
+		{
+			this->baseHealth -= val;
+		}
 
 		void Update( seconds_t dt ) override;
 		void Draw( sf::RenderTarget& target ) override;
@@ -52,6 +70,7 @@ namespace kd
 		shootingKeys_t shootingKeys;
 		movementKeys_t movementKeys;
 		movementForces_t movementForces;
+		int8_t baseHealth;
 
 		sf::Sprite sprite;
 

@@ -11,6 +11,7 @@
 #include "Entity.hpp"
 #include "Enemy.hpp"
 #include "Player.hpp"
+#include "PlayerBase.hpp"
 
 namespace kd
 {
@@ -26,6 +27,7 @@ namespace kd
 		static void BulletEnemy( std::weak_ptr<BoxCollider> bulletCollider, std::weak_ptr<BoxCollider> colliderB );
 		static void BulletPlayer( std::weak_ptr<BoxCollider> bulletCollider, std::weak_ptr<BoxCollider> colliderB );
 		static void BulletBullet( std::weak_ptr<BoxCollider> bulletColliderA, std::weak_ptr<BoxCollider> bulletColliderB );
+		static void EnemyBase( std::weak_ptr<BoxCollider> enemy, std::weak_ptr<BoxCollider> base );
 	};
 }
 

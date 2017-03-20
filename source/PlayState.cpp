@@ -122,7 +122,7 @@ namespace kd
 		this->level.Load( "data/TestLevel.lvl" );
 		this->level.AddEntities( &this->entities, &this->collisionChecker );
 		this->level.InitializeTextures();
-		this->level.SetPlayerPosition( &*this->playerPointer.lock() );
+		this->level.SetPlayer( this->playerPointer.lock() );
 
 		this->EndThread();
 	}
@@ -191,7 +191,7 @@ namespace kd
 		auto hp = this->playerPointer.lock()->GetHealth();
 
 		if ( hp >= 100 )
-			ResourceHolder::GetText(static_cast<uint8_t>(uiTextResourceID_t::HP_3)).lock()->setString( sf::String( std::to_string( hp )[2] ) );
+			ResourceHolder::GetText( static_cast<uint8_t>( uiTextResourceID_t::HP_3 ) ).lock()->setString( sf::String( std::to_string( hp )[2] ) );
 		else
 			ResourceHolder::GetText( static_cast<uint8_t>( uiTextResourceID_t::HP_3 ) ).lock()->setString( "-" );
 
@@ -204,7 +204,7 @@ namespace kd
 
 		ResourceHolder::GetText( static_cast<uint8_t>( uiTextResourceID_t::ARMOR ) ).lock()->setString( std::to_string( playerPointer.lock()->GetArmor() ) );
 
-		ResourceHolder::GetText( static_cast<uint8_t>( uiTextResourceID_t::BASE_HP ) ).lock()->setString( "0" );
+		ResourceHolder::GetText( static_cast<uint8_t>( uiTextResourceID_t::BASE_HP ) ).lock()->setString( std::to_string( this->playerPointer.lock()->GetBaseHealth() ) );
 	}
 
 	void PlayState::removeUnusedEntities()
@@ -263,14 +263,14 @@ namespace kd
 	{
 		this->windowPtr->clear( sf::Color( 100, 100, 100 ) );
 
-		size_t entitiesAlreadyDrawed = 0;
-		for ( int8_t currentLayer = -128; ( currentLayer < 127 && entitiesAlreadyDrawed < this->drawables.size() ); currentLayer++ )
+		size_t entitiesAlreadyDrawn = 0;
+		for ( int8_t currentLayer = -128; ( currentLayer < 127 && entitiesAlreadyDrawn < this->drawables.size() ); currentLayer++ )
 		{
 			for ( auto drawable : this->drawables )
 				if ( drawable.lock()->GetDrawLayer() == currentLayer )
 				{
 					drawable.lock()->Draw( *this->windowPtr );
-					entitiesAlreadyDrawed++;
+					entitiesAlreadyDrawn++;
 				}
 		}
 

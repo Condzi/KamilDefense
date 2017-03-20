@@ -87,6 +87,7 @@ namespace kd
 		BORDER,
 
 		PLAYER,
+		PLAYER_BASE,
 		ENEMY,
 
 		BULLET_ENEMY,

@@ -7,13 +7,13 @@ It's 2d defense game. That's all.
 * C++14 
 
 #### Library 
-* SFML 2.4.1 
+* SFML 2.4.2
 
 #### Graphics Editor 
 * GIMP 
 
 #### Audio effects 
-* BFXR 
+* BFXR (soon)
 
 #### Music  
  * To be done... 

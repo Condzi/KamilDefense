@@ -20,14 +20,17 @@ namespace kd
 
 		size_t bordersSznew = 0;
 		size_t spawnersSznew = 0;
+		size_t playerBaseSznew = 0;
 		size_t strSznew = 0;
 
 		// loading new size for borders and spawners vector
 		levelFile.read( reinterpret_cast<char*>( &bordersSznew ), sizeof( bordersSznew ) );
 		levelFile.read( reinterpret_cast<char*>( &spawnersSznew ), sizeof( spawnersSznew ) );
+		levelFile.read( reinterpret_cast<char*>( &playerBaseSznew ), sizeof( playerBaseSznew ) );
 		// applying new size
 		this->levelData.bordersRects.resize( bordersSznew );
 		this->levelData.spawnersData.resize( spawnersSznew );
+		this->levelData.playerBaseRects.resize( playerBaseSznew );
 
 		// loading bg path size and data
 		levelFile.read( reinterpret_cast<char*>( &strSznew ), sizeof( strSznew ) );
@@ -37,10 +40,12 @@ namespace kd
 		// loading borders and spawners vectors data
 		levelFile.read( reinterpret_cast<char*>( &this->levelData.bordersRects[0] ), bordersSznew * sizeof( this->levelData.bordersRects[0] ) );
 		levelFile.read( reinterpret_cast<char*>( &this->levelData.spawnersData[0] ), spawnersSznew * sizeof( this->levelData.spawnersData[0] ) );
+		levelFile.read( reinterpret_cast<char*>( &this->levelData.playerBaseRects[0] ), playerBaseSznew * sizeof( this->levelData.playerBaseRects[0] ) );
 
 		// loading player spawn position and bg scale
 		levelFile.read( reinterpret_cast<char*>( &this->levelData.playerSpawnPosition ), sizeof( this->levelData.playerSpawnPosition ) );
 		levelFile.read( reinterpret_cast<char*>( &this->levelData.backgroundTextureScale ), sizeof( this->levelData.backgroundTextureScale ) );
+		levelFile.read( reinterpret_cast<char*>( &this->levelData.baseHealth ), sizeof( this->levelData.baseHealth ) );
 
 		cgf::Logger::Log( "Level loading finished" );
 
@@ -58,20 +63,24 @@ namespace kd
 		// Saving vectors sizes to file
 		size_t bordersSz = this->levelData.bordersRects.size();
 		size_t spawnersSz = this->levelData.spawnersData.size();
+		size_t playerBaseSz = this->levelData.playerBaseRects.size();
 		size_t strSz = this->levelData.backgroundTexturePath.size();
 
 		levelFile.write( reinterpret_cast<const char*>( &bordersSz ), sizeof( bordersSz ) );
 		levelFile.write( reinterpret_cast<const char*>( &spawnersSz ), sizeof( spawnersSz ) );
+		levelFile.write( reinterpret_cast<const char*>( &playerBaseSz ), sizeof( playerBaseSz ) );
 		// Saving bg path size and data
 		levelFile.write( reinterpret_cast<const char*>( &strSz ), sizeof( strSz ) );
 		levelFile.write( &this->levelData.backgroundTexturePath[0], strSz );
 		// saving std::vectors data
 		levelFile.write( reinterpret_cast<const char*>( &this->levelData.bordersRects[0] ), bordersSz * sizeof( this->levelData.bordersRects[0] ) );
 		levelFile.write( reinterpret_cast<const char*>( &this->levelData.spawnersData[0] ), spawnersSz * sizeof( this->levelData.spawnersData[0] ) );
+		levelFile.write( reinterpret_cast<const char*>( &this->levelData.playerBaseRects[0] ), playerBaseSz * sizeof( this->levelData.playerBaseRects[0] ) );
 
-		// saving playerSpawnPosition and bgScale
+		// saving playerSpawnPosition and bgScale, baseHealth
 		levelFile.write( reinterpret_cast<const char*>( &this->levelData.playerSpawnPosition ), sizeof( this->levelData.playerSpawnPosition ) );
 		levelFile.write( reinterpret_cast<const char*>( &this->levelData.backgroundTextureScale ), sizeof( this->levelData.backgroundTextureScale ) );
+		levelFile.write( reinterpret_cast<const char*>( &this->levelData.baseHealth ), sizeof( this->levelData.baseHealth ) );
 
 		cgf::Logger::Log( "Level saving finished" );
 	}
@@ -94,13 +103,17 @@ namespace kd
 			this->background->SetSpriteScale( this->levelData.backgroundTextureScale );
 		}
 
-		for(auto spawner : this->spawners)
+		for ( auto spawner : this->spawners )
 			spawner->SetEnemyTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::ENEMY ) ) );
 	}
 
-	void Level::SetPlayerPosition( Player* player )
+	void Level::SetPlayer( std::weak_ptr<Player> player )
 	{
-		player->SetPosition( this->levelData.playerSpawnPosition );
+		player.lock()->SetPosition( this->levelData.playerSpawnPosition );
+		player.lock()->SetBaseHealth( this->levelData.baseHealth );
+	
+		for ( auto base : this->playerBases )
+			base->SetPlayerPtr( player );
 	}
 
 	void Level::AddEntities( std::vector<std::shared_ptr<Entity>>* entitiesPtr, CollisionChecker* collisionCheckerPtr )
@@ -113,6 +126,12 @@ namespace kd
 			spawner->SetPhysicChecker( collisionCheckerPtr );
 			spawner->SetEntitiesVector( entitiesPtr );
 			entitiesPtr->push_back( spawner );
+		}
+
+		for ( auto playerBase : this->playerBases )
+		{
+			entitiesPtr->push_back( playerBase );
+			collisionCheckerPtr->AddBoxCollider( playerBase );
 		}
 
 		entitiesPtr->push_back( this->background );
@@ -129,12 +148,16 @@ namespace kd
 
 		for ( auto spawner : this->spawners )
 			spawner->SetWishDelete( true );
+		
+		for ( auto base : this->playerBases )
+			base->SetWishDelete( true );
 
 		if ( this->background )
 			this->background->SetWishDelete( true );
 
 		this->borders.clear();
 		this->spawners.clear();
+		this->playerBases.clear();
 		this->background.reset();
 	}
 
@@ -171,6 +194,14 @@ namespace kd
 			this->spawners.back()->SetSpawningTime( spawnerData.spawnTime );
 			this->spawners.back()->SetStartVelocity( spawnerData.velocityDirection );
 			this->spawners.back()->SetPosition( spawnerData.position );
+		}
+
+		for ( auto& playerBaseData : this->levelData.playerBaseRects )
+		{
+			this->playerBases.push_back( std::make_shared<PlayerBase>() );
+			this->playerBases.back()->SetType( entityID_t::PLAYER_BASE );
+			this->playerBases.back()->rectangle = playerBaseData;
+			this->playerBases.back()->SetPosition( { playerBaseData.left, playerBaseData.top } );
 		}
 
 		this->background = std::make_shared<Background>();
