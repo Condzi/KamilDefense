@@ -11,7 +11,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
-#include <Config.hpp>
+#include <framework/Config.hpp>
 
 #include "ResourceWrapper.hpp"
 

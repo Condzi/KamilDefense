@@ -10,7 +10,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
-#include <Logger.hpp>
+#include <framework/Logger.hpp>
 
 #include "Drawable.hpp"
 #include "Entity.hpp"

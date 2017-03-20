@@ -3,7 +3,7 @@
 	https://github.com/condzi
 */
 
-#include <Logger.hpp>
+#include <framework/Logger.hpp>
 
 namespace CGF_NAMESPACE
 {

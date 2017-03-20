@@ -8,7 +8,7 @@
 #include <atomic>
 #include <thread>
 
-#include <Config.hpp>
+#include <framework/Config.hpp>
 
 namespace CGF_NAMESPACE
 {

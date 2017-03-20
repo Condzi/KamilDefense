@@ -7,7 +7,7 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 
-#include <Logger.hpp>
+#include <framework/Logger.hpp>
 
 #include "BoxCollider.hpp"
 #include "Damagable.hpp"

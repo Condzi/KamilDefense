@@ -7,7 +7,7 @@
 
 #include <SFML/Graphics/RectangleShape.hpp>
 
-#include <Logger.hpp>
+#include <framework/Logger.hpp>
 
 #include "BoxCollider.hpp"
 #include "Drawable.hpp"

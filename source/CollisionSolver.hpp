@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Logger.hpp>
+#include <framework/Logger.hpp>
 
 #include "BoxCollider.hpp"
 #include "Entity.hpp"

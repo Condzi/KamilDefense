@@ -66,13 +66,13 @@ namespace kd
 
 		if ( sf::Keyboard::isKeyPressed( this->shootingKeys.left ) )
 		{
-			bulletVelocityX = -PLAYER_MISSILE_SPEED;
+			bulletVelocityX = -PLAYER_MISSILE_SPEED_X;
 			shoot = true;
 		}
 
 		if ( sf::Keyboard::isKeyPressed( this->shootingKeys.right ) )
 		{
-			bulletVelocityX = PLAYER_MISSILE_SPEED;
+			bulletVelocityX = PLAYER_MISSILE_SPEED_X;
 			posXoffset = -1.5f * SCALE;
 			shoot = true;
 		}
@@ -86,6 +86,7 @@ namespace kd
 			missile->rectangle.height = 2.5f;
 			missile->SetType( entityID_t::BULLET_PLAYER );
 			missile->velocity.x = bulletVelocityX;
+			missile->velocity.y = PLAYER_MISSILE_START_SPEED_Y;
 			MissileManager::AddMissile( missile );
 		}
 	}

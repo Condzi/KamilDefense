@@ -7,7 +7,7 @@
 
 #include <memory>
 
-#include <Logger.hpp>
+#include <framework/Logger.hpp>
 
 #include "BoxCollider.hpp"
 #include "CollisionSolver.hpp"

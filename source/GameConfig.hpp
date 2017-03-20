@@ -7,7 +7,7 @@
 
 #include <cinttypes>
 
-#include <Config.hpp>
+#include <framework/Config.hpp>
 
 namespace kd
 {
@@ -30,7 +30,8 @@ namespace kd
 	constexpr uint8_t MAX_ARMOR = 100;
 	constexpr seconds_t DAMAGE_BLOCK_TIME = 0.32f;
 	constexpr seconds_t ENEMY_SHOOT_COOLDOWN = 0.5f;
-	constexpr float PLAYER_MISSILE_SPEED = 500.0f;
+	constexpr float PLAYER_MISSILE_SPEED_X = 400.0f;
+	constexpr float PLAYER_MISSILE_START_SPEED_Y = -250.0f;
 	constexpr float PLAYER_MISSILE_WEIGHT = 60.0f;
 	constexpr float ENEMY_MISSILE_SPEED = 375.0f;
 	constexpr float ENEMY_MISSILE_WEIGHT = 10.0f;

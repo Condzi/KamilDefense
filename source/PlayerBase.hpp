@@ -11,7 +11,7 @@
 #include "Drawable.hpp"
 #include "Entity.hpp"
 
-#include <Logger.hpp>
+#include <framework/Logger.hpp>
 
 namespace kd
 {

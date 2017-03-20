@@ -10,8 +10,8 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Window/Event.hpp>
 
-#include <Logger.hpp>
-#include <State.hpp>
+#include <framework/Logger.hpp>
+#include <framework/State.hpp>
 
 #include "Border.hpp"
 #include "Background.hpp"

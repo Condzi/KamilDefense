@@ -3,7 +3,7 @@
 	https://github.com/condzi
 */
 
-#include <StateMachine.hpp>
+#include <framework/StateMachine.hpp>
 
 namespace CGF_NAMESPACE
 {
