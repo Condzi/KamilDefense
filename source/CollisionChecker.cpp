@@ -128,17 +128,17 @@ namespace kd
 		} else if ( typeA == entityID_t::BULLET_PLAYER )
 		{
 			if ( typeB == entityID_t::BORDER )
-				CollisionSolver::BulletEntity( collA );
+				CollisionSolver::MissileEntity( collA );
 			else if ( typeB == entityID_t::ENEMY )
-				CollisionSolver::BulletEnemy( collA, collB );
+				CollisionSolver::MissileEnemy( collA, collB );
 			else if ( typeB == entityID_t::BULLET_ENEMY )
-				CollisionSolver::BulletBullet( collA, collB );
+				CollisionSolver::MissileMissile( collA, collB );
 		} else if ( typeA == entityID_t::BULLET_ENEMY )
 		{
 			if ( typeB == entityID_t::BORDER )
-				CollisionSolver::BulletEntity( collA );
+				CollisionSolver::MissileEntity( collA );
 			else if ( typeB == entityID_t::PLAYER )
-				CollisionSolver::BulletPlayer( collA, collB );
+				CollisionSolver::MissilePlayer( collA, collB );
 		}
 	}
 }

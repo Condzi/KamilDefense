@@ -77,12 +77,12 @@ namespace kd
 		playerPtr->AddDamage( 20 );
 	}
 
-	void CollisionSolver::BulletEntity( std::weak_ptr<BoxCollider> bulletCollider )
+	void CollisionSolver::MissileEntity( std::weak_ptr<BoxCollider> bulletCollider )
 	{
 		bulletCollider.lock()->parentPointer->SetWishDelete( true );
 	}
 
-	void CollisionSolver::BulletEnemy( std::weak_ptr<BoxCollider> bulletCollider, std::weak_ptr<BoxCollider> colliderB )
+	void CollisionSolver::MissileEnemy( std::weak_ptr<BoxCollider> bulletCollider, std::weak_ptr<BoxCollider> colliderB )
 	{
 		if ( bulletCollider.lock()->parentPointer->GetType() == entityID_t::BULLET_PLAYER )
 		{
@@ -91,7 +91,7 @@ namespace kd
 		}
 	}
 
-	void CollisionSolver::BulletPlayer( std::weak_ptr<BoxCollider> bulletCollider, std::weak_ptr<BoxCollider> colliderB )
+	void CollisionSolver::MissilePlayer( std::weak_ptr<BoxCollider> bulletCollider, std::weak_ptr<BoxCollider> colliderB )
 	{
 		if ( bulletCollider.lock()->parentPointer->GetType() == entityID_t::BULLET_ENEMY )
 		{
@@ -100,7 +100,7 @@ namespace kd
 		}
 	}
 	 
-	void CollisionSolver::BulletBullet( std::weak_ptr<BoxCollider> bulletColliderA, std::weak_ptr<BoxCollider> bulletColliderB )
+	void CollisionSolver::MissileMissile( std::weak_ptr<BoxCollider> bulletColliderA, std::weak_ptr<BoxCollider> bulletColliderB )
 	{
 		bulletColliderA.lock()->parentPointer->SetWishDelete( true );
 		bulletColliderB.lock()->parentPointer->SetWishDelete( true );
