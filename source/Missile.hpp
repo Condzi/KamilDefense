@@ -40,5 +40,6 @@ namespace kd
 
 	private:
 		sf::RectangleShape shape;
+		float weight;
 	};
 }

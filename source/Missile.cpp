@@ -8,7 +8,8 @@
 namespace kd
 {
 	Missile::Missile() :
-		BoxCollider( this )
+		BoxCollider( this ),
+		weight( 0.0f )
 	{
 		this->shape.setPosition( this->position );
 	}
@@ -18,9 +19,14 @@ namespace kd
 		this->Entity::SetType( t );
 
 		if ( t == entityID_t::BULLET_PLAYER )
+		{
 			this->shape.setFillColor( sf::Color::Yellow );
-		else
+			this->weight = PLAYER_MISSILE_WEIGHT;
+		} else
+		{
 			this->shape.setFillColor( sf::Color::Green );
+			this->weight = ENEMY_MISSILE_WEIGHT;
+		}
 	}
 
 	void Missile::SetPosition( const sf::Vector2f& pos )
@@ -33,7 +39,7 @@ namespace kd
 
 	void Missile::Update( seconds_t dt )
 	{
-		this->velocity.y += GRAVITY * ( OBJECT_WEIGHT / 5.0f ) * dt;
+		this->velocity.y += GRAVITY * this->weight * dt;
 		this->shape.setSize( { this->rectangle.width, this->rectangle.height } );
 
 		this->rectangle.left += this->velocity.x * dt;

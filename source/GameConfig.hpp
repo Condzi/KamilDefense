@@ -30,8 +30,10 @@ namespace kd
 	constexpr uint8_t MAX_ARMOR = 100;
 	constexpr seconds_t DAMAGE_BLOCK_TIME = 0.32f;
 	constexpr seconds_t ENEMY_SHOOT_COOLDOWN = 0.5f;
-	constexpr float PLAYER_MISSILE_SPEED = 750.0f;
+	constexpr float PLAYER_MISSILE_SPEED = 500.0f;
+	constexpr float PLAYER_MISSILE_WEIGHT = 60.0f;
 	constexpr float ENEMY_MISSILE_SPEED = 375.0f;
+	constexpr float ENEMY_MISSILE_WEIGHT = 10.0f;
 
 	constexpr auto FONT_PATH = "data/fonts/wendy.ttf";
 	constexpr auto PLAYER_TEXTURE_PATH = "data/textures/player.png";
