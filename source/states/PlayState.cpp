@@ -225,8 +225,9 @@ namespace kd
 
 		for ( auto entity : this->entities )
 		{
-			if ( std::dynamic_pointer_cast<Drawable>( entity ) )
-				this->drawables.push_back( std::dynamic_pointer_cast<Drawable>( entity ) );
+			auto casted = std::dynamic_pointer_cast<Drawable>( entity );
+			if ( casted )
+				this->drawables.push_back( casted );
 		}
 	}
 
@@ -284,13 +285,17 @@ namespace kd
 
 	std::pair<int8_t, int8_t> PlayState::getDrawLayersInterval()
 	{
-		std::valarray<int8_t> layers;
-		layers.resize( this->drawables.size() );
+		int8_t min = INT8_MAX, max = INT8_MIN;
+		int8_t currentLayer = 0;
 
-		for ( size_t i = 0; i < this->drawables.size(); i++ )
-			layers[i] = drawables[i].lock()->GetDrawLayer();
+		for ( auto drawable : this->drawables )
+		{
+			currentLayer = drawable.lock()->GetDrawLayer();
 
+			if ( currentLayer > max ) max = currentLayer;
+			else if ( currentLayer < min ) min = currentLayer;
+		}
 
-		return std::pair<int8_t, int8_t>(layers.min(), layers.max());
+		return std::pair<int8_t, int8_t>( min, max );
 	}
 }
