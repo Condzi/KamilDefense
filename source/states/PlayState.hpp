@@ -6,6 +6,7 @@
 #pragma once
 
 #include <memory>
+#include <valarray>
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Window/Event.hpp>
@@ -68,5 +69,7 @@ namespace kd
 		state_t processEvents( sf::Event& ev );
 		void update( seconds_t dt );
 		void draw();
+
+		std::pair<int8_t, int8_t> getDrawLayersInterval();
 	};
 }

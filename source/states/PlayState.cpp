@@ -263,8 +263,10 @@ namespace kd
 	{
 		this->windowPtr->clear( sf::Color( 100, 100, 100 ) );
 
+		auto drawLayersInterval = this->getDrawLayersInterval();
+
 		size_t entitiesAlreadyDrawn = 0;
-		for ( int8_t currentLayer = -128; ( currentLayer < 127 && entitiesAlreadyDrawn < this->drawables.size() ); currentLayer++ )
+		for ( int8_t currentLayer = drawLayersInterval.first; ( currentLayer < drawLayersInterval.second + 1 && entitiesAlreadyDrawn < this->drawables.size() ); currentLayer++ )
 		{
 			for ( auto drawable : this->drawables )
 				if ( drawable.lock()->GetDrawLayer() == currentLayer )
@@ -278,5 +280,17 @@ namespace kd
 			this->windowPtr->draw( *text );
 
 		this->windowPtr->display();
+	}
+
+	std::pair<int8_t, int8_t> PlayState::getDrawLayersInterval()
+	{
+		std::valarray<int8_t> layers;
+		layers.resize( this->drawables.size() );
+
+		for ( size_t i = 0; i < this->drawables.size(); i++ )
+			layers[i] = drawables[i].lock()->GetDrawLayer();
+
+
+		return std::pair<int8_t, int8_t>(layers.min(), layers.max());
 	}
 }
