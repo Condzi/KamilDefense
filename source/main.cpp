@@ -6,7 +6,7 @@
 #include <framework/StateMachine.hpp>
 
 #include "GameConfig.hpp"
-#include "PlayState.hpp"
+#include "states/PlayState.hpp"
 
 int main()
 {

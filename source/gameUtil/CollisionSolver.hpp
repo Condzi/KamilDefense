@@ -7,11 +7,11 @@
 
 #include <framework/Logger.hpp>
 
-#include "BoxCollider.hpp"
-#include "Entity.hpp"
-#include "Enemy.hpp"
-#include "Player.hpp"
-#include "PlayerBase.hpp"
+#include "entities/BoxCollider.hpp"
+#include "entities/Entity.hpp"
+#include "entities/Enemy.hpp"
+#include "entities/Player.hpp"
+#include "entities/PlayerBase.hpp"
 
 namespace kd
 {

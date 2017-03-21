@@ -69,7 +69,7 @@ namespace kd
 				else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::ARMOR ) )
 					text->setPosition( 1 * SCALE, 62 * SCALE );
 				else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::BASE_HP ) )
-					text->setPosition( 64 * SCALE, 62 * SCALE );
+					text->setPosition( 62 * SCALE, 62 * SCALE );
 			}
 		}
 

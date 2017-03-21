@@ -16,7 +16,7 @@
 #include "Drawable.hpp"
 #include "Entity.hpp" 
 #include "GameConfig.hpp"
-#include "MissileManager.hpp"
+#include "gameUtil/MissileManager.hpp"
 
 namespace kd
 {

@@ -11,13 +11,13 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#include "Background.hpp"
-#include "Border.hpp"
+#include "entities/Background.hpp"
+#include "entities/Border.hpp"
 #include "CollisionChecker.hpp"
-#include "Entity.hpp"
-#include "EnemySpawner.hpp"
+#include "entities/Entity.hpp"
+#include "entities/EnemySpawner.hpp"
 #include "ResourceHolder.hpp"
-#include "PlayerBase.hpp"
+#include "entities/PlayerBase.hpp"
 
 namespace kd
 {

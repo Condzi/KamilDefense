@@ -9,9 +9,9 @@
 
 #include <framework/Logger.hpp>
 
-#include "BoxCollider.hpp"
+#include "entities/BoxCollider.hpp"
 #include "CollisionSolver.hpp"
-#include "Entity.hpp"
+#include "entities/Entity.hpp"
 #include "Types.hpp"
 
 namespace kd

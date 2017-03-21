@@ -13,16 +13,16 @@
 #include <framework/Logger.hpp>
 #include <framework/State.hpp>
 
-#include "Border.hpp"
-#include "Background.hpp"
-#include "CollisionChecker.hpp"
-#include "Entity.hpp"
-#include "Enemy.hpp"
-#include "EnemySpawner.hpp"
+#include "entities/Border.hpp"
+#include "entities/Background.hpp"
+#include "gameUtil/CollisionChecker.hpp"
+#include "entities/Entity.hpp"
+#include "entities/Enemy.hpp"
+#include "entities/EnemySpawner.hpp"
 #include "GameConfig.hpp"
-#include "Level.hpp"
+#include "gameUtil/Level.hpp"
 #include "ResourceHolder.hpp"
-#include "Player.hpp"
+#include "entities/Player.hpp"
 
 namespace kd
 {

@@ -8,7 +8,7 @@
 #include <framework/Logger.hpp>
 
 #include "CollisionChecker.hpp"
-#include "Missile.hpp"
+#include "entities/Missile.hpp"
 
 namespace kd
 {

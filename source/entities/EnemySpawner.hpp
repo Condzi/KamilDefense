@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "Enemy.hpp"
-#include "CollisionChecker.hpp"
+#include "gameUtil/CollisionChecker.hpp"
 
 namespace kd
 {

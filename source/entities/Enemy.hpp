@@ -13,7 +13,7 @@
 #include "Damagable.hpp"
 #include "Drawable.hpp"
 #include "Entity.hpp"
-#include "MissileManager.hpp"
+#include "gameUtil/MissileManager.hpp"
 
 namespace kd
 {
