@@ -7,6 +7,7 @@
 
 #include "GameConfig.hpp"
 #include "states/PlayState.hpp"
+#include "states/MenuState.hpp"
 
 int main()
 {
@@ -16,9 +17,10 @@ int main()
 	window_t window( { kd::WINDOW_SIZE.x, kd::WINDOW_SIZE.y }, kd::WINDOW_TITLE );
 	window.setFramerateLimit( kd::FPS_LIMIT );
 
-	cgf::StateMachine stateMachine;
+	cgf::StateMachine stateMachine( static_cast<int16_t>( kd::state_t::MENU ) );
 
-	stateMachine.RegisterState<kd::PlayState>( static_cast<int16_t>( kd::state_t::MENU ), &window );
+	stateMachine.RegisterState<kd::MenuState>( static_cast<int16_t>( kd::state_t::MENU ), &window );
+	stateMachine.RegisterState<kd::PlayState>( static_cast<int16_t>( kd::state_t::PLAY ), &window );
 
 	stateMachine.Run();
 

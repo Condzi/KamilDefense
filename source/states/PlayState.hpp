@@ -13,8 +13,6 @@
 #include <framework/Logger.hpp>
 #include <framework/State.hpp>
 
-#include "entities/Border.hpp"
-#include "entities/Background.hpp"
 #include "gameUtil/CollisionChecker.hpp"
 #include "entities/Entity.hpp"
 #include "entities/Enemy.hpp"
@@ -31,7 +29,7 @@ namespace kd
 	{
 	public:
 		PlayState( window_t* window ) :
-			cgf::State( window ),
+			State( window ),
 			exit( false )
 		{}
 

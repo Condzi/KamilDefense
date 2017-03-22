@@ -13,19 +13,6 @@ namespace kd
 
 		MissileManager::Initialize( &this->collisionChecker, &this->entities );
 
-		// Loading font
-		{
-			ResourceHolder::fonts.push_back( std::make_shared<fontResource_t>() );
-			if ( !ResourceHolder::fonts.back()->loadFromFile( FONT_PATH ) )
-			{
-				ResourceHolder::fonts.pop_back();
-				cgf::Logger::Log( "Cannot load font file!", cgf::Logger::ERROR );
-			} else
-			{
-				ResourceHolder::fonts.back()->SetResourceID( static_cast<uint8_t>( fontResourceID_t::UI_FONT ) );
-				ResourceHolder::fonts.back()->SetResourcePriority( static_cast<uint8_t>( resourcePriorites_t::UI ) );
-			}
-		}
 		// Initializing texts
 		{
 			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
@@ -40,7 +27,7 @@ namespace kd
 			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( uiTextResourceID_t::BASE_HP ) );
 
 			for ( auto text : ResourceHolder::texts )
-				text->SetResourcePriority( static_cast<uint8_t>( resourcePriorites_t::UI ) );
+				text->SetResourcePriority( static_cast<uint8_t>( resourcePriorites_t::UI_GAME ) );
 		}
 		// Initializing texts fonts
 		{
@@ -48,7 +35,7 @@ namespace kd
 			if ( ResourceHolder::fonts.size() )
 			{
 				for ( auto text : ResourceHolder::texts )
-					text->setFont( *ResourceHolder::fonts.back().get() );
+					text->setFont( *ResourceHolder::GetFont( static_cast<uint8_t>( fontResourceID_t::UI_FONT ) ).lock() );
 			}
 		}
 		// Initializing texts sizes
@@ -134,6 +121,9 @@ namespace kd
 		this->level.RemoveEntities();
 		this->entities.clear();
 		MissileManager::Shutdown();
+		ResourceHolder::DeleteAllResourcesByPriority(static_cast<uint8_t>(resourcePriorites_t::ENTITIES));
+		ResourceHolder::DeleteAllResourcesByPriority( static_cast<uint8_t>( resourcePriorites_t::LEVEL ) );
+		ResourceHolder::DeleteAllResourcesByPriority( static_cast<uint8_t>( resourcePriorites_t::UI_GAME ) );
 
 		this->EndThread();
 	}
@@ -158,8 +148,7 @@ namespace kd
 			this->draw();
 		}
 
-		// Change in future to ::MENU
-		return static_cast<int16_t>( state_t::EXIT );
+		return static_cast<int16_t>( state_t::MENU );
 	}
 
 	void PlayState::UpdateThread( seconds_t dt, window_t& w )
@@ -276,6 +265,7 @@ namespace kd
 					entitiesAlreadyDrawn++;
 				}
 		}
+		
 
 		for ( auto text : ResourceHolder::texts )
 			this->windowPtr->draw( *text );
@@ -293,7 +283,7 @@ namespace kd
 			currentLayer = drawable.lock()->GetDrawLayer();
 
 			if ( currentLayer > max ) max = currentLayer;
-			else if ( currentLayer < min ) min = currentLayer;
+			if ( currentLayer < min ) min = currentLayer;
 		}
 
 		return std::pair<int8_t, int8_t>( min, max );

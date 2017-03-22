@@ -46,6 +46,5 @@ namespace CGF_NAMESPACE
 		int16_t actualState;
 
 		std::unique_ptr<State> createState( int16_t id );
-
 	};
 }

@@ -24,7 +24,8 @@ namespace kd
 
 	enum class resourcePriorites_t
 	{
-		UI = 0,
+		UI_GAME = 0,
+		UI_MENU,
 		ENTITIES,
 		LEVEL
 	};
@@ -32,6 +33,7 @@ namespace kd
 	enum class textureResourceID_t
 	{
 		LEVEL_BG = 0,
+		MENU_BG,
 		ENEMY,
 		PLAYER,
 
@@ -93,7 +95,12 @@ namespace kd
 		BULLET_ENEMY,
 		BULLET_PLAYER,
 
-		ENEMY_SPAWNER
+		ENEMY_SPAWNER,
+
+		BUTTON_START,
+		BUTTON_OPTIONS,
+		BUTTON_LEVEL_EDITOR,
+		BUTTON_EXIT
 	};
 
 	struct shootingKeys_t final
