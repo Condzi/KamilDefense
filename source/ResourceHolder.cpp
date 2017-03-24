@@ -39,58 +39,74 @@ namespace kd
 	{
 		cgf::Logger::Log( "Starting to delete all resources of priority " + std::to_string( priority ) );
 
+		uint16_t counter = 0;
+
 		for ( auto textureIterator = ResourceHolder::textures.begin(); textureIterator != ResourceHolder::textures.end(); )
 		{
 			if ( ( *textureIterator )->GetResourcePriority() == priority )
+			{
 				textureIterator = ResourceHolder::textures.erase( textureIterator );
-			else
+				counter++;
+			} else
 				textureIterator++;
 		}
 		for ( auto textsIterator = ResourceHolder::texts.begin(); textsIterator != ResourceHolder::texts.end(); )
 		{
 			if ( ( *textsIterator )->GetResourcePriority() == priority )
+			{
 				textsIterator = ResourceHolder::texts.erase( textsIterator );
-			else
+				counter++;
+			} else
 				textsIterator++;
 		}
 		for ( auto fontIterator = ResourceHolder::fonts.begin(); fontIterator != ResourceHolder::fonts.end(); )
 		{
 			if ( ( *fontIterator )->GetResourcePriority() == priority )
+			{
 				fontIterator = ResourceHolder::fonts.erase( fontIterator );
-			else
+				counter++;
+			} else
 				fontIterator++;
 		}
 
-		cgf::Logger::Log( "All resources of priority " + std::to_string( priority ) + " deleted" );
+		cgf::Logger::Log( std::to_string( counter ) + " resources of priority " + std::to_string( priority ) + " deleted" );
 	}
 
 	void ResourceHolder::DeleteAllResourcesByID( uint8_t id )
 	{
 		cgf::Logger::Log( "Starting to delete all resources of ID " + std::to_string( id ) );
 
+		uint16_t counter = 0;
+
 		for ( auto textureIterator = ResourceHolder::textures.begin(); textureIterator != ResourceHolder::textures.end(); )
 		{
 			if ( ( *textureIterator )->GetResourceID() == id )
+			{
 				textureIterator = ResourceHolder::textures.erase( textureIterator );
-			else
+				counter++;
+			} else
 				textureIterator++;
 		}
 		for ( auto textsIterator = ResourceHolder::texts.begin(); textsIterator != ResourceHolder::texts.end(); )
 		{
 			if ( ( *textsIterator )->GetResourceID() == id )
+			{
 				textsIterator = ResourceHolder::texts.erase( textsIterator );
-			else
+				counter++;
+			} else
 				textsIterator++;
 		}
 		for ( auto fontIterator = ResourceHolder::fonts.begin(); fontIterator != ResourceHolder::fonts.end(); )
 		{
 			if ( ( *fontIterator )->GetResourceID() == id )
+			{
 				fontIterator = ResourceHolder::fonts.erase( fontIterator );
-			else
+				counter++;
+			} else
 				fontIterator++;
 		}
 
-		cgf::Logger::Log( "All resources of ID " + std::to_string( id ) + " deleted" );
+		cgf::Logger::Log( std::to_string( counter ) + " resources of ID " + std::to_string( id ) + " deleted" );
 	}
 
 	std::weak_ptr<textureResource_t> ResourceHolder::GetTexture( uint8_t id )

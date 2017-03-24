@@ -48,6 +48,18 @@ namespace kd
 			buttonStart->SetOutline( 1 * SCALE, sf::Color::Blue, sf::Color::Transparent );
 		}
 
+		auto buttonExit = std::make_shared<Button>();
+		{
+			buttonExit->SetDrawLayer( 1 );
+			buttonExit->SetPosition( { WINDOW_SIZE.x / 2, WINDOW_SIZE.y / 2 + 32 } );
+			buttonExit->SetType( entityID_t::BUTTON_EXIT );
+			buttonExit->SetTextFont( ResourceHolder::GetFont( static_cast<uint8_t>( fontResourceID_t::UI_FONT ) ) );
+			buttonExit->SetTextString( "EXIT" );
+			buttonExit->SetShapeSize( { 64, 16 } );
+			buttonExit->SetTextSize( 33 );
+			buttonExit->SetOutline( 1 * SCALE, sf::Color::Blue, sf::Color::Transparent );
+		}
+
 		auto bg = std::make_shared<Background>();
 		bg->SetType( entityID_t::BACKGROUND );
 		bg->SetDrawLayer( 0 );
@@ -56,6 +68,7 @@ namespace kd
 		this->entities.push_back( bg );
 
 		this->entities.push_back( buttonStart );
+		this->entities.push_back( buttonExit );
 	}
 
 	void MenuState::OnStop()
@@ -134,6 +147,10 @@ namespace kd
 						if ( e->GetType() == entityID_t::BUTTON_START )
 							if ( std::dynamic_pointer_cast<Button>( e )->GetRectangle().contains( ( sf::Vector2f )mouseCoords ) )
 								return state_t::PLAY;
+
+						if ( e->GetType() == entityID_t::BUTTON_EXIT )
+							if ( std::dynamic_pointer_cast<Button>( e )->GetRectangle().contains( ( sf::Vector2f )mouseCoords ) )
+								return state_t::EXIT;
 					}
 				}
 			}

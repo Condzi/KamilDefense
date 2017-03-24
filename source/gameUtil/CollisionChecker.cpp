@@ -23,7 +23,7 @@ namespace kd
 
 		this->colliders.push_back( collider );
 
-		cgf::Logger::Log( "Added collider to CollisionChecker, total colliders: " + std::to_string( colliders.size() ), cgf::Logger::INFO, cgf::Logger::CONSOLE );
+		//cgf::Logger::Log( "Added collider to CollisionChecker, total colliders: " + std::to_string( colliders.size() ), cgf::Logger::INFO, cgf::Logger::CONSOLE );
 
 		return true;
 	}
