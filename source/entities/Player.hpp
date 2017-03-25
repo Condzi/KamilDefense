@@ -26,6 +26,8 @@ namespace kd
 		public Entity,
 		public Damagable
 	{
+		friend struct PoweUp;
+
 	public:
 		Player() :
 			BoxCollider( this ),
@@ -66,7 +68,7 @@ namespace kd
 		void Update( seconds_t dt ) override;
 		void Draw( sf::RenderTarget& target ) override;
 
-	private:
+	protected:
 		shootingKeys_t shootingKeys;
 		movementKeys_t movementKeys;
 		movementForces_t movementForces;
@@ -74,6 +76,7 @@ namespace kd
 
 		sf::Sprite sprite;
 
+	private:
 		void checkMovementEvents();
 		void checkShootingEvents();
 		void checkEvents();
