@@ -47,9 +47,9 @@ namespace pi
 	/*
 	===============================================================================
 	Created by: Condzi
-		Class created for manipulating INI files. Almost every method has additional 
-		parameter 'ini_error_t*' - it's a pointer to error message. For example if 
-		Parse() method return false, the ini_error_t::what will contain information 
+		Class created for manipulating INI files. Almost every method has additional
+		parameter 'ini_error_t*' - it's a pointer to error message. For example if
+		Parse() method return false, the ini_error_t::what will contain information
 		about error.
 
 	===============================================================================
@@ -111,7 +111,7 @@ namespace pi
 		if ( !file.good() || !file.is_open() )
 		{
 			if ( errorOutput )
-				errorOutput->what = "Cannot open file (" + path + ") \n";
+				errorOutput->what = "Cannot open file (" + path + ")";
 
 			this->loaded = false;
 			return false;
@@ -167,7 +167,7 @@ namespace pi
 			if ( tempSectionName == "" )
 			{
 				if ( errorOutput )
-					errorOutput->what = "No section name \n";
+					errorOutput->what = "No section name";
 
 				return false;
 			}
@@ -176,7 +176,7 @@ namespace pi
 			if ( str.find( '=' ) == std::string::npos )
 			{
 				if ( errorOutput )
-					errorOutput->what = "No '=' in data line \n";
+					errorOutput->what = "No '=' in data line";
 
 				return false;
 			}
@@ -238,7 +238,7 @@ namespace pi
 		if ( this->parsedBool.find( section ) == this->parsedBool.end() )
 		{
 			if ( errorOutput )
-				errorOutput->what = "Cannot find bool section name (" + section + ") \n";
+				errorOutput->what = "Cannot find bool section name (" + section + ")";
 
 			return false;
 		}
@@ -246,7 +246,7 @@ namespace pi
 		if ( this->parsedBool[section].find( name ) == this->parsedBool[section].end() )
 		{
 			if ( errorOutput )
-				errorOutput->what = "Cannot find bool in section " + section + " (" + name + ") \n";
+				errorOutput->what = "Cannot find bool in section " + section + " (" + name + ")";
 
 			return false;
 		}
@@ -259,7 +259,7 @@ namespace pi
 		if ( this->parsedInt.find( section ) == this->parsedInt.end() )
 		{
 			if ( errorOutput )
-				errorOutput->what = "Cannot find int section name (" + section + ") \n";
+				errorOutput->what = "Cannot find int section name (" + section + ")";
 
 			return 0;
 		}
@@ -267,7 +267,7 @@ namespace pi
 		if ( this->parsedInt[section].find( name ) == this->parsedInt[section].end() )
 		{
 			if ( errorOutput )
-				errorOutput->what = "Cannot find int in section " + section + " (" + name + ") \n";
+				errorOutput->what = "Cannot find int in section " + section + " (" + name + ")";
 
 			return 0;
 		}
@@ -280,7 +280,7 @@ namespace pi
 		if ( this->parsedDouble.find( section ) == this->parsedDouble.end() )
 		{
 			if ( errorOutput )
-				errorOutput->what = "Cannot find double section name (" + section + ") \n";
+				errorOutput->what = "Cannot find double section name (" + section + ")";
 
 			return 0.0;
 		}
@@ -288,7 +288,7 @@ namespace pi
 		if ( this->parsedDouble[section].find( name ) == this->parsedDouble[section].end() )
 		{
 			if ( errorOutput )
-				errorOutput->what = "Cannot find double in section " + section + " (" + name + ") \n";
+				errorOutput->what = "Cannot find double in section " + section + " (" + name + ")";
 
 			return 0.0;
 		}
@@ -301,7 +301,7 @@ namespace pi
 		if ( this->parsedString.find( section ) == this->parsedString.end() )
 		{
 			if ( errorOutput )
-				errorOutput->what = "Cannot find string section name (" + section + ") \n";
+				errorOutput->what = "Cannot find string section name (" + section + ")";
 
 			return "";
 		}
@@ -309,7 +309,7 @@ namespace pi
 		if ( this->parsedString[section].find( name ) == this->parsedString[section].end() )
 		{
 			if ( errorOutput )
-				errorOutput->what = "Cannot find string in section " + section + " (" + name + ") \n";
+				errorOutput->what = "Cannot find string in section " + section + " (" + name + ")";
 
 			return "";
 		}

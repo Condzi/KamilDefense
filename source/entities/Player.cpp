@@ -96,7 +96,7 @@ namespace kd
 		if ( velocity.y != 0.0f )
 			this->grounded = false;
 
-		this->velocity.y += GRAVITY * OBJECT_WEIGHT * dt;
+		this->velocity.y += GRAVITY * DEFAULT_OBJECT_WEIGHT * dt;
 
 		this->rectangle.left += this->velocity.x * dt;
 		this->rectangle.top += this->velocity.y * dt;

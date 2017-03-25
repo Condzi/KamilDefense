@@ -9,9 +9,13 @@
 #include "states/PlayState.hpp"
 #include "states/MenuState.hpp"
 
+#include "Settings.hpp"
+
 int main()
 {
+
 	cgf::Logger::Initialize();
+	kd::SETTINGS.Load( "GameSettings.ini" );
 	kd::ResourceHolder::Initialize();
 
 	window_t window( { kd::WINDOW_SIZE.x, kd::WINDOW_SIZE.y }, kd::WINDOW_TITLE );

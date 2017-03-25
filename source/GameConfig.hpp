@@ -11,12 +11,12 @@
 
 namespace kd
 {
-	constexpr bool DEBUG_DRAW_BORDERS = true;
+	constexpr bool DEBUG_DRAW_BORDERS = false;
 
 	// Sprites are very small so they must be scaled up
 	constexpr float SCALE = 10.0f;
 	constexpr float GRAVITY = 10.0f;
-	constexpr float OBJECT_WEIGHT = 50.0f;
+	constexpr float DEFAULT_OBJECT_WEIGHT = 50.0f;
 
 	constexpr auto WINDOW_TITLE = "Kamil Defense";
 	struct
@@ -33,7 +33,7 @@ namespace kd
 	constexpr float PLAYER_MISSILE_SPEED_X = 400.0f;
 	constexpr float PLAYER_MISSILE_START_SPEED_Y = -250.0f;
 	constexpr float PLAYER_MISSILE_WEIGHT = 60.0f;
-	constexpr float ENEMY_MISSILE_SPEED = 375.0f;
+	constexpr float ENEMY_MISSILE_SPEED_X = 375.0f;
 	constexpr float ENEMY_MISSILE_WEIGHT = 10.0f;
 
 	constexpr auto FONT_PATH = "data/fonts/wendy.ttf";

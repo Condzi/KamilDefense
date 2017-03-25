@@ -53,7 +53,7 @@ namespace kd
 
 	void Enemy::updateMovement( seconds_t dt )
 	{
-		this->velocity.y += GRAVITY * OBJECT_WEIGHT * dt;
+		this->velocity.y += GRAVITY * DEFAULT_OBJECT_WEIGHT * dt;
 
 		this->rectangle.left += this->velocity.x * dt;
 		this->rectangle.top += this->velocity.y * dt;
@@ -76,8 +76,8 @@ namespace kd
 		missileLeft->SetPosition( this->position );
 		missileRight->SetPosition( { this->position.x + ( 4 * SCALE ), this->position.y } );
 
-		missileLeft->velocity.x = -ENEMY_MISSILE_SPEED;
-		missileRight->velocity.x = ENEMY_MISSILE_SPEED;
+		missileLeft->velocity.x = -ENEMY_MISSILE_SPEED_X;
+		missileRight->velocity.x = ENEMY_MISSILE_SPEED_X;
 
 		missileLeft->rectangle.width = 5.0f;
 		missileLeft->rectangle.height = 2.5f;
