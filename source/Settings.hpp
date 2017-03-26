@@ -5,6 +5,10 @@
 
 #pragma once
 
+#if defined ( _MSC_VER )
+	#pragma warning ( disable : 4244 )
+#endif
+
 #include <iomanip>
 
 #include <framework/Logger.hpp>
