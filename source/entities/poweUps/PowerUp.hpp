@@ -16,7 +16,7 @@ namespace kd
 	===============================================================================
 		Special class for Player - modifies its attributes, so it make him immortal
 		or something like that. Note:
-		Update and Draw methods are called AFTER Player's.
+		Update and Draw methods are called AFTER Players.
 
 	===============================================================================
 	*/

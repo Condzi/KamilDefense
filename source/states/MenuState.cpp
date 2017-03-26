@@ -73,8 +73,8 @@ namespace kd
 
 	void MenuState::OnStop()
 	{
-		entities.clear();
-		drawables.clear();
+		this->entities.clear();
+		this->drawables.clear();
 		ResourceHolder::DeleteAllResourcesByPriority( static_cast<uint8_t>( resourcePriorites_t::UI_MENU ) );
 	}
 
