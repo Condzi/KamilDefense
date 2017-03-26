@@ -15,7 +15,7 @@
 #include "Damagable.hpp"
 #include "Drawable.hpp"
 #include "Entity.hpp" 
-#include "GameConfig.hpp"
+#include "Settings.hpp"
 #include "gameUtil/MissileManager.hpp"
 
 namespace kd

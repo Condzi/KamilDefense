@@ -12,7 +12,7 @@
 #include "BoxCollider.hpp"
 #include "Drawable.hpp"
 #include "Entity.hpp"
-#include "GameConfig.hpp"
+#include "Settings.hpp"
 
 namespace kd
 {

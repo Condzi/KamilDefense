@@ -21,11 +21,11 @@ namespace kd
 		if ( t == entityID_t::BULLET_PLAYER )
 		{
 			this->shape.setFillColor( sf::Color::Yellow );
-			this->weight = PLAYER_MISSILE_WEIGHT;
+			this->weight = SETTINGS.GAMEPLAY.PLAYER_MISSILE_WEIGHT;
 		} else
 		{
 			this->shape.setFillColor( sf::Color::Green );
-			this->weight = ENEMY_MISSILE_WEIGHT;
+			this->weight = SETTINGS.GAMEPLAY.ENEMY_MISSILE_WEIGHT;
 		}
 	}
 
@@ -39,7 +39,7 @@ namespace kd
 
 	void Missile::Update( seconds_t dt )
 	{
-		this->velocity.y += GRAVITY * this->weight * dt;
+		this->velocity.y += SETTINGS.GAMEPLAY.GRAVITY * this->weight * dt;
 		this->shape.setSize( { this->rectangle.width, this->rectangle.height } );
 
 		this->rectangle.left += this->velocity.x * dt;

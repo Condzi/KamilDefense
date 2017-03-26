@@ -16,7 +16,7 @@ namespace kd
 
 	void Border::Draw( sf::RenderTarget& target )
 	{
-		if ( !DEBUG_DRAW_BORDERS )
+		if ( !SETTINGS.GLOBAL.DEBUG_DRAW_BORDERS )
 			return;
 	
 		sf::RectangleShape shape;

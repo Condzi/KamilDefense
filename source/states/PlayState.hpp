@@ -17,7 +17,7 @@
 #include "entities/Entity.hpp"
 #include "entities/Enemy.hpp"
 #include "entities/EnemySpawner.hpp"
-#include "GameConfig.hpp"
+#include "Settings.hpp"
 #include "gameUtil/Level.hpp"
 #include "ResourceHolder.hpp"
 #include "entities/Player.hpp"

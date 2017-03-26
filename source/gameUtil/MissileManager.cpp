@@ -83,7 +83,7 @@ namespace kd
 
 	bool MissileManager::isInWindowBounds( const sf::Vector2f& pos )
 	{
-		return pos.x > WINDOW_SIZE.x || pos.y > WINDOW_SIZE.y ||
+		return pos.x > SETTINGS.GLOBAL.WINDOW_SIZE_X || pos.y > SETTINGS.GLOBAL.WINDOW_SIZE_Y ||
 			pos.x < 0 || pos.y > 0;
 	}
 }

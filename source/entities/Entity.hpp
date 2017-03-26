@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "GameConfig.hpp"
+#include "Settings.hpp"
 #include "Types.hpp"
 
 namespace kd

@@ -59,7 +59,7 @@ namespace kd
 			const std::string ENEMY_TEXTURE = "data/textures/enemy.png";
 		} RESOURCES_PATHES;
 
-		void Load( const std::string& path )
+		inline void Load( const std::string& path )
 		{
 			pi::INIFile file;
 			pi::ini_error_t error;
@@ -111,7 +111,7 @@ namespace kd
 			cgf::Logger::Log( "Settings file read" );
 		}
 
-		void Save( const std::string& path )
+		inline void Save( const std::string& path )
 		{
 			std::ofstream file( path );
 
@@ -148,5 +148,5 @@ namespace kd
 				"ENEMY_TEXTURE = " << this->RESOURCES_PATHES.ENEMY_TEXTURE;
 		}
 
-	} SETTINGS;
+	} static SETTINGS;
 }

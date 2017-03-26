@@ -5,21 +5,20 @@
 
 #include <framework/StateMachine.hpp>
 
-#include "GameConfig.hpp"
 #include "states/PlayState.hpp"
 #include "states/MenuState.hpp"
 
-#include "Settings.hpp"
-
 int main()
 {
-
 	cgf::Logger::Initialize();
 	kd::SETTINGS.Load( "GameSettings.ini" );
 	kd::ResourceHolder::Initialize();
 
-	window_t window( { kd::WINDOW_SIZE.x, kd::WINDOW_SIZE.y }, kd::WINDOW_TITLE );
-	window.setFramerateLimit( kd::FPS_LIMIT );
+	uint32_t x = kd::SETTINGS.GLOBAL.WINDOW_SIZE_X * kd::SETTINGS.GAMEPLAY.SCALE;
+	uint32_t y = kd::SETTINGS.GLOBAL.WINDOW_SIZE_Y * kd::SETTINGS.GAMEPLAY.SCALE;
+
+	window_t window( sf::VideoMode( x, y ), kd::SETTINGS.INTERNAL.WINDOW_TITLE );
+	window.setFramerateLimit( kd::SETTINGS.GLOBAL.FPS_LIMIT );
 
 	cgf::StateMachine stateMachine( static_cast<int16_t>( kd::state_t::MENU ) );
 

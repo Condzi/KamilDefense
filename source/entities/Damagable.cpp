@@ -9,16 +9,16 @@ namespace kd
 {
 	void Damagable::SetHealth( uint8_t val, bool ignoreLimit )
 	{
-		if ( val > MAX_HEALTH && !ignoreLimit )
-			this->health = MAX_HEALTH;
+		if ( val > SETTINGS.GAMEPLAY.MAX_HEALTH && !ignoreLimit )
+			this->health = SETTINGS.GAMEPLAY.MAX_HEALTH;
 		else
 			this->health = val;
 	}
 
 	void Damagable::SetArmor( uint8_t val, bool ignoreLimit )
 	{
-		if ( val > MAX_ARMOR && !ignoreLimit )
-			this->armor = MAX_ARMOR;
+		if ( val > SETTINGS.GAMEPLAY.MAX_ARMOR && !ignoreLimit )
+			this->armor = SETTINGS.GAMEPLAY.MAX_ARMOR;
 		else
 			this->armor = val;
 	}
@@ -28,7 +28,7 @@ namespace kd
 		if ( this->damageBlockTime == 0 )
 		{
 			this->pendingDamage = val;
-			this->damageBlockTime = DAMAGE_BLOCK_TIME;
+			this->damageBlockTime = SETTINGS.GAMEPLAY.DAMAGE_BLOCK_TIME;
 		}
 	}
 

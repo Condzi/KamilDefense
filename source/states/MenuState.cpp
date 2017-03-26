@@ -13,7 +13,7 @@ namespace kd
 		if ( !ResourceHolder::fonts.size() )
 		{
 			ResourceHolder::fonts.push_back( std::make_shared<fontResource_t>() );
-			if ( !ResourceHolder::fonts.back()->loadFromFile( FONT_PATH ) )
+			if ( !ResourceHolder::fonts.back()->loadFromFile( SETTINGS.RESOURCES_PATHES.FONT ) )
 			{
 				ResourceHolder::fonts.pop_back();
 				cgf::Logger::Log( "Cannot load font file!", cgf::Logger::ERROR );
@@ -39,32 +39,32 @@ namespace kd
 		auto buttonStart = std::make_shared<Button>();
 		{
 			buttonStart->SetDrawLayer( 1 );
-			buttonStart->SetPosition( { WINDOW_SIZE.x / 2, WINDOW_SIZE.y / 2 } );
+			buttonStart->SetPosition( { SETTINGS.GLOBAL.WINDOW_SIZE_X / 2.0f, SETTINGS.GLOBAL.WINDOW_SIZE_Y / 2.0f } );
 			buttonStart->SetType( entityID_t::BUTTON_START );
 			buttonStart->SetTextFont( ResourceHolder::GetFont( static_cast<uint8_t>( fontResourceID_t::UI_FONT ) ) );
 			buttonStart->SetTextString( "START" );
 			buttonStart->SetShapeSize( { 64, 16 } );
 			buttonStart->SetTextSize( 33 );
-			buttonStart->SetOutline( 1 * SCALE, sf::Color::Blue, sf::Color::Transparent );
+			buttonStart->SetOutline( 1 * SETTINGS.GAMEPLAY.SCALE, sf::Color::Blue, sf::Color::Transparent );
 		}
 
 		auto buttonExit = std::make_shared<Button>();
 		{
 			buttonExit->SetDrawLayer( 1 );
-			buttonExit->SetPosition( { WINDOW_SIZE.x / 2, WINDOW_SIZE.y / 2 + 32 } );
+			buttonExit->SetPosition( { SETTINGS.GLOBAL.WINDOW_SIZE_X / 2.0f, SETTINGS.GLOBAL.WINDOW_SIZE_Y / 2.0f + 32 } );
 			buttonExit->SetType( entityID_t::BUTTON_EXIT );
 			buttonExit->SetTextFont( ResourceHolder::GetFont( static_cast<uint8_t>( fontResourceID_t::UI_FONT ) ) );
 			buttonExit->SetTextString( "EXIT" );
 			buttonExit->SetShapeSize( { 64, 16 } );
 			buttonExit->SetTextSize( 33 );
-			buttonExit->SetOutline( 1 * SCALE, sf::Color::Blue, sf::Color::Transparent );
+			buttonExit->SetOutline( 1 * SETTINGS.GAMEPLAY.SCALE, sf::Color::Blue, sf::Color::Transparent );
 		}
 
 		auto bg = std::make_shared<Background>();
 		bg->SetType( entityID_t::BACKGROUND );
 		bg->SetDrawLayer( 0 );
 		bg->SetTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::MENU_BG ) ) );
-		bg->SetSpriteScale( { 2 * SCALE, 2 * SCALE } );
+		bg->SetSpriteScale( { 2 * SETTINGS.GAMEPLAY.SCALE, 2 * SETTINGS.GAMEPLAY.SCALE } );
 		this->entities.push_back( bg );
 
 		this->entities.push_back( buttonStart );
@@ -93,7 +93,7 @@ namespace kd
 				return static_cast<int16_t>( stateToSwitch );
 			}
 
-			this->update( 1.0f / FPS_LIMIT );
+			this->update( 1.0f / SETTINGS.GLOBAL.FPS_LIMIT );
 
 			this->draw();
 		}

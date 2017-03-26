@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "GameConfig.hpp"
+#include "Settings.hpp"
 #include "Types.hpp"
 
 namespace kd
@@ -17,7 +17,7 @@ namespace kd
 			health( 0 ),
 			armor( 0 ),
 			lifeState( lifeState_t::ALIVE ),
-			damageBlockTime( DAMAGE_BLOCK_TIME ),
+			damageBlockTime( SETTINGS.GAMEPLAY.DAMAGE_BLOCK_TIME ),
 			pendingDamage( 0 )
 		{}
 

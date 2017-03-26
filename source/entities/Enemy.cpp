@@ -14,7 +14,7 @@ namespace kd
 		else
 		{
 			this->sprite.setTexture( *tex.lock() );
-			this->sprite.setScale( SCALE, SCALE );
+			this->sprite.setScale( SETTINGS.GAMEPLAY.SCALE, SETTINGS.GAMEPLAY.SCALE );
 
 			this->rectangle.width = this->sprite.getGlobalBounds().width;
 			this->rectangle.height = this->sprite.getGlobalBounds().height;
@@ -53,7 +53,7 @@ namespace kd
 
 	void Enemy::updateMovement( seconds_t dt )
 	{
-		this->velocity.y += GRAVITY * DEFAULT_OBJECT_WEIGHT * dt;
+		this->velocity.y += SETTINGS.GAMEPLAY.GRAVITY * SETTINGS.GAMEPLAY.DEFAULT_OBJECT_WEIGHT * dt;
 
 		this->rectangle.left += this->velocity.x * dt;
 		this->rectangle.top += this->velocity.y * dt;
@@ -65,7 +65,7 @@ namespace kd
 
 	void Enemy::shoot()
 	{
-		this->shootTime = ENEMY_SHOOT_COOLDOWN;
+		this->shootTime = SETTINGS.GAMEPLAY.ENEMY_SHOOT_COOLDOWN;
 
 		auto missileLeft = std::make_shared<Missile>();
 		auto missileRight = std::make_shared<Missile>();
@@ -74,10 +74,10 @@ namespace kd
 		missileRight->SetType( entityID_t::BULLET_ENEMY );
 
 		missileLeft->SetPosition( this->position );
-		missileRight->SetPosition( { this->position.x + ( 4 * SCALE ), this->position.y } );
+		missileRight->SetPosition( { this->position.x + ( 4 * SETTINGS.GAMEPLAY.SCALE ), this->position.y } );
 
-		missileLeft->velocity.x = -ENEMY_MISSILE_SPEED_X;
-		missileRight->velocity.x = ENEMY_MISSILE_SPEED_X;
+		missileLeft->velocity.x = -SETTINGS.GAMEPLAY.ENEMY_MISSILE_SPEED_X;
+		missileRight->velocity.x = SETTINGS.GAMEPLAY.ENEMY_MISSILE_SPEED_X;
 
 		missileLeft->rectangle.width = 5.0f;
 		missileLeft->rectangle.height = 2.5f;

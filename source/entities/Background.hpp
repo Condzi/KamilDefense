@@ -7,14 +7,12 @@
 
 #include <memory>
 
-#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
 #include <framework/Logger.hpp>
 
 #include "Drawable.hpp"
 #include "Entity.hpp"
-#include "GameConfig.hpp"
 
 namespace kd
 {

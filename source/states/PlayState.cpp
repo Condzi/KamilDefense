@@ -41,22 +41,22 @@ namespace kd
 		// Initializing texts sizes
 		{
 			for ( auto text : ResourceHolder::texts )
-				text->setCharacterSize( static_cast<uint32_t>( 6 * SCALE ) );
+				text->setCharacterSize( static_cast<uint32_t>( 6 * SETTINGS.GAMEPLAY.SCALE ) );
 		}
 		// Initializing texts posiion
 		{
 			for ( auto text : ResourceHolder::texts )
 			{
 				if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::HP_1 ) )
-					text->setPosition( 64.5f * SCALE, 0 );
+					text->setPosition( 64.5f * SETTINGS.GAMEPLAY.SCALE, 0 );
 				else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::HP_2 ) )
-					text->setPosition( 64.5f * SCALE, 5 * SCALE );
+					text->setPosition( 64.5f * SETTINGS.GAMEPLAY.SCALE, 5 * SETTINGS.GAMEPLAY.SCALE );
 				else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::HP_3 ) )
-					text->setPosition( 64.5f * SCALE, 10 * SCALE );
+					text->setPosition( 64.5f * SETTINGS.GAMEPLAY.SCALE, 10 * SETTINGS.GAMEPLAY.SCALE );
 				else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::ARMOR ) )
-					text->setPosition( 1 * SCALE, 62 * SCALE );
+					text->setPosition( 1 * SETTINGS.GAMEPLAY.SCALE, 62 * SETTINGS.GAMEPLAY.SCALE );
 				else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::BASE_HP ) )
-					text->setPosition( 62 * SCALE, 62 * SCALE );
+					text->setPosition( 62 * SETTINGS.GAMEPLAY.SCALE, 62 * SETTINGS.GAMEPLAY.SCALE );
 			}
 		}
 
@@ -64,10 +64,10 @@ namespace kd
 		{
 			ResourceHolder::textures.push_back( std::make_shared<textureResource_t>() );
 
-			if ( !ResourceHolder::textures.back()->loadFromFile( PLAYER_TEXTURE_PATH ) )
+			if ( !ResourceHolder::textures.back()->loadFromFile( SETTINGS.RESOURCES_PATHES.PLAYER_TEXTURE ) )
 			{
 				ResourceHolder::textures.pop_back();
-				cgf::Logger::Log( "Cannot load texture from path \"" + std::string( PLAYER_TEXTURE_PATH ) + "\"", cgf::Logger::ERROR );
+				cgf::Logger::Log( "Cannot load texture from path \"" + std::string( SETTINGS.RESOURCES_PATHES.PLAYER_TEXTURE ) + "\"", cgf::Logger::ERROR );
 			} else
 			{
 				ResourceHolder::textures.back()->SetResourceID( static_cast<uint8_t>( textureResourceID_t::PLAYER ) );
@@ -75,10 +75,10 @@ namespace kd
 			}
 
 			ResourceHolder::textures.push_back( std::make_shared<textureResource_t>() );
-			if ( !ResourceHolder::textures.back()->loadFromFile( ENEMY_TEXTURE_PATH ) )
+			if ( !ResourceHolder::textures.back()->loadFromFile( SETTINGS.RESOURCES_PATHES.ENEMY_TEXTURE ) )
 			{
 				ResourceHolder::textures.pop_back();
-				cgf::Logger::Log( "Cannot load texture from path \"" + std::string( ENEMY_TEXTURE_PATH ) + "\"", cgf::Logger::ERROR );
+				cgf::Logger::Log( "Cannot load texture from path \"" + std::string( SETTINGS.RESOURCES_PATHES.ENEMY_TEXTURE ) + "\"", cgf::Logger::ERROR );
 			} else
 			{
 				ResourceHolder::textures.back()->SetResourceID( static_cast<uint8_t>( textureResourceID_t::ENEMY ) );
@@ -94,8 +94,8 @@ namespace kd
 		{
 			this->playerPointer = player;
 
-			player->SetHealth( MAX_HEALTH );
-			player->SetArmor( MAX_ARMOR );
+			player->SetHealth( SETTINGS.GAMEPLAY.MAX_HEALTH );
+			player->SetArmor( SETTINGS.GAMEPLAY.MAX_ARMOR );
 
 			player->SetTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::PLAYER ) ) );
 
@@ -121,7 +121,7 @@ namespace kd
 		this->level.RemoveEntities();
 		this->entities.clear();
 		MissileManager::Shutdown();
-		ResourceHolder::DeleteAllResourcesByPriority(static_cast<uint8_t>(resourcePriorites_t::ENTITIES));
+		ResourceHolder::DeleteAllResourcesByPriority( static_cast<uint8_t>( resourcePriorites_t::ENTITIES ) );
 		ResourceHolder::DeleteAllResourcesByPriority( static_cast<uint8_t>( resourcePriorites_t::LEVEL ) );
 		ResourceHolder::DeleteAllResourcesByPriority( static_cast<uint8_t>( resourcePriorites_t::UI_GAME ) );
 
@@ -143,7 +143,7 @@ namespace kd
 				return static_cast<int16_t>( stateToSwitch );
 			}
 
-			this->update( 1.0f / FPS_LIMIT );
+			this->update( 1.0f / SETTINGS.GLOBAL.FPS_LIMIT );
 
 			this->draw();
 		}
@@ -157,8 +157,8 @@ namespace kd
 		rectangle.setFillColor( sf::Color::Transparent );
 		rectangle.setOutlineColor( sf::Color( 125, 125, 125 ) );
 		rectangle.setOutlineThickness( 5.0f );
-		rectangle.setPosition( static_cast<float>( WINDOW_SIZE.x / 2 ), static_cast<float>( WINDOW_SIZE.y / 2 ) );
-		rectangle.setSize( sf::Vector2f( static_cast<float>( WINDOW_SIZE.x / 2 ), static_cast<float>( WINDOW_SIZE.y / 2 ) ) );
+		rectangle.setPosition( static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_X / 2 ), static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_Y / 2 ) );
+		rectangle.setSize( sf::Vector2f( static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_X / 2 ), static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_Y / 2 ) ) );
 		rectangle.setOrigin( rectangle.getSize().x / 2, rectangle.getSize().y / 2 );
 
 		rectangle.rotate( 90 * dt );
@@ -240,11 +240,11 @@ namespace kd
 		for ( size_t i = 0; i < this->entities.size(); i++ )
 			this->entities[i]->Update( dt );
 
-		this->collisionChecker.Update( 1.0f / FPS_LIMIT );
+		this->collisionChecker.Update( 1.0f / SETTINGS.GLOBAL.FPS_LIMIT );
 
 		this->updateUI();
 
-		MissileManager::Update( 1.0f / FPS_LIMIT );
+		MissileManager::Update( 1.0f / SETTINGS.GLOBAL.FPS_LIMIT );
 
 		this->updateDrawables();
 	}
@@ -265,7 +265,7 @@ namespace kd
 					entitiesAlreadyDrawn++;
 				}
 		}
-		
+
 
 		for ( auto text : ResourceHolder::texts )
 			this->windowPtr->draw( *text );

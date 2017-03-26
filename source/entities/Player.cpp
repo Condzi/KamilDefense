@@ -21,7 +21,7 @@ namespace kd
 		else
 		{
 			this->sprite.setTexture( *tex.lock() );
-			this->sprite.setScale( SCALE, SCALE );
+			this->sprite.setScale( SETTINGS.GAMEPLAY.SCALE, SETTINGS.GAMEPLAY.SCALE );
 
 			this->rectangle.width = this->sprite.getGlobalBounds().width;
 			this->rectangle.height = this->sprite.getGlobalBounds().height;
@@ -66,14 +66,14 @@ namespace kd
 
 		if ( sf::Keyboard::isKeyPressed( this->shootingKeys.left ) )
 		{
-			bulletVelocityX = -PLAYER_MISSILE_SPEED_X;
+			bulletVelocityX = -SETTINGS.GAMEPLAY.PLAYER_MISSILE_SPEED_X;
 			shoot = true;
 		}
 
 		if ( sf::Keyboard::isKeyPressed( this->shootingKeys.right ) )
 		{
-			bulletVelocityX = PLAYER_MISSILE_SPEED_X;
-			posXoffset = -1.5f * SCALE;
+			bulletVelocityX = SETTINGS.GAMEPLAY.PLAYER_MISSILE_SPEED_X;
+			posXoffset = -1.5f * SETTINGS.GAMEPLAY.SCALE;
 			shoot = true;
 		}
 
@@ -81,12 +81,12 @@ namespace kd
 		{
 			auto missile = std::make_shared<Missile>();
 
-			missile->SetPosition( { this->position.x + ( 3 * SCALE ) + posXoffset, this->position.y + ( 5 * SCALE ) } );
+			missile->SetPosition( { this->position.x + ( 3 * SETTINGS.GAMEPLAY.SCALE ) + posXoffset, this->position.y + ( 5 * SETTINGS.GAMEPLAY.SCALE ) } );
 			missile->rectangle.width = 5.0f;
 			missile->rectangle.height = 2.5f;
 			missile->SetType( entityID_t::BULLET_PLAYER );
 			missile->velocity.x = bulletVelocityX;
-			missile->velocity.y = PLAYER_MISSILE_START_SPEED_Y;
+			missile->velocity.y = SETTINGS.GAMEPLAY.PLAYER_MISSILE_START_SPEED_Y;
 			MissileManager::AddMissile( missile );
 		}
 	}
@@ -96,7 +96,7 @@ namespace kd
 		if ( velocity.y != 0.0f )
 			this->grounded = false;
 
-		this->velocity.y += GRAVITY * DEFAULT_OBJECT_WEIGHT * dt;
+		this->velocity.y += SETTINGS.GAMEPLAY.GRAVITY * SETTINGS.GAMEPLAY.DEFAULT_OBJECT_WEIGHT * dt;
 
 		this->rectangle.left += this->velocity.x * dt;
 		this->rectangle.top += this->velocity.y * dt;
