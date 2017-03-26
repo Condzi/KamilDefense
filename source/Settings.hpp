@@ -13,7 +13,7 @@ namespace kd
 	/*
 	===============================================================================
 		Global settings structure with modificators of Gameplay and other application
-		parameters. Everytging is changable in configuration file.
+		parameters. Everything is changable in configuration file.
 
 	===============================================================================
 	*/
@@ -59,15 +59,18 @@ namespace kd
 			const std::string ENEMY_TEXTURE = "data/textures/enemy.png";
 		} RESOURCES_PATHES;
 
-		inline void Load( const std::string& path )
+		void Load( const std::string& path )
 		{
 			pi::INIFile file;
 			pi::ini_error_t error;
 
 			if ( !file.LoadFromFile( path, &error ) )
 			{
-				cgf::Logger::Log( "Error loading settings: \"" + error.what + "\".", cgf::Logger::ERROR );
-				this->GenerateDefault( file );
+				cgf::Logger::Log( "Error loading settings: \"" + error.what + "\", generating default file...", cgf::Logger::ERROR );
+				// Saves default data
+				this->Save( path );
+				this->Load( path );
+				return;
 			}
 
 			if ( !file.Parse( &error ) )
@@ -95,7 +98,7 @@ namespace kd
 			const_cast<seconds_t&>( this->GAMEPLAY.ENEMY_SHOOT_COOLDOWN ) = file.GetDouble( "GAMEPLAY", "ENEMY_SHOOT_COOLDOWN" );
 
 			const_cast<float&>( this->GAMEPLAY.PLAYER_MISSILE_SPEED_X ) = file.GetDouble( "GAMEPLAY", "PLAYER_MISSILE_SPEED_X" );
-			const_cast<float&>( this->GAMEPLAY.PLAYER_MISSILE_START_SPEED_Y ) = file.GetDouble( "GAMEPLAY", "PLAYER_MISSILE_SPEED_START_Y" );
+			const_cast<float&>( this->GAMEPLAY.PLAYER_MISSILE_START_SPEED_Y ) = file.GetDouble( "GAMEPLAY", "PLAYER_MISSILE_START_SPEED_Y" );
 			const_cast<float&>( this->GAMEPLAY.PLAYER_MISSILE_WEIGHT ) = file.GetDouble( "GAMEPLAY", "PLAYER_MISSILE_WEIGHT" );
 
 			const_cast<float&>( this->GAMEPLAY.ENEMY_MISSILE_SPEED_X ) = file.GetDouble( "GAMEPLAY", "ENEMY_MISSILE_SPEED_X" );
@@ -104,15 +107,45 @@ namespace kd
 			const_cast<std::string&>( this->RESOURCES_PATHES.FONT ) = file.GetString( "RESOURCES_PATHES", "FONT" );
 			const_cast<std::string&>( this->RESOURCES_PATHES.PLAYER_TEXTURE ) = file.GetString( "RESOURCES_PATHES", "PLAYER_TEXTURE" );
 			const_cast<std::string&>( this->RESOURCES_PATHES.ENEMY_TEXTURE ) = file.GetString( "RESOURCES_PATHES", "ENEMY_TEXTURE" );
+		
+			cgf::Logger::Log( "Settings file read" );
 		}
 
-		inline void Save( const std::string& path )
+		void Save( const std::string& path )
 		{
-			//...
-		}
+			std::ofstream file( path );
 
-		inline void GenerateDefault( pi::INIFile& file )
-		{
+			file
+				<< "[INTERNAL]\n" <<
+				"WINDOW_TITLE = " << this->INTERNAL.WINDOW_TITLE << "\n\n" <<
+
+				"[GAMEPLAY]\n" <<
+				"SCALE = " << this->GAMEPLAY.SCALE << "\n" <<
+				"GRAVITY = " << this->GAMEPLAY.GRAVITY << "\n" <<
+				"DEFAULT_OBJECT_WEIGHT = " << this->GAMEPLAY.DEFAULT_OBJECT_WEIGHT << "\n\n" <<
+
+				"MAX_HEALTH = " << (int32_t)this->GAMEPLAY.MAX_HEALTH << "\n" <<
+				"MAX_ARMOR = " << (int32_t)this->GAMEPLAY.MAX_ARMOR << "\n" <<
+				"DAMAGE_BLOCK_TIME = " << this->GAMEPLAY.DAMAGE_BLOCK_TIME << "\n" <<
+				"ENEMY_SHOOT_COOLDOWN = " << this->GAMEPLAY.ENEMY_SHOOT_COOLDOWN << "\n\n" <<
+
+				"PLAYER_MISSILE_SPEED_X = " << this->GAMEPLAY.PLAYER_MISSILE_SPEED_X << "\n" <<
+				"PLAYER_MISSILE_START_SPEED_Y = " << this->GAMEPLAY.PLAYER_MISSILE_START_SPEED_Y << "\n" <<
+				"PLAYER_MISSILE_WEIGHT = " << this->GAMEPLAY.PLAYER_MISSILE_WEIGHT << "\n\n" <<
+
+				"ENEMY_MISSILE_SPEED_X = " << this->GAMEPLAY.ENEMY_MISSILE_SPEED_X << "\n" <<
+				"ENEMY_MISSILE_WEIGHT = " << this->GAMEPLAY.ENEMY_MISSILE_WEIGHT << "\n\n" <<
+
+				"[GLOBAL]\n" <<
+				"DEBUG_DRAW_BORDERS = " << std::boolalpha << this->GLOBAL.DEBUG_DRAW_BORDERS << "\n" <<
+				"WINDOW_SIZE_X = " << this->GLOBAL.WINDOW_SIZE_X << "\n" <<
+				"WINDOW_SIZE_Y = " << this->GLOBAL.WINDOW_SIZE_Y << "\n" <<
+				"FPS_LIMIT = " << this->GLOBAL.FPS_LIMIT << "\n\n" <<
+
+				"[RESOURCES_PATHES]\n" <<
+				"FONT = " << this->RESOURCES_PATHES.FONT << "\n" <<
+				"PLAYER_TEXTURE = " << this->RESOURCES_PATHES.PLAYER_TEXTURE << "\n" <<
+				"ENEMY_TEXTURE = " << this->RESOURCES_PATHES.ENEMY_TEXTURE;
 		}
 
 	} SETTINGS;
