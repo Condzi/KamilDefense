@@ -39,7 +39,7 @@ namespace kd
 		auto buttonStart = std::make_shared<Button>();
 		{
 			buttonStart->SetDrawLayer( 1 );
-			buttonStart->SetPosition( { SETTINGS.GLOBAL.WINDOW_SIZE_X / 2.0f, SETTINGS.GLOBAL.WINDOW_SIZE_Y / 2.0f } );
+			buttonStart->SetPosition( { SETTINGS.GLOBAL.WINDOW_SIZE_X * SETTINGS.GAMEPLAY.SCALE / 2.0f, SETTINGS.GLOBAL.WINDOW_SIZE_Y * SETTINGS.GAMEPLAY.SCALE / 2.0f } );
 			buttonStart->SetType( entityID_t::BUTTON_START );
 			buttonStart->SetTextFont( ResourceHolder::GetFont( static_cast<uint8_t>( fontResourceID_t::UI_FONT ) ) );
 			buttonStart->SetTextString( "START" );
@@ -51,7 +51,7 @@ namespace kd
 		auto buttonExit = std::make_shared<Button>();
 		{
 			buttonExit->SetDrawLayer( 1 );
-			buttonExit->SetPosition( { SETTINGS.GLOBAL.WINDOW_SIZE_X / 2.0f, SETTINGS.GLOBAL.WINDOW_SIZE_Y / 2.0f + 32 } );
+			buttonExit->SetPosition( { SETTINGS.GLOBAL.WINDOW_SIZE_X * SETTINGS.GAMEPLAY.SCALE / 2.0f, SETTINGS.GLOBAL.WINDOW_SIZE_Y * SETTINGS.GAMEPLAY.SCALE / 2.0f + 32 } );
 			buttonExit->SetType( entityID_t::BUTTON_EXIT );
 			buttonExit->SetTextFont( ResourceHolder::GetFont( static_cast<uint8_t>( fontResourceID_t::UI_FONT ) ) );
 			buttonExit->SetTextString( "EXIT" );

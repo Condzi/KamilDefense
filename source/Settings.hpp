@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <iomanip>
+
 #include <framework/Logger.hpp>
 #include <framework/INIparser.hpp>
 
@@ -26,22 +28,24 @@ namespace kd
 
 		struct
 		{
+			// Note: All float values must end up with .NON-ZERO! Otherwise it'll save as int not float value!
+
 			// Textures are very small so they must be scaled up.
-			const float SCALE = 10.0f;
-			const float GRAVITY = 10.0f;
-			const float DEFAULT_OBJECT_WEIGHT = 50.0f;
+			const float SCALE = 10.1f;
+			const float GRAVITY = 10.1f;
+			const float DEFAULT_OBJECT_WEIGHT = 50.1f;
 
 			const uint8_t MAX_HEALTH = 200ui8;
 			const uint8_t MAX_ARMOR = 100ui8;
 			const seconds_t DAMAGE_BLOCK_TIME = 0.32f;
 			const seconds_t ENEMY_SHOOT_COOLDOWN = 0.5f;
 
-			const float PLAYER_MISSILE_SPEED_X = 400.0f;
-			const float PLAYER_MISSILE_START_SPEED_Y = -250.0f;
-			const float PLAYER_MISSILE_WEIGHT = 60.0f;
+			const float PLAYER_MISSILE_SPEED_X = 400.1f;
+			const float PLAYER_MISSILE_START_SPEED_Y = -250.1f;
+			const float PLAYER_MISSILE_WEIGHT = 60.1f;
 
-			const float ENEMY_MISSILE_SPEED_X = 375.0f;
-			const float ENEMY_MISSILE_WEIGHT = 10.0f;
+			const float ENEMY_MISSILE_SPEED_X = 375.1f;
+			const float ENEMY_MISSILE_WEIGHT = 10.1f;
 		} GAMEPLAY;
 
 		struct
