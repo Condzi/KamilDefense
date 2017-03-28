@@ -8,6 +8,8 @@
 // for seconds_t
 #include <framework/Config.hpp>
 
+#include "Types.hpp"
+
 namespace kd
 {
 	class Player;
@@ -24,14 +26,25 @@ namespace kd
 	{
 	public:
 		PowerUp( Player* pPtr ) :
-			playerPtr( pPtr )
+			playerPtr( pPtr ),
+			removeFromPlayer( false )
 		{}
 		virtual ~PowerUp() = default;
+
+		virtual powerUpID_t GetID() 
+		{ 
+			return powerUpID_t::UNITIALIZED; 
+		}
+		bool GetRemoveFromPlayer()
+		{
+			return this->removeFromPlayer;
+		}
 
 		virtual void Update( seconds_t dt ) {}
 		virtual void Draw( sf::RenderTarget& target ) {}
 
 	protected:
 		Player* playerPtr;
+		bool removeFromPlayer;
 	};
 }

@@ -103,6 +103,12 @@ namespace kd
 		BUTTON_EXIT
 	};
 
+	enum class powerUpID_t
+	{
+		UNITIALIZED = -1,
+		IMMORTAL = 0
+	};
+
 	struct shootingKeys_t final
 	{
 		sf::Keyboard::Key left, right;

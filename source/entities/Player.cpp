@@ -33,6 +33,7 @@ namespace kd
 		this->updateMovement( dt );
 		this->checkEvents();
 		this->updateDamage( dt );
+		this->updatePowerUps( dt );
 	}
 
 	void Player::Draw( sf::RenderTarget& target )
@@ -41,6 +42,8 @@ namespace kd
 			cgf::Logger::Log( "Player texture is not set, nothing will be drawn", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 		else
 			target.draw( this->sprite );
+
+		this->drawPowerUps( target );
 	}
 
 	void Player::checkMovementEvents()
@@ -93,7 +96,7 @@ namespace kd
 
 	void Player::updateMovement( seconds_t dt )
 	{
-		if ( velocity.y != 0.0f )
+		if ( this->velocity.y != 0.0f )
 			this->grounded = false;
 
 		this->velocity.y += SETTINGS.GAMEPLAY.GRAVITY * SETTINGS.GAMEPLAY.DEFAULT_OBJECT_WEIGHT * dt;
@@ -106,9 +109,29 @@ namespace kd
 		this->sprite.setPosition( this->position );
 	}
 
+	void Player::updatePowerUps( seconds_t dt )
+	{
+		for ( auto it = this->powerUps.begin(); it != this->powerUps.end();)
+		{
+			if ( ( *it )->GetRemoveFromPlayer() )
+				it = this->powerUps.erase( it );
+			else
+				it++;
+		}
+
+		for ( auto& ptr : this->powerUps )
+			ptr->Update( dt );
+	}
+
+	void Player::drawPowerUps( sf::RenderTarget & target )
+	{
+		for ( auto& ptr : this->powerUps )
+			ptr->Draw( target );
+	}
+
 	void Player::checkEvents()
 	{
-		checkMovementEvents();
-		checkShootingEvents();
+		this->checkMovementEvents();
+		this->checkShootingEvents();
 	}
 }
