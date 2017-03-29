@@ -6,7 +6,7 @@
 #pragma once
 
 #if defined ( _MSC_VER )
-	#pragma warning ( disable : 4244 )
+#pragma warning ( disable : 4244 )
 #endif
 
 #include <iomanip>
@@ -50,6 +50,8 @@ namespace kd
 
 			const float ENEMY_MISSILE_SPEED_X = 375.1f;
 			const float ENEMY_MISSILE_WEIGHT = 10.1f;
+
+			seconds_t IMMORTAL_EFFECT_TIME = 10.0f;
 		} GAMEPLAY;
 
 		struct
@@ -111,11 +113,13 @@ namespace kd
 
 			const_cast<float&>( this->GAMEPLAY.ENEMY_MISSILE_SPEED_X ) = file.GetDouble( "GAMEPLAY", "ENEMY_MISSILE_SPEED_X" );
 			const_cast<float&>( this->GAMEPLAY.ENEMY_MISSILE_WEIGHT ) = file.GetDouble( "GAMEPLAY", "ENEMY_MISSILE_WEIGHT" );
+			const_cast<seconds_t&>( this->GAMEPLAY.IMMORTAL_EFFECT_TIME ) = file.GetDouble( "GAMEPLAY", "IMMORTAL_EFFECT_TIME" );
+
 
 			const_cast<std::string&>( this->RESOURCES_PATHES.FONT ) = file.GetString( "RESOURCES_PATHES", "FONT" );
 			const_cast<std::string&>( this->RESOURCES_PATHES.PLAYER_TEXTURE ) = file.GetString( "RESOURCES_PATHES", "PLAYER_TEXTURE" );
 			const_cast<std::string&>( this->RESOURCES_PATHES.ENEMY_TEXTURE ) = file.GetString( "RESOURCES_PATHES", "ENEMY_TEXTURE" );
-		
+
 			cgf::Logger::Log( "Settings file read" );
 		}
 
@@ -132,8 +136,8 @@ namespace kd
 				"GRAVITY = " << this->GAMEPLAY.GRAVITY << "\n" <<
 				"DEFAULT_OBJECT_WEIGHT = " << this->GAMEPLAY.DEFAULT_OBJECT_WEIGHT << "\n\n" <<
 
-				"MAX_HEALTH = " << (int32_t)this->GAMEPLAY.MAX_HEALTH << "\n" <<
-				"MAX_ARMOR = " << (int32_t)this->GAMEPLAY.MAX_ARMOR << "\n" <<
+				"MAX_HEALTH = " << ( int32_t )this->GAMEPLAY.MAX_HEALTH << "\n" <<
+				"MAX_ARMOR = " << ( int32_t )this->GAMEPLAY.MAX_ARMOR << "\n" <<
 				"DAMAGE_BLOCK_TIME = " << this->GAMEPLAY.DAMAGE_BLOCK_TIME << "\n" <<
 				"ENEMY_SHOOT_COOLDOWN = " << this->GAMEPLAY.ENEMY_SHOOT_COOLDOWN << "\n\n" <<
 
@@ -142,7 +146,8 @@ namespace kd
 				"PLAYER_MISSILE_WEIGHT = " << this->GAMEPLAY.PLAYER_MISSILE_WEIGHT << "\n\n" <<
 
 				"ENEMY_MISSILE_SPEED_X = " << this->GAMEPLAY.ENEMY_MISSILE_SPEED_X << "\n" <<
-				"ENEMY_MISSILE_WEIGHT = " << this->GAMEPLAY.ENEMY_MISSILE_WEIGHT << "\n\n" <<
+				"ENEMY_MISSILE_WEIGHT = " << this->GAMEPLAY.ENEMY_MISSILE_WEIGHT << "\n" <<
+				"IMMORTAL_EFFECT_TIME = " << this->GAMEPLAY.IMMORTAL_EFFECT_TIME << "\n\n" <<
 
 				"[GLOBAL]\n" <<
 				"DEBUG_DRAW_BORDERS = " << std::boolalpha << this->GLOBAL.DEBUG_DRAW_BORDERS << "\n" <<

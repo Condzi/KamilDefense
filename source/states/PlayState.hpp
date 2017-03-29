@@ -22,6 +22,8 @@
 #include "ResourceHolder.hpp"
 #include "entities/Player.hpp"
 
+#include "entities/poweUps/Immortality.hpp"
+
 namespace kd
 {
 	class PlayState final :

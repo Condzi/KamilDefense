@@ -101,6 +101,8 @@ namespace kd
 
 			player->SetMovementKeys( movementKeys_t( sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space ) );
 			player->SetMovementForces( movementForces_t( -250.0f, 250.0f, -500.0f ) );
+			
+			player->AddPowerUp<ImmortalityPowerUp>();
 		}
 
 		this->entities.push_back( player );

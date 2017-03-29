@@ -27,8 +27,6 @@ namespace kd
 		public Entity,
 		public Damagable
 	{
-		friend struct PoweUp;
-
 	public:
 		Player() :
 			BoxCollider( this ),
@@ -65,23 +63,11 @@ namespace kd
 		{
 			this->baseHealth -= val;
 		}
-
-		void Update( seconds_t dt ) override;
-		void Draw( sf::RenderTarget& target ) override;
-
-		// Making these fields protected makes them public for childs of PowerUp class (at least it should!)
-	protected:
-		shootingKeys_t shootingKeys;
-		movementKeys_t movementKeys;
-		movementForces_t movementForces;
-		int8_t baseHealth;
-
-		sf::Sprite sprite;
-
-		template<class T, enable_if <std::is_base_of<PowerUp, T>>>
-		void addPowerUp()
+		// The enable_if is causing strange compiler errors.
+		template<class T/*, enable_if <std::is_base_of<PowerUp, T>>*/>
+		void AddPowerUp()
 		{
-			T t;
+			T t( this );
 			powerUpID_t tID = t.GetID();
 			if ( tID == powerUpID_t::UNITIALIZED )
 			{
@@ -92,15 +78,25 @@ namespace kd
 			for ( const auto& ptr : this->powerUps )
 				if ( ptr->GetID() == tID )
 				{
-				cgf::Logger::Log( "Trying to add PoweUP of same ID (" + std::to_string( (int)tID ) + ")", cgf::Logger::ERROR, cgf::Logger::CONSOLE );
+					cgf::Logger::Log( "Trying to add PoweUP of same ID (" + std::to_string( (int)tID ) + ")", cgf::Logger::ERROR, cgf::Logger::CONSOLE );
 					return;
 				}
 
-			this->powerUps.push_back( std::make_unique<T>() );
-			cgf::Logger::Log( "Added PowerUp to Player of ID (" + std::to_string( (int)tId ) + ")" );
+			this->powerUps.push_back( std::make_unique<T>( t ) );
+			cgf::Logger::Log( "Added PowerUp to Player of ID (" + std::to_string( (int)tID ) + ")" );
 		}
 
+		void Update( seconds_t dt ) override;
+		void Draw( sf::RenderTarget& target ) override;
+
 	private:
+		shootingKeys_t shootingKeys;
+		movementKeys_t movementKeys;
+		movementForces_t movementForces;
+		int8_t baseHealth;
+
+		sf::Sprite sprite;
+
 		std::vector<std::unique_ptr<PowerUp>> powerUps;
 
 		void checkMovementEvents();
