@@ -108,6 +108,7 @@ namespace kd
 		this->entities.push_back( player );
 		this->collisionChecker.AddBoxCollider( player );
 
+		// Change it to menu values (some menu before playing etc) in future
 		this->level.Load( "data/TestLevel.lvl" );
 		this->level.AddEntities( &this->entities, &this->collisionChecker );
 		this->level.InitializeTextures();
@@ -173,7 +174,8 @@ namespace kd
 		w.draw( rectangle );
 		w.display();
 
-		cgf::Logger::Log( "Thread update...", cgf::Logger::INFO, cgf::Logger::CONSOLE );
+		// It cause some threading issues - messages are overleaping 
+		//cgf::Logger::Log( "Thread update...", cgf::Logger::INFO, cgf::Logger::CONSOLE );
 	}
 
 
