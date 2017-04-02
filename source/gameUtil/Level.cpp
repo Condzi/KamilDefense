@@ -111,34 +111,34 @@ namespace kd
 	{
 		player.lock()->SetPosition( this->levelData.playerSpawnPosition );
 		player.lock()->SetBaseHealth( this->levelData.baseHealth );
-	
+
 		for ( auto base : this->playerBases )
 			base->SetPlayerPtr( player );
 	}
 
-	void Level::AddEntities( std::vector<std::shared_ptr<Entity>>* entitiesPtr, CollisionChecker* collisionCheckerPtr )
+	void Level::AddEntities( EntityManager& entityManager, CollisionChecker* collisionCheckerPtr )
 	{
 		for ( auto border : this->borders )
-			entitiesPtr->push_back( border );
+		{
+			entityManager.AddEntity( border );
+			collisionCheckerPtr->AddBoxCollider( border );
+		}
 
 		for ( auto spawner : this->spawners )
 		{
 			spawner->SetPhysicChecker( collisionCheckerPtr );
-			spawner->SetEntitiesVector( entitiesPtr );
-			entitiesPtr->push_back( spawner );
+			spawner->SetEntityManager( &entityManager );
+			entityManager.AddEntity( spawner );
 		}
 
 		for ( auto playerBase : this->playerBases )
 		{
-			entitiesPtr->push_back( playerBase );
+			entityManager.AddEntity( playerBase );
 			collisionCheckerPtr->AddBoxCollider( playerBase );
 		}
 
-		entitiesPtr->push_back( this->background );
+		entityManager.AddEntity( this->background );
 		this->background->SetDrawLayer( 0 );
-
-		for ( auto border : this->borders )
-			collisionCheckerPtr->AddBoxCollider( border );
 	}
 
 	void Level::RemoveEntities()
@@ -148,7 +148,7 @@ namespace kd
 
 		for ( auto spawner : this->spawners )
 			spawner->SetWishDelete( true );
-		
+
 		for ( auto base : this->playerBases )
 			base->SetWishDelete( true );
 

@@ -11,7 +11,7 @@ namespace kd
 	{
 		this->StartThread();
 
-		MissileManager::Initialize( &this->collisionChecker, &this->entities );
+		MissileManager::Initialize( &this->collisionChecker, &this->entityManager );
 
 		// Initializing texts
 		{
@@ -87,7 +87,7 @@ namespace kd
 		}
 
 
-		auto player = std::make_shared<Player>();
+		auto player = this->entityManager.AddEntity<Player>();
 		player->SetType( entityID_t::PLAYER );
 		player->SetDrawLayer( 1 );
 		// Initializing player
@@ -105,12 +105,11 @@ namespace kd
 			player->AddPowerUp<ImmortalityPowerUp>();
 		}
 
-		this->entities.push_back( player );
 		this->collisionChecker.AddBoxCollider( player );
 
 		// Change it to menu values (some menu before playing etc) in future
 		this->level.Load( "data/TestLevel.lvl" );
-		this->level.AddEntities( &this->entities, &this->collisionChecker );
+		this->level.AddEntities( this->entityManager, &this->collisionChecker );
 		this->level.InitializeTextures();
 		this->level.SetPlayer( this->playerPointer.lock() );
 
@@ -122,7 +121,7 @@ namespace kd
 		this->StartThread();
 
 		this->level.RemoveEntities();
-		this->entities.clear();
+		this->entityManager.Clear();
 		MissileManager::Shutdown();
 		ResourceHolder::DeleteAllResourcesByPriority( static_cast<uint8_t>( resourcePriorites_t::ENTITIES ) );
 		ResourceHolder::DeleteAllResourcesByPriority( static_cast<uint8_t>( resourcePriorites_t::LEVEL ) );
@@ -137,8 +136,6 @@ namespace kd
 
 		while ( !this->exit )
 		{
-			this->removeUnusedEntities();
-
 			state_t stateToSwitch = this->processEvents( event );
 
 			if ( stateToSwitch != state_t::NONE )
@@ -158,7 +155,7 @@ namespace kd
 	{
 		static sf::RectangleShape rectangle;
 		rectangle.setFillColor( sf::Color::Transparent );
-		rectangle.setOutlineColor( sf::Color( 125, 125, 125 ) );
+		rectangle.setOutlineColor( { 125, 125, 125 } );
 		rectangle.setOutlineThickness( 5.0f );
 		rectangle.setPosition( static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_X / 2 ), static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_Y / 2 ) );
 		rectangle.setSize( sf::Vector2f( static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_X / 2 ), static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_Y / 2 ) ) );
@@ -200,30 +197,6 @@ namespace kd
 		ResourceHolder::GetText( static_cast<uint8_t>( uiTextResourceID_t::BASE_HP ) ).lock()->setString( std::to_string( this->playerPointer.lock()->GetBaseHealth() ) );
 	}
 
-	void PlayState::removeUnusedEntities()
-	{
-		for ( auto it = this->entities.begin(); it != this->entities.end();)
-		{
-			if ( ( *it )->IsWishingDelete() )
-				it = this->entities.erase( it );
-			else
-				it++;
-		}
-	}
-
-	void PlayState::updateDrawables()
-	{
-		// temporary?
-		this->drawables.clear();
-
-		for ( auto entity : this->entities )
-		{
-			auto casted = std::dynamic_pointer_cast<Drawable>( entity );
-			if ( casted )
-				this->drawables.push_back( casted );
-		}
-	}
-
 	state_t PlayState::processEvents( sf::Event& ev )
 	{
 		while ( this->windowPtr->pollEvent( ev ) )
@@ -241,55 +214,24 @@ namespace kd
 
 	void PlayState::update( seconds_t dt )
 	{
-		for ( size_t i = 0; i < this->entities.size(); i++ )
-			this->entities[i]->Update( dt );
+		this->entityManager.Update( dt );
 
 		this->collisionChecker.Update( 1.0f / SETTINGS.GLOBAL.FPS_LIMIT );
 
 		this->updateUI();
 
 		MissileManager::Update( 1.0f / SETTINGS.GLOBAL.FPS_LIMIT );
-
-		this->updateDrawables();
 	}
 
 	void PlayState::draw()
 	{
 		this->windowPtr->clear( sf::Color( 100, 100, 100 ) );
 
-		auto drawLayersInterval = this->getDrawLayersInterval();
-
-		size_t entitiesAlreadyDrawn = 0;
-		for ( int8_t currentLayer = drawLayersInterval.first; ( currentLayer < drawLayersInterval.second + 1 && entitiesAlreadyDrawn < this->drawables.size() ); currentLayer++ )
-		{
-			for ( auto drawable : this->drawables )
-				if ( drawable.lock()->GetDrawLayer() == currentLayer )
-				{
-					drawable.lock()->Draw( *this->windowPtr );
-					entitiesAlreadyDrawn++;
-				}
-		}
-
+		this->entityManager.Draw( *this->windowPtr );
 
 		for ( auto text : ResourceHolder::texts )
 			this->windowPtr->draw( *text );
 
 		this->windowPtr->display();
-	}
-
-	std::pair<int8_t, int8_t> PlayState::getDrawLayersInterval()
-	{
-		int8_t min = INT8_MAX, max = INT8_MIN;
-		int8_t currentLayer = 0;
-
-		for ( auto drawable : this->drawables )
-		{
-			currentLayer = drawable.lock()->GetDrawLayer();
-
-			if ( currentLayer > max ) max = currentLayer;
-			if ( currentLayer < min ) min = currentLayer;
-		}
-
-		return std::pair<int8_t, int8_t>( min, max );
 	}
 }

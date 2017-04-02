@@ -14,7 +14,7 @@
 #include <framework/State.hpp>
 
 #include "gameUtil/CollisionChecker.hpp"
-#include "entities/Entity.hpp"
+#include "entities/EntityManager.hpp"
 #include "entities/Enemy.hpp"
 #include "entities/EnemySpawner.hpp"
 #include "Settings.hpp"
@@ -42,8 +42,7 @@ namespace kd
 		void UpdateThread( seconds_t dt, window_t& w ) override;
 
 	private:
-		std::vector<std::shared_ptr<Entity>> entities;
-		std::vector<std::weak_ptr<Drawable>> drawables;
+		EntityManager entityManager;
 		std::weak_ptr<Player> playerPointer;
 
 		CollisionChecker collisionChecker;
@@ -62,13 +61,9 @@ namespace kd
 		}
 
 		void updateUI();
-		void removeUnusedEntities();
-		void updateDrawables();
 
 		state_t processEvents( sf::Event& ev );
 		void update( seconds_t dt );
 		void draw();
-
-		std::pair<int8_t, int8_t> getDrawLayersInterval();
 	};
 }

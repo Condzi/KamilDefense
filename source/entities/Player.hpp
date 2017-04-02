@@ -71,19 +71,19 @@ namespace kd
 			powerUpID_t tID = t.GetID();
 			if ( tID == powerUpID_t::UNITIALIZED )
 			{
-				cgf::Logger::Log( "Trying to add PoweUP of unitialized ID", cgf::Logger::ERROR, cgf::Logger::CONSOLE );
+				cgf::Logger::Log( "Failed to add PowerUp: trying to add PoweUP of unitialized ID", cgf::Logger::ERROR, cgf::Logger::CONSOLE );
 				return;
 			}
 
 			for ( const auto& ptr : this->powerUps )
 				if ( ptr->GetID() == tID )
 				{
-					cgf::Logger::Log( "Trying to add PoweUP of same ID (" + std::to_string( (int)tID ) + ")", cgf::Logger::ERROR, cgf::Logger::CONSOLE );
+					cgf::Logger::Log( "Failed to add PowerUp: trying to add same PoweUP (" + std::string( SHOW_REAL_NAME<T>() ), cgf::Logger::ERROR, cgf::Logger::CONSOLE );
 					return;
 				}
 
 			this->powerUps.push_back( std::make_unique<T>( t ) );
-			cgf::Logger::Log( "Added PowerUp to Player of ID (" + std::to_string( (int)tID ) + ")" );
+			cgf::Logger::Log( "Added PowerUp to Player: " + std::string( SHOW_REAL_NAME<T>() ) );
 		}
 
 		void Update( seconds_t dt ) override;

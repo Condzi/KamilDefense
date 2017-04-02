@@ -9,6 +9,7 @@
 
 namespace kd
 {
+	//(it's actually god mode)
 	class ImmortalityPowerUp final :
 		public PowerUp
 	{

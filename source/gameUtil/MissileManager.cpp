@@ -10,9 +10,9 @@ namespace kd
 	bool MissileManager::initialized;
 	std::vector<std::weak_ptr<Missile>> MissileManager::missiles;
 	CollisionChecker* MissileManager::collisionCheckerPtr;
-	std::vector<std::shared_ptr<Entity>>* MissileManager::entitiesPtr;
+	EntityManager* MissileManager::entityManagerPtr;
 
-	void MissileManager::Initialize( CollisionChecker* physicCh, std::vector<std::shared_ptr<Entity>>* entPtr )
+	void MissileManager::Initialize( CollisionChecker* physicCh, EntityManager* entPtr )
 	{
 		MissileManager::initialized = true;
 
@@ -24,7 +24,7 @@ namespace kd
 		if ( !entPtr )
 			MissileManager::initialized = false;
 		else
-			MissileManager::entitiesPtr = entPtr;
+			MissileManager::entityManagerPtr = entPtr;
 
 		if ( !initialized )
 			cgf::Logger::Log( "Cannot initialize Missile Manager, unassigned collisionCheckerPtr or entitiesPtr", cgf::Logger::ERROR );
@@ -54,7 +54,7 @@ namespace kd
 		missile->SetDrawLayer( 1 );
 		MissileManager::missiles.push_back( missile );
 		MissileManager::collisionCheckerPtr->AddBoxCollider( missile );
-		MissileManager::entitiesPtr->push_back( missile );
+		MissileManager::entityManagerPtr->AddEntity( missile );
 	}
 
 	void MissileManager::Update( seconds_t dt )

@@ -15,12 +15,12 @@ namespace kd
 		this->physicCheckerPtr = phChPtr;
 	}
 
-	void EnemySpawner::SetEntitiesVector( std::vector<std::shared_ptr<Entity>>* enVecPtr )
+	void EnemySpawner::SetEntityManager( EntityManager* entityMgr )
 	{
-		if ( !enVecPtr )
-			cgf::Logger::Log( "Entity Vector pointer is not assigned in EnemySpawner", cgf::Logger::WARNING );
+		if ( !entityMgr )
+			cgf::Logger::Log( "Entity Manager pointer is not assigned in EnemySpawner", cgf::Logger::WARNING );
 
-		this->entitiesVectorPtr = enVecPtr;
+		this->entityManagerPtr = entityMgr;
 	}
 
 	void EnemySpawner::SetEnemyTexture( std::weak_ptr<sf::Texture> tex )
@@ -55,7 +55,7 @@ namespace kd
 
 		cgf::Logger::Log( "Spawned Enemy at: X( " + std::to_string( this->position.x ) + " ) Y( " + std::to_string( this->position.y ) + " )" );
 
-		this->entitiesVectorPtr->push_back( enemy );
-		this->physicCheckerPtr->AddBoxCollider( std::dynamic_pointer_cast<Enemy>( this->entitiesVectorPtr->back() ) );
+		this->entityManagerPtr->AddEntity( enemy );
+		this->physicCheckerPtr->AddBoxCollider( enemy );
 	}
 }

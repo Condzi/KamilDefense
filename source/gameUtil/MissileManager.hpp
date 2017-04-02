@@ -9,6 +9,7 @@
 
 #include "CollisionChecker.hpp"
 #include "entities/Missile.hpp"
+#include "entities/EntityManager.hpp"
 
 namespace kd
 {
@@ -17,7 +18,7 @@ namespace kd
 	public:
 		MissileManager() = delete;
 
-		static void Initialize( CollisionChecker* physicCh, std::vector<std::shared_ptr<Entity>>* entPtr );
+		static void Initialize( CollisionChecker* physicCh, EntityManager* entPtr );
 		static void Shutdown();
 
 		static void AddMissile( std::shared_ptr<Missile> missile );
@@ -28,7 +29,7 @@ namespace kd
 		static bool initialized;
 		static std::vector<std::weak_ptr<Missile>> missiles;
 		static CollisionChecker* collisionCheckerPtr;
-		static std::vector<std::shared_ptr<Entity>>* entitiesPtr;
+		static EntityManager* entityManagerPtr;
 
 		static void removeUnusedMissiles();
 		static bool isInWindowBounds( const sf::Vector2f& pos );

@@ -10,6 +10,7 @@
 
 #include "Enemy.hpp"
 #include "gameUtil/CollisionChecker.hpp"
+#include "entities/EntityManager.hpp"
 
 namespace kd
 {
@@ -19,13 +20,13 @@ namespace kd
 	public:
 		EnemySpawner() :
 			physicCheckerPtr( nullptr ),
-			entitiesVectorPtr( nullptr ),
+			entityManagerPtr( nullptr ),
 			startVelocity( 0, 0 ),
 			spawningTimeEleapsed( 0 ), spawningTime( 0 )
 		{}
 
 		void SetPhysicChecker( CollisionChecker* phChPtr );
-		void SetEntitiesVector( std::vector<std::shared_ptr<Entity>>* enVecPtr );
+		void SetEntityManager( EntityManager* entityMgr );
 		void SetEnemyTexture( std::weak_ptr<sf::Texture> tex );
 		void SetStartVelocity( const sf::Vector2f& vel )
 		{
@@ -40,7 +41,7 @@ namespace kd
 
 	private:
 		CollisionChecker* physicCheckerPtr;
-		std::vector<std::shared_ptr<Entity>>* entitiesVectorPtr;
+		EntityManager* entityManagerPtr;
 		std::weak_ptr<sf::Texture> enemyTexture;
 
 		sf::Vector2f startVelocity;

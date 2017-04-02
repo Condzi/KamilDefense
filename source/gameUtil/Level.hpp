@@ -11,6 +11,7 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include "entities/EntityManager.hpp"
 #include "entities/Background.hpp"
 #include "entities/Border.hpp"
 #include "CollisionChecker.hpp"
@@ -75,7 +76,7 @@ namespace kd
 		void InitializeTextures();
 		void SetPlayer( std::weak_ptr<Player> player );
 
-		void AddEntities( std::vector<std::shared_ptr<Entity>>* entitiesPtr, CollisionChecker* collisionCheckerPtr );
+		void AddEntities( EntityManager& entityManager, CollisionChecker* collisionCheckerPtr );
 		// Removes Entities (Borders, Spawners and Background) from PlayState Entity vector and CollisionChecker - just simply mark them as WishDelete.
 		void RemoveEntities();
 

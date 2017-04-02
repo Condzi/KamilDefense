@@ -15,7 +15,6 @@
 
 #include "ResourceWrapper.hpp"
 
-
 namespace kd
 {
 	using textureResource_t = ResourceWrapper<sf::Texture>;
@@ -135,4 +134,29 @@ namespace kd
 			left( l ), right( r ), jump( j )
 		{}
 	};
+
+	// Maybe store them in Functions.hpp ?
+
+	/*
+	====================
+	SHOW_REAL_NAME()
+		Returns const char* that is given class name.			
+	====================
+	*/
+	template<class T>
+	inline static const char* SHOW_REAL_NAME()
+	{
+		return typeid( T ).name();
+	}
+	/*
+	====================
+	SHOW_REAL_NAME()
+		Returns const char* that is given objets class name.
+	====================
+	*/
+	template<class T>
+	inline static const char* SHOW_REAL_NAME( const T& t )
+	{
+		return SHOW_REAL_NAME<T>();
+	}
 }
