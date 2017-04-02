@@ -21,6 +21,10 @@ namespace kd
 		EntityManager( const EntityManager& ) = delete;
 		EntityManager& operator=( const EntityManager& ) = delete;
 
+		const std::vector<std::shared_ptr<Entity>>& GetEntities()
+		{
+			return this->entities;
+		}
 		/*
 			Adds Entity to vector and returns shared_ptr to it.
 		*/

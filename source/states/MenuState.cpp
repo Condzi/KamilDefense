@@ -36,7 +36,7 @@ namespace kd
 			ResourceHolder::textures.back()->SetResourcePriority( static_cast<uint8_t>( resourcePriorites_t::UI_MENU ) );
 		}
 
-		auto buttonStart = std::make_shared<Button>();
+		auto buttonStart = entityManager.AddEntity<Button>();
 		{
 			buttonStart->SetDrawLayer( 1 );
 			buttonStart->SetPosition( { SETTINGS.GLOBAL.WINDOW_SIZE_X * SETTINGS.GAMEPLAY.SCALE / 2.0f, SETTINGS.GLOBAL.WINDOW_SIZE_Y * SETTINGS.GAMEPLAY.SCALE / 2.0f } );
@@ -48,7 +48,7 @@ namespace kd
 			buttonStart->SetOutline( 1 * SETTINGS.GAMEPLAY.SCALE, sf::Color::Blue, sf::Color::Transparent );
 		}
 
-		auto buttonExit = std::make_shared<Button>();
+		auto buttonExit = entityManager.AddEntity<Button>();
 		{
 			buttonExit->SetDrawLayer( 1 );
 			buttonExit->SetPosition( { SETTINGS.GLOBAL.WINDOW_SIZE_X * SETTINGS.GAMEPLAY.SCALE / 2.0f, SETTINGS.GLOBAL.WINDOW_SIZE_Y * SETTINGS.GAMEPLAY.SCALE / 2.0f + 32 } );
@@ -60,21 +60,17 @@ namespace kd
 			buttonExit->SetOutline( 1 * SETTINGS.GAMEPLAY.SCALE, sf::Color::Blue, sf::Color::Transparent );
 		}
 
-		auto bg = std::make_shared<Background>();
+		auto bg = entityManager.AddEntity<Background>();
 		bg->SetType( entityID_t::BACKGROUND );
 		bg->SetDrawLayer( 0 );
 		bg->SetTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::MENU_BG ) ) );
 		bg->SetSpriteScale( { 2 * SETTINGS.GAMEPLAY.SCALE, 2 * SETTINGS.GAMEPLAY.SCALE } );
-		this->entities.push_back( bg );
 
-		this->entities.push_back( buttonStart );
-		this->entities.push_back( buttonExit );
 	}
 
 	void MenuState::OnStop()
 	{
-		this->entities.clear();
-		this->drawables.clear();
+		this->entityManager.Clear();
 		ResourceHolder::DeleteAllResourcesByPriority( static_cast<uint8_t>( resourcePriorites_t::UI_MENU ) );
 	}
 
@@ -84,8 +80,6 @@ namespace kd
 
 		while ( !this->exit )
 		{
-			this->removeUnusedEntities();
-
 			state_t stateToSwitch = this->processEvents( event );
 
 			if ( stateToSwitch != state_t::NONE )
@@ -93,34 +87,12 @@ namespace kd
 				return static_cast<int16_t>( stateToSwitch );
 			}
 
-			this->update( 1.0f / SETTINGS.GLOBAL.FPS_LIMIT );
+			this->entityManager.Update( 1.0f / SETTINGS.GLOBAL.FPS_LIMIT );
 
 			this->draw();
 		}
 
 		return static_cast<int16_t>( state_t::EXIT );
-	}
-	void MenuState::removeUnusedEntities()
-	{
-		for ( auto it = this->entities.begin(); it != this->entities.end();)
-		{
-			if ( ( *it )->IsWishingDelete() )
-				it = this->entities.erase( it );
-			else
-				it++;
-		}
-	}
-
-	void MenuState::updateDrawables()
-	{
-		this->drawables.clear();
-
-		for ( auto entity : this->entities )
-		{
-			auto casted = std::dynamic_pointer_cast<Drawable>( entity );
-			if ( casted )
-				this->drawables.push_back( casted );
-		}
 	}
 
 	state_t MenuState::processEvents( sf::Event& ev )
@@ -142,7 +114,7 @@ namespace kd
 				{
 					auto mouseCoords = sf::Mouse::getPosition( *this->windowPtr );
 
-					for ( auto e : this->entities )
+					for ( auto e : this->entityManager.GetEntities() )
 					{
 						if ( e->GetType() == entityID_t::BUTTON_START )
 							if ( std::dynamic_pointer_cast<Button>( e )->GetRectangle().contains( ( sf::Vector2f )mouseCoords ) )
@@ -161,46 +133,17 @@ namespace kd
 
 	void MenuState::update( seconds_t dt )
 	{
-		for ( size_t i = 0; i < this->entities.size(); i++ )
-			this->entities[i]->Update( dt );
-
-		this->updateDrawables();
 	}
 
 	void MenuState::draw()
 	{
 		this->windowPtr->clear();
 
-		auto drawLayersInterval = this->getDrawLayersInterval();
-
-		size_t entitiesAlreadyDrawn = 0;
-		for ( int8_t currentLayer = drawLayersInterval.first; ( currentLayer < drawLayersInterval.second + 1 && entitiesAlreadyDrawn < this->drawables.size() ); currentLayer++ )
-			for ( auto drawable : this->drawables )
-				if ( drawable.lock()->GetDrawLayer() == currentLayer )
-				{
-					drawable.lock()->Draw( *this->windowPtr );
-					entitiesAlreadyDrawn++;
-				}
-
+		this->entityManager.Draw( *this->windowPtr );
+		
 		for ( auto text : ResourceHolder::texts )
 			this->windowPtr->draw( *text );
 
 		this->windowPtr->display();
-	}
-
-	std::pair<int8_t, int8_t> MenuState::getDrawLayersInterval()
-	{
-		int8_t min = INT8_MAX, max = INT8_MIN;
-		int8_t currentLayer = 0;
-
-		for ( auto drawable : this->drawables )
-		{
-			currentLayer = drawable.lock()->GetDrawLayer();
-
-			if ( currentLayer > max ) max = currentLayer;
-			if ( currentLayer < min ) min = currentLayer;
-		}
-
-		return std::pair<int8_t, int8_t>( min, max );
 	}
 }

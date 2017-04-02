@@ -12,6 +12,7 @@
 #include "entities/Background.hpp"
 #include "ResourceHolder.hpp"
 #include "menuUtil/Button.hpp"
+#include "entities/EntityManager.hpp"
 
 namespace kd
 {
@@ -32,8 +33,7 @@ namespace kd
 		{}
 
 	private:
-		std::vector<std::shared_ptr<Entity>> entities;
-		std::vector<std::weak_ptr<Drawable>> drawables;
+		EntityManager entityManager;
 
 		bool exit;
 
@@ -46,12 +46,8 @@ namespace kd
 			windowPtr->setActive( false );
 		}
 
-		void removeUnusedEntities();
-		void updateDrawables();
-
 		state_t processEvents( sf::Event& ev );
 		void update( seconds_t dt );
 		void draw();
-		std::pair<int8_t, int8_t> getDrawLayersInterval();
 	};
 }
