@@ -86,7 +86,7 @@ namespace kd
 	{
 		if ( bulletCollider.lock()->parentPointer->GetType() == entityID_t::BULLET_PLAYER )
 		{
-			dynamic_cast<Enemy*>( colliderB.lock()->parentPointer )->AddDamage( 8 );
+			dynamic_cast<Enemy*>( colliderB.lock()->parentPointer )->AddDamage( SETTINGS.GAMEPLAY.MAX_HEALTH / 10 );
 			bulletCollider.lock()->parentPointer->SetWishDelete( true );
 		}
 	}
@@ -95,11 +95,11 @@ namespace kd
 	{
 		if ( bulletCollider.lock()->parentPointer->GetType() == entityID_t::BULLET_ENEMY )
 		{
-			dynamic_cast<Player*>( colliderB.lock()->parentPointer )->AddDamage( 20 );
+			dynamic_cast<Player*>( colliderB.lock()->parentPointer )->AddDamage( SETTINGS.GAMEPLAY.MAX_HEALTH / 12 );
 			bulletCollider.lock()->parentPointer->SetWishDelete( true );
 		}
 	}
-	 
+
 	void CollisionSolver::MissileMissile( std::weak_ptr<BoxCollider> bulletColliderA, std::weak_ptr<BoxCollider> bulletColliderB )
 	{
 		bulletColliderA.lock()->parentPointer->SetWishDelete( true );

@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <functional>
+
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window/Event.hpp>
@@ -63,9 +65,9 @@ namespace kd
 		{
 			this->baseHealth -= val;
 		}
-		// The enable_if is causing strange compiler errors.
-		template<class T/*, enable_if <std::is_base_of<PowerUp, T>>*/>
-		void AddPowerUp()
+		template<class T>
+		typename std::enable_if<std::is_base_of<PowerUp, T>::value>::type
+		AddPowerUp()
 		{
 			T t( this );
 			powerUpID_t tID = t.GetID();

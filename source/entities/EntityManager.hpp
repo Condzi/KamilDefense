@@ -22,10 +22,11 @@ namespace kd
 		EntityManager& operator=( const EntityManager& ) = delete;
 
 		/*
-			Adds Entity to vector and returns shared_ptr to it. (Fcking enable_if is causing troubles again!)
+			Adds Entity to vector and returns shared_ptr to it.
 		*/
-		template<class T/*, enable_if<std::is_base_of<Entity>>*/>
-		std::shared_ptr<T> AddEntity()
+		template<class T>
+		typename std::enable_if<std::is_base_of<Entity, T>::value, std::shared_ptr<T>>::type
+		AddEntity()
 		{
 			auto ptr = std::make_shared<T>();
 			this->entities.push_back( ptr );
@@ -35,8 +36,9 @@ namespace kd
 		/*
 			Adds Entity to vector and returns shared_ptr to it.
 		*/
-		template<class T/*, enable_if<std::is_base_of<Entity>>*/>
-		std::shared_ptr<T> AddEntity( std::shared_ptr<T> entityToAdd )
+		template<class T>
+		typename std::enable_if<std::is_base_of<Entity, T>::value, std::shared_ptr<T>>::type
+		AddEntity( std::shared_ptr<T> entityToAdd )
 		{
 			for ( auto e : this->entities )
 				if ( e == entityToAdd )
