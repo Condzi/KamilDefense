@@ -120,15 +120,15 @@ namespace kd
 			const_cast<std::string&>( this->RESOURCES_PATHES.PLAYER_TEXTURE ) = file.GetString( "RESOURCES_PATHES", "PLAYER_TEXTURE" );
 			const_cast<std::string&>( this->RESOURCES_PATHES.ENEMY_TEXTURE ) = file.GetString( "RESOURCES_PATHES", "ENEMY_TEXTURE" );
 
-			cgf::Logger::Log( "Settings file read" );
+			cgf::Logger::Log( "Settings file read correctly" );
 		}
 
 		inline void Save( const std::string& path )
 		{
 			std::ofstream file( path );
 
-			file
-				<< "[INTERNAL]\n" <<
+			file <<
+				"[INTERNAL]\n" <<
 				"WINDOW_TITLE = " << this->INTERNAL.WINDOW_TITLE << "\n\n" <<
 
 				"[GAMEPLAY]\n" <<

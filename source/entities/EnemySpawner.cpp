@@ -53,7 +53,7 @@ namespace kd
 		enemy->velocity = this->startVelocity;
 		enemy->SetTexture( this->enemyTexture.lock() );
 
-		cgf::Logger::Log( "Spawned Enemy at: X( " + std::to_string( this->position.x ) + " ) Y( " + std::to_string( this->position.y ) + " )" );
+		//cgf::Logger::Log( "Spawned Enemy at: X( " + std::to_string( this->position.x ) + " ) Y( " + std::to_string( this->position.y ) + " )" );
 
 		this->entityManagerPtr->AddEntity( enemy );
 		this->physicCheckerPtr->AddBoxCollider( enemy );

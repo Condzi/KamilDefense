@@ -22,6 +22,8 @@ namespace kd
 		Button() 
 		{}
 
+		sf::FloatRect GetRectangle();
+
 		void SetShapeSize( const sf::Vector2f& sz );
 		void SetPosition( const sf::Vector2f& pos ) override;
 		void SetTextString( const std::string& t );
@@ -30,10 +32,8 @@ namespace kd
 		void SetOutline( float thickness, const sf::Color& colorOutside, const sf::Color& colorInside );
 		void SetTexture( std::weak_ptr<sf::Texture> t ) override
 		{
-			cgf::Logger::Log( "You called Button SetTexture() method - you shouldn't, it doesn't have texture when drawing button", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
+			cgf::Logger::Log( "You called " + std::string( SHOW_REAL_NAME( *this ) ) + "::SetTexture method - you shouldn't, it doesn't have texture", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 		}
-
-		sf::FloatRect GetRectangle();
 
 		void Draw( sf::RenderTarget& target );
 

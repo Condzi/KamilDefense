@@ -32,7 +32,7 @@ namespace kd
 		void SetPosition( const sf::Vector2f& pos ) override;
 		void SetTexture( std::weak_ptr<sf::Texture> t ) override
 		{
-			cgf::Logger::Log( "You call PlayerBase SetTexture() method - you shouldn't, it doesn't need texture", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
+			cgf::Logger::Log( "You called " + std::string( SHOW_REAL_NAME( *this ) ) + "::SetTexture method - you shouldn't, it doesn't have texture", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 		}
 
 		std::weak_ptr<Player> GetPlayerPtr()

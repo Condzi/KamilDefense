@@ -30,7 +30,7 @@ namespace kd
 		*/
 		template<class T>
 		typename std::enable_if<std::is_base_of<Entity, T>::value, std::shared_ptr<T>>::type
-		AddEntity()
+			AddEntity()
 		{
 			auto ptr = std::make_shared<T>();
 			this->entities.push_back( ptr );
@@ -42,12 +42,12 @@ namespace kd
 		*/
 		template<class T>
 		typename std::enable_if<std::is_base_of<Entity, T>::value, std::shared_ptr<T>>::type
-		AddEntity( std::shared_ptr<T> entityToAdd )
+			AddEntity( std::shared_ptr<T> entityToAdd )
 		{
 			for ( auto e : this->entities )
 				if ( e == entityToAdd )
 				{
-					cgf::Logger::Log( "Cannot add entity to EntityManager - found pointer pointing to same entity", cgf::Logger::ERROR );
+					cgf::Logger::Log( "Cannot add entity to EntityManager - found pointer pointing to same entity (" + std::string( SHOW_REAL_NAME<T>() ) + ")", cgf::Logger::ERROR );
 					return nullptr;
 				}
 
