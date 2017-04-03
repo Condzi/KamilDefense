@@ -39,33 +39,35 @@ namespace kd
 		auto buttonStart = entityManager.AddEntity<Button>();
 		{
 			buttonStart->SetDrawLayer( 1 );
-			buttonStart->SetPosition( { SETTINGS.GLOBAL.WINDOW_SIZE_X * SETTINGS.GAMEPLAY.SCALE / 2.0f, SETTINGS.GLOBAL.WINDOW_SIZE_Y * SETTINGS.GAMEPLAY.SCALE / 2.0f } );
+			buttonStart->SetPosition( { SETTINGS.GLOBAL.WINDOW_SIZE_X * SETTINGS.GAMEPLAY.SCALE / 2.0f - 32, SETTINGS.GLOBAL.WINDOW_SIZE_Y * SETTINGS.GAMEPLAY.SCALE / 2.0f } );
 			buttonStart->SetType( entityID_t::BUTTON_START );
 			buttonStart->SetTextFont( ResourceHolder::GetFont( static_cast<uint8_t>( fontResourceID_t::UI_FONT ) ) );
 			buttonStart->SetTextString( "START" );
-			buttonStart->SetShapeSize( { 64, 16 } );
-			buttonStart->SetTextSize( 33 );
-			buttonStart->SetOutline( 1 * SETTINGS.GAMEPLAY.SCALE, sf::Color::Blue, sf::Color::Transparent );
+			buttonStart->SetShapeSize( { 128, 32 } );
+			buttonStart->SetTextSize( 66 );
+			buttonStart->SetOutline( 1 * SETTINGS.GAMEPLAY.SCALE, sf::Color::Transparent, sf::Color::Transparent );
 		}
 
 		auto buttonExit = entityManager.AddEntity<Button>();
 		{
 			buttonExit->SetDrawLayer( 1 );
-			buttonExit->SetPosition( { SETTINGS.GLOBAL.WINDOW_SIZE_X * SETTINGS.GAMEPLAY.SCALE / 2.0f, SETTINGS.GLOBAL.WINDOW_SIZE_Y * SETTINGS.GAMEPLAY.SCALE / 2.0f + 32 } );
+			buttonExit->SetPosition( { SETTINGS.GLOBAL.WINDOW_SIZE_X * SETTINGS.GAMEPLAY.SCALE / 2.0f - 32, SETTINGS.GLOBAL.WINDOW_SIZE_Y * SETTINGS.GAMEPLAY.SCALE / 2.0f + 64 } );
 			buttonExit->SetType( entityID_t::BUTTON_EXIT );
 			buttonExit->SetTextFont( ResourceHolder::GetFont( static_cast<uint8_t>( fontResourceID_t::UI_FONT ) ) );
 			buttonExit->SetTextString( "EXIT" );
-			buttonExit->SetShapeSize( { 64, 16 } );
-			buttonExit->SetTextSize( 33 );
-			buttonExit->SetOutline( 1 * SETTINGS.GAMEPLAY.SCALE, sf::Color::Blue, sf::Color::Transparent );
+			buttonExit->SetShapeSize( { 128, 32 } );
+			buttonExit->SetTextSize( 66 );
+			buttonExit->SetOutline( 1 * SETTINGS.GAMEPLAY.SCALE, sf::Color::Transparent, sf::Color::Transparent );
 		}
 
 		auto bg = entityManager.AddEntity<Background>();
 		bg->SetType( entityID_t::BACKGROUND );
 		bg->SetDrawLayer( 0 );
 		bg->SetTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::MENU_BG ) ) );
-		bg->SetSpriteScale( { 2 * SETTINGS.GAMEPLAY.SCALE, 2 * SETTINGS.GAMEPLAY.SCALE } );
-
+		bg->SetSpriteScale( {
+			SETTINGS.GLOBAL.WINDOW_SIZE_X * SETTINGS.GAMEPLAY.SCALE / bg->GetSprite().getGlobalBounds().width,
+			SETTINGS.GLOBAL.WINDOW_SIZE_Y * SETTINGS.GAMEPLAY.SCALE / bg->GetSprite().getGlobalBounds().height
+		} );
 	}
 
 	void MenuState::OnStop()

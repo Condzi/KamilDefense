@@ -19,7 +19,8 @@ namespace kd
 		public Entity
 	{
 	public:
-		Button() 
+		Button() :
+			updateTextPosition( false )
 		{}
 
 		sf::FloatRect GetRectangle();
@@ -34,10 +35,12 @@ namespace kd
 		{
 			cgf::Logger::Log( "You called " + std::string( SHOW_REAL_NAME( *this ) ) + "::SetTexture method - you shouldn't, it doesn't have texture", cgf::Logger::WARNING, cgf::Logger::CONSOLE );
 		}
-
+		
+		void Update( seconds_t dt ) override;
 		void Draw( sf::RenderTarget& target );
 
 	private:
+		bool updateTextPosition;
 		sf::RectangleShape shape;
 		sf::Text text;
 	};

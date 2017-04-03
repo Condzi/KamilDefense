@@ -44,10 +44,9 @@ namespace kd
 	private:
 		EntityManager entityManager;
 		std::weak_ptr<Player> playerPointer;
-
 		CollisionChecker collisionChecker;
-
 		Level level;
+		sf::View playerView;
 
 		bool exit;
 

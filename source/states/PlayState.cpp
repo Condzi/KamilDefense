@@ -101,7 +101,7 @@ namespace kd
 
 			player->SetMovementKeys( movementKeys_t( sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space ) );
 			player->SetMovementForces( movementForces_t( -250.0f, 250.0f, -500.0f ) );
-			
+
 			player->AddPowerUp<ImmortalityPowerUp>();
 		}
 
@@ -112,6 +112,9 @@ namespace kd
 		this->level.AddEntities( this->entityManager, &this->collisionChecker );
 		this->level.InitializeTextures();
 		this->level.SetPlayer( this->playerPointer.lock() );
+
+		this->playerView = this->windowPtr->getDefaultView();
+		this->playerView.zoom( 1.6 );
 
 		this->EndThread();
 	}
@@ -126,6 +129,8 @@ namespace kd
 		ResourceHolder::DeleteAllResourcesByPriority( static_cast<uint8_t>( resourcePriorites_t::ENTITIES ) );
 		ResourceHolder::DeleteAllResourcesByPriority( static_cast<uint8_t>( resourcePriorites_t::LEVEL ) );
 		ResourceHolder::DeleteAllResourcesByPriority( static_cast<uint8_t>( resourcePriorites_t::UI_GAME ) );
+
+		this->windowPtr->setView( this->windowPtr->getDefaultView() );
 
 		this->EndThread();
 	}
@@ -157,7 +162,7 @@ namespace kd
 		rectangle.setFillColor( sf::Color::Transparent );
 		rectangle.setOutlineColor( { 125, 125, 125 } );
 		rectangle.setOutlineThickness( 5.0f );
-		rectangle.setPosition( static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_X / 2 ), static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_Y / 2 ) );
+		rectangle.setPosition( static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_X * SETTINGS.GAMEPLAY.SCALE / 2 ), static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_Y * SETTINGS.GAMEPLAY.SCALE / 2 ) );
 		rectangle.setSize( sf::Vector2f( static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_X / 2 ), static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_Y / 2 ) ) );
 		rectangle.setOrigin( rectangle.getSize().x / 2, rectangle.getSize().y / 2 );
 
@@ -231,6 +236,9 @@ namespace kd
 
 		for ( auto text : ResourceHolder::texts )
 			this->windowPtr->draw( *text );
+
+		this->playerView.setCenter( this->playerPointer.lock()->GetPosition() );
+		this->windowPtr->setView( this->playerView );
 
 		this->windowPtr->display();
 	}
