@@ -114,7 +114,6 @@ namespace kd
 		this->level.SetPlayer( this->playerPointer.lock() );
 
 		this->playerView = this->windowPtr->getDefaultView();
-		this->playerView.zoom( 1.6 );
 
 		this->EndThread();
 	}
@@ -234,11 +233,10 @@ namespace kd
 
 		this->entityManager.Draw( *this->windowPtr );
 
+		this->windowPtr->setView( this->playerView );
+		
 		for ( auto text : ResourceHolder::texts )
 			this->windowPtr->draw( *text );
-
-		this->playerView.setCenter( this->playerPointer.lock()->GetPosition() );
-		this->windowPtr->setView( this->playerView );
 
 		this->windowPtr->display();
 	}
