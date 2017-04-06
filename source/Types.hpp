@@ -19,7 +19,7 @@ namespace kd
 {
 	using textureResource_t = ResourceWrapper<sf::Texture>;
 	using fontResource_t = ResourceWrapper<sf::Font>;
-	using textResource_t = ResourceWrapper<sf::Text>;
+	using uiTextResource_t = ResourceWrapper<sf::Text>;
 
 	enum class resourcePriorites_t
 	{
@@ -150,7 +150,7 @@ namespace kd
 	}
 	/*
 	====================
-	SHOW_REAL_NAME()
+	SHOW_REAL_NAME( const T& t )
 		Returns const char* that is given objets class name.
 	====================
 	*/

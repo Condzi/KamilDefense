@@ -65,5 +65,6 @@ namespace kd
 		void update( seconds_t dt );
 		void draw();
 		void updateUIposition();
+		void setLevelBackgroundAsCenterOfView();
 	};
 }

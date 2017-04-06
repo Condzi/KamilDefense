@@ -205,5 +205,6 @@ namespace kd
 		}
 
 		this->background = std::make_shared<Background>();
+		this->background->SetType( entityID_t::BACKGROUND );
 	}
 }

@@ -103,6 +103,7 @@ namespace kd
 		this->playerView.reset( sf::FloatRect( { 0,0 }, (sf::Vector2f)this->windowPtr->getSize() ) );
 		this->playerView.setViewport( sf::FloatRect( 0, 0, 1.0f, 1.0f ) );
 		this->updateUIposition();
+		this->setLevelBackgroundAsCenterOfView();
 
 		this->EndThread();
 	}
@@ -202,7 +203,10 @@ namespace kd
 					this->exit = true;
 
 			if ( ev.type == sf::Event::Resized )
+			{
 				this->playerView.setSize( ev.size.width, ev.size.height );
+				this->setLevelBackgroundAsCenterOfView();
+			}
 		}
 
 		return state_t::NONE;
@@ -264,5 +268,12 @@ namespace kd
 					90 * settings_t::GetInstance().GLOBAL.WINDOW_SIZE_Y * settings_t::GetInstance().GAMEPLAY.SCALE / 100
 				);
 		}
+	}
+
+	void PlayState::setLevelBackgroundAsCenterOfView()
+	{
+		for ( auto e : this->entityManager.GetEntities() )
+			if ( e->GetType() == entityID_t::BACKGROUND )
+				this->playerView.setCenter( e->GetPosition().x + this->playerView.getSize().x / 2, e->GetPosition().y + this->playerView.getSize().y / 2 );
 	}
 }

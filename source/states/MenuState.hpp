@@ -23,7 +23,7 @@ namespace kd
 		MenuState( window_t* window ) :
 			State( window ),
 			exit( false ),
-			clearColor( 255, 0, 0, 255 )
+			clearColor( 0, 0, 0, 255 )
 		{}
 
 		void OnStart() override;
