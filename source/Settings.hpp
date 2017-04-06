@@ -18,48 +18,15 @@ namespace kd
 {
 	/*
 	===============================================================================
-		Global settings structure with modificators of Gameplay and other application
-		parameters. Everything is changable in configuration file.
+		Global settings class with modificators of Gameplay and other application
+		parameters. Everything is changable in configuration file. To get settings
+		use settings_t::GetInstance().
 
 	===============================================================================
 	*/
-	struct settings_t
+	class settings_t
 	{
-		settings_t()
-		{
-			static int c = 0;
-			c++;
-
-			INTERNAL.WINDOW_TITLE = "Kamil Defense";
-
-			GAMEPLAY.SCALE = 10.1f;
-			GAMEPLAY.GRAVITY = 10.1f;
-			GAMEPLAY.DEFAULT_OBJECT_WEIGHT = 50.1f;
-			
-			GAMEPLAY.MAX_HEALTH = 200ui8;
-			GAMEPLAY.MAX_ARMOR = 100ui8;
-			GAMEPLAY.DAMAGE_BLOCK_TIME = 0.32f;
-			GAMEPLAY.ENEMY_SHOOT_COOLDOWN = 0.5f;
-		
-			GAMEPLAY.PLAYER_MISSILE_SPEED_X = 400.1f;
-			GAMEPLAY.PLAYER_MISSILE_START_SPEED_Y = -250.1f;
-			GAMEPLAY.PLAYER_MISSILE_WEIGHT = 60.1f;
-			
-			GAMEPLAY.ENEMY_MISSILE_SPEED_X = 375.1f;
-			GAMEPLAY.ENEMY_MISSILE_WEIGHT = 10.1f;
-
-			GAMEPLAY.IMMORTAL_EFFECT_TIME = 10.0f;
-
-			GLOBAL.DEBUG_DRAW_BORDERS = false;
-			GLOBAL.WINDOW_SIZE_X = uint16_t( 64 + 3 );
-			GLOBAL.WINDOW_SIZE_Y = uint16_t( 64 + 5 );
-			GLOBAL.FPS_LIMIT = 64ui32;
-
-			RESOURCES_PATHES.FONT = "data/fonts/wendy.ttf";
-			RESOURCES_PATHES.PLAYER_TEXTURE = "data/textures/player.png";
-			RESOURCES_PATHES.ENEMY_TEXTURE = "data/textures/enemy.png";
-		}
-
+	public:
 		struct
 		{
 			std::string WINDOW_TITLE;
@@ -67,8 +34,6 @@ namespace kd
 
 		struct
 		{
-			// Note: All float values must end up with .NON-ZERO! Otherwise it'll save as int not float value!
-
 			// Textures are very small so they must be scaled up.
 			float SCALE;
 			float GRAVITY;
@@ -196,5 +161,41 @@ namespace kd
 				"ENEMY_TEXTURE = " << this->RESOURCES_PATHES.ENEMY_TEXTURE;
 		}
 
-	} static SETTINGS;
+		static settings_t& GetInstance();
+
+	private:
+		settings_t()
+		{
+			// Note: All float values must end up with .NON-ZERO! Otherwise it'll save as int not float value!
+
+			INTERNAL.WINDOW_TITLE = "Kamil Defense";
+
+			GAMEPLAY.SCALE = 10.1f;
+			GAMEPLAY.GRAVITY = 10.1f;
+			GAMEPLAY.DEFAULT_OBJECT_WEIGHT = 50.1f;
+
+			GAMEPLAY.MAX_HEALTH = 200ui8;
+			GAMEPLAY.MAX_ARMOR = 100ui8;
+			GAMEPLAY.DAMAGE_BLOCK_TIME = 0.32f;
+			GAMEPLAY.ENEMY_SHOOT_COOLDOWN = 0.5f;
+
+			GAMEPLAY.PLAYER_MISSILE_SPEED_X = 400.1f;
+			GAMEPLAY.PLAYER_MISSILE_START_SPEED_Y = -250.1f;
+			GAMEPLAY.PLAYER_MISSILE_WEIGHT = 60.1f;
+
+			GAMEPLAY.ENEMY_MISSILE_SPEED_X = 375.1f;
+			GAMEPLAY.ENEMY_MISSILE_WEIGHT = 10.1f;
+
+			GAMEPLAY.IMMORTAL_EFFECT_TIME = 10.0f;
+
+			GLOBAL.DEBUG_DRAW_BORDERS = false;
+			GLOBAL.WINDOW_SIZE_X = uint16_t( 64 + 3 );
+			GLOBAL.WINDOW_SIZE_Y = uint16_t( 64 + 5 );
+			GLOBAL.FPS_LIMIT = 64ui32;
+
+			RESOURCES_PATHES.FONT = "data/fonts/wendy.ttf";
+			RESOURCES_PATHES.PLAYER_TEXTURE = "data/textures/player.png";
+			RESOURCES_PATHES.ENEMY_TEXTURE = "data/textures/enemy.png";
+		}
+	};
 }

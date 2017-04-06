@@ -86,7 +86,7 @@ namespace kd
 	{
 		if ( bulletCollider.lock()->parentPointer->GetType() == entityID_t::BULLET_PLAYER )
 		{
-			dynamic_cast<Enemy*>( colliderB.lock()->parentPointer )->AddDamage( SETTINGS.GAMEPLAY.MAX_HEALTH / 10 );
+			dynamic_cast<Enemy*>( colliderB.lock()->parentPointer )->AddDamage( kd::settings_t::GetInstance().GAMEPLAY.MAX_HEALTH / 10 );
 			bulletCollider.lock()->parentPointer->SetWishDelete( true );
 		}
 	}
@@ -95,7 +95,7 @@ namespace kd
 	{
 		if ( bulletCollider.lock()->parentPointer->GetType() == entityID_t::BULLET_ENEMY )
 		{
-			dynamic_cast<Player*>( colliderB.lock()->parentPointer )->AddDamage( SETTINGS.GAMEPLAY.MAX_HEALTH / 12 );
+			dynamic_cast<Player*>( colliderB.lock()->parentPointer )->AddDamage( kd::settings_t::GetInstance().GAMEPLAY.MAX_HEALTH / 12 );
 			bulletCollider.lock()->parentPointer->SetWishDelete( true );
 		}
 	}

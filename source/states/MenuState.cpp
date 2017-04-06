@@ -13,7 +13,7 @@ namespace kd
 		if ( !ResourceHolder::fonts.size() )
 		{
 			ResourceHolder::fonts.push_back( std::make_shared<fontResource_t>() );
-			if ( !ResourceHolder::fonts.back()->loadFromFile( SETTINGS.RESOURCES_PATHES.FONT ) )
+			if ( !ResourceHolder::fonts.back()->loadFromFile( kd::settings_t::GetInstance().RESOURCES_PATHES.FONT ) )
 			{
 				ResourceHolder::fonts.pop_back();
 				cgf::Logger::Log( "Cannot load font file!", cgf::Logger::ERROR );
@@ -39,25 +39,25 @@ namespace kd
 		auto buttonStart = entityManager.AddEntity<Button>();
 		{
 			buttonStart->SetDrawLayer( 1 );
-			buttonStart->SetPosition( { SETTINGS.GLOBAL.WINDOW_SIZE_X * SETTINGS.GAMEPLAY.SCALE / 2.0f - 32, SETTINGS.GLOBAL.WINDOW_SIZE_Y * SETTINGS.GAMEPLAY.SCALE / 2.0f } );
+			buttonStart->SetPosition( { kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_X * kd::settings_t::GetInstance().GAMEPLAY.SCALE / 2.0f - 32, kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_Y * kd::settings_t::GetInstance().GAMEPLAY.SCALE / 2.0f } );
 			buttonStart->SetType( entityID_t::BUTTON_START );
 			buttonStart->SetTextFont( ResourceHolder::GetFont( static_cast<uint8_t>( fontResourceID_t::UI_FONT ) ) );
 			buttonStart->SetTextString( "START" );
 			buttonStart->SetShapeSize( { 128, 32 } );
 			buttonStart->SetTextSize( 66 );
-			buttonStart->SetOutline( 1 * SETTINGS.GAMEPLAY.SCALE, sf::Color::Transparent, sf::Color::Transparent );
+			buttonStart->SetOutline( 1 * kd::settings_t::GetInstance().GAMEPLAY.SCALE, sf::Color::Transparent, sf::Color::Transparent );
 		}
 
 		auto buttonExit = entityManager.AddEntity<Button>();
 		{
 			buttonExit->SetDrawLayer( 1 );
-			buttonExit->SetPosition( { SETTINGS.GLOBAL.WINDOW_SIZE_X * SETTINGS.GAMEPLAY.SCALE / 2.0f - 32, SETTINGS.GLOBAL.WINDOW_SIZE_Y * SETTINGS.GAMEPLAY.SCALE / 2.0f + 64 } );
+			buttonExit->SetPosition( { kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_X * kd::settings_t::GetInstance().GAMEPLAY.SCALE / 2.0f - 32, kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_Y * kd::settings_t::GetInstance().GAMEPLAY.SCALE / 2.0f + 64 } );
 			buttonExit->SetType( entityID_t::BUTTON_EXIT );
 			buttonExit->SetTextFont( ResourceHolder::GetFont( static_cast<uint8_t>( fontResourceID_t::UI_FONT ) ) );
 			buttonExit->SetTextString( "EXIT" );
 			buttonExit->SetShapeSize( { 128, 32 } );
 			buttonExit->SetTextSize( 66 );
-			buttonExit->SetOutline( 1 * SETTINGS.GAMEPLAY.SCALE, sf::Color::Transparent, sf::Color::Transparent );
+			buttonExit->SetOutline( 1 * kd::settings_t::GetInstance().GAMEPLAY.SCALE, sf::Color::Transparent, sf::Color::Transparent );
 		}
 
 		auto bg = entityManager.AddEntity<Background>();
@@ -65,8 +65,8 @@ namespace kd
 		bg->SetDrawLayer( 0 );
 		bg->SetTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::MENU_BG ) ) );
 		bg->SetSpriteScale( {
-			SETTINGS.GLOBAL.WINDOW_SIZE_X * SETTINGS.GAMEPLAY.SCALE / bg->GetSprite().getGlobalBounds().width,
-			SETTINGS.GLOBAL.WINDOW_SIZE_Y * SETTINGS.GAMEPLAY.SCALE / bg->GetSprite().getGlobalBounds().height
+			kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_X * kd::settings_t::GetInstance().GAMEPLAY.SCALE / bg->GetSprite().getGlobalBounds().width,
+			kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_Y * kd::settings_t::GetInstance().GAMEPLAY.SCALE / bg->GetSprite().getGlobalBounds().height
 		} );
 	}
 
@@ -89,7 +89,7 @@ namespace kd
 				return static_cast<int16_t>( stateToSwitch );
 			}
 
-			this->entityManager.Update( 1.0f / SETTINGS.GLOBAL.FPS_LIMIT );
+			this->entityManager.Update( 1.0f / kd::settings_t::GetInstance().GLOBAL.FPS_LIMIT );
 
 			this->draw();
 		}

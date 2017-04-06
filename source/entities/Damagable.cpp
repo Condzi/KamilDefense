@@ -9,16 +9,16 @@ namespace kd
 {
 	void Damagable::SetHealth( uint8_t val, bool ignoreLimit )
 	{
-		if ( val > SETTINGS.GAMEPLAY.MAX_HEALTH && !ignoreLimit )
-			this->health = SETTINGS.GAMEPLAY.MAX_HEALTH;
+		if ( val > kd::settings_t::GetInstance().GAMEPLAY.MAX_HEALTH && !ignoreLimit )
+			this->health = kd::settings_t::GetInstance().GAMEPLAY.MAX_HEALTH;
 		else
 			this->health = val;
 	}
 
 	void Damagable::SetArmor( uint8_t val, bool ignoreLimit )
 	{
-		if ( val > SETTINGS.GAMEPLAY.MAX_ARMOR && !ignoreLimit )
-			this->armor = SETTINGS.GAMEPLAY.MAX_ARMOR;
+		if ( val > kd::settings_t::GetInstance().GAMEPLAY.MAX_ARMOR && !ignoreLimit )
+			this->armor = kd::settings_t::GetInstance().GAMEPLAY.MAX_ARMOR;
 		else
 			this->armor = val;
 	}
@@ -28,7 +28,7 @@ namespace kd
 		if ( this->damageBlockTime == 0 )
 		{
 			this->pendingDamage = val;
-			this->damageBlockTime = SETTINGS.GAMEPLAY.DAMAGE_BLOCK_TIME;
+			this->damageBlockTime = kd::settings_t::GetInstance().GAMEPLAY.DAMAGE_BLOCK_TIME;
 		}
 	}
 
@@ -54,7 +54,10 @@ namespace kd
 	void Damagable::addPendingDamage()
 	{
 		if ( this->pendingDamage > this->armor )
+		{
 			this->pendingDamage -= this->armor;
+			this->armor = 0;
+		}
 		else
 		{
 			this->armor -= this->pendingDamage;

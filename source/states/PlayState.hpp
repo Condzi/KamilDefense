@@ -64,5 +64,6 @@ namespace kd
 		state_t processEvents( sf::Event& ev );
 		void update( seconds_t dt );
 		void draw();
+		void updateUIposition();
 	};
 }

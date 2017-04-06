@@ -11,14 +11,14 @@
 int main()
 {
 	cgf::Logger::Initialize();
-	kd::SETTINGS.Load( "GameSettings.ini" );
+	kd::settings_t::GetInstance().Load( "GameSettings.ini" );
 	kd::ResourceHolder::Initialize();
 
-	uint32_t x = kd::SETTINGS.GLOBAL.WINDOW_SIZE_X * kd::SETTINGS.GAMEPLAY.SCALE;
-	uint32_t y = kd::SETTINGS.GLOBAL.WINDOW_SIZE_Y * kd::SETTINGS.GAMEPLAY.SCALE;
+	uint32_t x = kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_X * kd::settings_t::GetInstance().GAMEPLAY.SCALE;
+	uint32_t y = kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_Y * kd::settings_t::GetInstance().GAMEPLAY.SCALE;
 
-	window_t window( sf::VideoMode( x, y ), kd::SETTINGS.INTERNAL.WINDOW_TITLE );
-	window.setFramerateLimit( kd::SETTINGS.GLOBAL.FPS_LIMIT );
+	window_t window( sf::VideoMode( x, y ), kd::settings_t::GetInstance().INTERNAL.WINDOW_TITLE );
+	window.setFramerateLimit( kd::settings_t::GetInstance().GLOBAL.FPS_LIMIT );
 
 	cgf::StateMachine stateMachine( static_cast<int16_t>( kd::state_t::MENU ) );
 

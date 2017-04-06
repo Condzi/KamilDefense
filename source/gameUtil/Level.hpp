@@ -44,7 +44,7 @@ namespace kd
 			std::vector<sf::FloatRect> playerBaseRects;
 			std::string backgroundTexturePath = "";
 			sf::Vector2f playerSpawnPosition = { 0.0f, 0.0f };
-			sf::Vector2f backgroundTextureScale = { 2 * SETTINGS.GAMEPLAY.SCALE, 2 * SETTINGS.GAMEPLAY.SCALE };
+			sf::Vector2f backgroundTextureScale = { 2 * kd::settings_t::GetInstance().GAMEPLAY.SCALE, 2 * kd::settings_t::GetInstance().GAMEPLAY.SCALE };
 			int8_t baseHealth;
 		};
 	}

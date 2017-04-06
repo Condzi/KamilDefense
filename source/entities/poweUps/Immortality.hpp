@@ -16,7 +16,7 @@ namespace kd
 	public:
 		ImmortalityPowerUp( Player* pPtr ) :
 			PowerUp( pPtr ),
-			effectTime( SETTINGS.GAMEPLAY.IMMORTAL_EFFECT_TIME )
+			effectTime( kd::settings_t::GetInstance().GAMEPLAY.IMMORTAL_EFFECT_TIME )
 		{
 			this->glowingRect.setFillColor( { sf::Color::Magenta.r, sf::Color::Magenta.g, sf::Color::Magenta.b, 100 } );
 			this->glowingRect.setSize( { pPtr->rectangle.width, pPtr->rectangle.height } );

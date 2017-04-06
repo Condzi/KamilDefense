@@ -17,7 +17,7 @@ namespace kd
 			health( 0 ),
 			armor( 0 ),
 			lifeState( lifeState_t::ALIVE ),
-			damageBlockTime( SETTINGS.GAMEPLAY.DAMAGE_BLOCK_TIME ),
+			damageBlockTime( kd::settings_t::GetInstance().GAMEPLAY.DAMAGE_BLOCK_TIME ),
 			pendingDamage( 0 )
 		{}
 

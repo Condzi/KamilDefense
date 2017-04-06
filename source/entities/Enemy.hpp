@@ -26,7 +26,7 @@ namespace kd
 	public:
 		Enemy() :
 			BoxCollider( this ),
-			shootTime( SETTINGS.GAMEPLAY.ENEMY_SHOOT_COOLDOWN )
+			shootTime( kd::settings_t::GetInstance().GAMEPLAY.ENEMY_SHOOT_COOLDOWN )
 		{}
 
 		void SetTexture( std::weak_ptr<sf::Texture> tex ) override;

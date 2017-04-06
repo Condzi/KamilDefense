@@ -24,7 +24,7 @@ namespace kd
 
 	void PlayerBase::Draw( sf::RenderTarget& target )
 	{
-		if ( !SETTINGS.GLOBAL.DEBUG_DRAW_BORDERS )
+		if ( !kd::settings_t::GetInstance().GLOBAL.DEBUG_DRAW_BORDERS )
 			return;
 
 		sf::RectangleShape shape;

@@ -38,25 +38,12 @@ namespace kd
 					text->setFont( *ResourceHolder::GetFont( static_cast<uint8_t>( fontResourceID_t::UI_FONT ) ).lock() );
 			}
 		}
-		// Initializing texts sizes
-		{
-			for ( auto text : ResourceHolder::texts )
-				text->setCharacterSize( static_cast<uint32_t>( 6 * SETTINGS.GAMEPLAY.SCALE ) );
-		}
-		// Initializing texts posiion
+		// Initializing texts sizes and temporary text
 		{
 			for ( auto text : ResourceHolder::texts )
 			{
-				if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::HP_1 ) )
-					text->setPosition( 64.5f * SETTINGS.GAMEPLAY.SCALE, 0 );
-				else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::HP_2 ) )
-					text->setPosition( 64.5f * SETTINGS.GAMEPLAY.SCALE, 5 * SETTINGS.GAMEPLAY.SCALE );
-				else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::HP_3 ) )
-					text->setPosition( 64.5f * SETTINGS.GAMEPLAY.SCALE, 10 * SETTINGS.GAMEPLAY.SCALE );
-				else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::ARMOR ) )
-					text->setPosition( 1 * SETTINGS.GAMEPLAY.SCALE, 62 * SETTINGS.GAMEPLAY.SCALE );
-				else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::BASE_HP ) )
-					text->setPosition( 62 * SETTINGS.GAMEPLAY.SCALE, 62 * SETTINGS.GAMEPLAY.SCALE );
+				text->setCharacterSize( static_cast<uint32_t>( 6 * kd::settings_t::GetInstance().GAMEPLAY.SCALE ) );
+				text->setString( "0" );
 			}
 		}
 
@@ -64,10 +51,10 @@ namespace kd
 		{
 			ResourceHolder::textures.push_back( std::make_shared<textureResource_t>() );
 
-			if ( !ResourceHolder::textures.back()->loadFromFile( SETTINGS.RESOURCES_PATHES.PLAYER_TEXTURE ) )
+			if ( !ResourceHolder::textures.back()->loadFromFile( kd::settings_t::GetInstance().RESOURCES_PATHES.PLAYER_TEXTURE ) )
 			{
 				ResourceHolder::textures.pop_back();
-				cgf::Logger::Log( "Cannot load texture from path \"" + std::string( SETTINGS.RESOURCES_PATHES.PLAYER_TEXTURE ) + "\"", cgf::Logger::ERROR );
+				cgf::Logger::Log( "Cannot load texture from path \"" + std::string( kd::settings_t::GetInstance().RESOURCES_PATHES.PLAYER_TEXTURE ) + "\"", cgf::Logger::ERROR );
 			} else
 			{
 				ResourceHolder::textures.back()->SetResourceID( static_cast<uint8_t>( textureResourceID_t::PLAYER ) );
@@ -75,10 +62,10 @@ namespace kd
 			}
 
 			ResourceHolder::textures.push_back( std::make_shared<textureResource_t>() );
-			if ( !ResourceHolder::textures.back()->loadFromFile( SETTINGS.RESOURCES_PATHES.ENEMY_TEXTURE ) )
+			if ( !ResourceHolder::textures.back()->loadFromFile( kd::settings_t::GetInstance().RESOURCES_PATHES.ENEMY_TEXTURE ) )
 			{
 				ResourceHolder::textures.pop_back();
-				cgf::Logger::Log( "Cannot load texture from path \"" + std::string( SETTINGS.RESOURCES_PATHES.ENEMY_TEXTURE ) + "\"", cgf::Logger::ERROR );
+				cgf::Logger::Log( "Cannot load texture from path \"" + std::string( kd::settings_t::GetInstance().RESOURCES_PATHES.ENEMY_TEXTURE ) + "\"", cgf::Logger::ERROR );
 			} else
 			{
 				ResourceHolder::textures.back()->SetResourceID( static_cast<uint8_t>( textureResourceID_t::ENEMY ) );
@@ -94,8 +81,8 @@ namespace kd
 		{
 			this->playerPointer = player;
 
-			player->SetHealth( SETTINGS.GAMEPLAY.MAX_HEALTH );
-			player->SetArmor( SETTINGS.GAMEPLAY.MAX_ARMOR );
+			player->SetHealth( kd::settings_t::GetInstance().GAMEPLAY.MAX_HEALTH );
+			player->SetArmor( kd::settings_t::GetInstance().GAMEPLAY.MAX_ARMOR );
 
 			player->SetTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::PLAYER ) ) );
 
@@ -113,7 +100,9 @@ namespace kd
 		this->level.InitializeTextures();
 		this->level.SetPlayer( this->playerPointer.lock() );
 
-		this->playerView = this->windowPtr->getDefaultView();
+		this->playerView.reset( sf::FloatRect( { 0,0 }, (sf::Vector2f)this->windowPtr->getSize() ) );
+		this->playerView.setViewport( sf::FloatRect( 0, 0, 1.0f, 1.0f ) );
+		this->updateUIposition();
 
 		this->EndThread();
 	}
@@ -147,7 +136,7 @@ namespace kd
 				return static_cast<int16_t>( stateToSwitch );
 			}
 
-			this->update( 1.0f / SETTINGS.GLOBAL.FPS_LIMIT );
+			this->update( 1.0f / kd::settings_t::GetInstance().GLOBAL.FPS_LIMIT );
 
 			this->draw();
 		}
@@ -161,8 +150,8 @@ namespace kd
 		rectangle.setFillColor( sf::Color::Transparent );
 		rectangle.setOutlineColor( { 125, 125, 125 } );
 		rectangle.setOutlineThickness( 5.0f );
-		rectangle.setPosition( static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_X * SETTINGS.GAMEPLAY.SCALE / 2 ), static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_Y * SETTINGS.GAMEPLAY.SCALE / 2 ) );
-		rectangle.setSize( sf::Vector2f( static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_X / 2 ), static_cast<float>( SETTINGS.GLOBAL.WINDOW_SIZE_Y / 2 ) ) );
+		rectangle.setPosition( static_cast<float>( kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_X * kd::settings_t::GetInstance().GAMEPLAY.SCALE / 2 ), static_cast<float>( kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_Y * kd::settings_t::GetInstance().GAMEPLAY.SCALE / 2 ) );
+		rectangle.setSize( sf::Vector2f( static_cast<float>( kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_X / 2 ), static_cast<float>( kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_Y / 2 ) ) );
 		rectangle.setOrigin( rectangle.getSize().x / 2, rectangle.getSize().y / 2 );
 
 		rectangle.rotate( 90 * dt );
@@ -211,6 +200,9 @@ namespace kd
 			if ( ev.type == sf::Event::KeyReleased )
 				if ( ev.key.code == sf::Keyboard::Escape )
 					this->exit = true;
+
+			if ( ev.type == sf::Event::Resized )
+				this->playerView.setSize( ev.size.width, ev.size.height );
 		}
 
 		return state_t::NONE;
@@ -220,24 +212,58 @@ namespace kd
 	{
 		this->entityManager.Update( dt );
 
-		this->collisionChecker.Update( 1.0f / SETTINGS.GLOBAL.FPS_LIMIT );
+		this->collisionChecker.Update( 1.0f / kd::settings_t::GetInstance().GLOBAL.FPS_LIMIT );
 
 		this->updateUI();
 
-		MissileManager::Update( 1.0f / SETTINGS.GLOBAL.FPS_LIMIT );
+		MissileManager::Update( 1.0f / kd::settings_t::GetInstance().GLOBAL.FPS_LIMIT );
 	}
 
 	void PlayState::draw()
 	{
 		this->windowPtr->clear( sf::Color( 100, 100, 100 ) );
 
-		this->entityManager.Draw( *this->windowPtr );
 
 		this->windowPtr->setView( this->playerView );
+
+		this->entityManager.Draw( *this->windowPtr );
 		
+		this->windowPtr->setView( this->windowPtr->getDefaultView() );
 		for ( auto text : ResourceHolder::texts )
 			this->windowPtr->draw( *text );
 
 		this->windowPtr->display();
+	}
+
+	void PlayState::updateUIposition()
+	{
+		for ( auto text : ResourceHolder::texts )
+		{
+			if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::HP_1 ) )
+				text->setPosition(
+					98 * settings_t::GetInstance().GLOBAL.WINDOW_SIZE_X * settings_t::GetInstance().GAMEPLAY.SCALE / 100,
+					0
+				);
+			else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::HP_2 ) )
+				text->setPosition(
+					98 * settings_t::GetInstance().GLOBAL.WINDOW_SIZE_X * settings_t::GetInstance().GAMEPLAY.SCALE / 100,
+					text->getGlobalBounds().height * 1.5f
+				);
+			else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::HP_3 ) )
+				text->setPosition(
+					98 * settings_t::GetInstance().GLOBAL.WINDOW_SIZE_X * settings_t::GetInstance().GAMEPLAY.SCALE / 100,
+					text->getGlobalBounds().height * 1.5f * 2
+				);
+			else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::ARMOR ) )
+				text->setPosition(
+					0.5f * settings_t::GetInstance().GLOBAL.WINDOW_SIZE_X * settings_t::GetInstance().GAMEPLAY.SCALE / 100,
+					90 * settings_t::GetInstance().GLOBAL.WINDOW_SIZE_Y * settings_t::GetInstance().GAMEPLAY.SCALE / 100
+				);
+			else if ( text->GetResourceID() == static_cast<uint8_t>( uiTextResourceID_t::BASE_HP ) )
+				text->setPosition(
+					98 * settings_t::GetInstance().GLOBAL.WINDOW_SIZE_X * settings_t::GetInstance().GAMEPLAY.SCALE / 100,
+					90 * settings_t::GetInstance().GLOBAL.WINDOW_SIZE_Y * settings_t::GetInstance().GAMEPLAY.SCALE / 100
+				);
+		}
 	}
 }

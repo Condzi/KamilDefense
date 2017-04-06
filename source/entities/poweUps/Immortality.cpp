@@ -9,8 +9,8 @@ namespace kd
 {
 	void ImmortalityPowerUp::Update( seconds_t dt )
 	{
-		this->playerPtr->SetHealth( SETTINGS.GAMEPLAY.MAX_HEALTH );
-		this->playerPtr->SetArmor( SETTINGS.GAMEPLAY.MAX_ARMOR );
+		this->playerPtr->SetHealth( kd::settings_t::GetInstance().GAMEPLAY.MAX_HEALTH );
+		this->playerPtr->SetArmor( kd::settings_t::GetInstance().GAMEPLAY.MAX_ARMOR );
 		this->glowingRect.setPosition( this->playerPtr->GetPosition() );
 
 		this->glowingRect.setFillColor( { uint8_t( this->glowingRect.getFillColor().r + 10 ),
