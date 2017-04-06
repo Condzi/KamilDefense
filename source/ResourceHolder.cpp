@@ -8,7 +8,7 @@
 namespace kd
 {
 	std::vector<std::shared_ptr<textureResource_t>> ResourceHolder::textures;
-	std::vector<std::shared_ptr<textResource_t>> ResourceHolder::texts;
+	std::vector<std::shared_ptr<uiTextResource_t>> ResourceHolder::texts;
 	std::vector<std::shared_ptr<fontResource_t>> ResourceHolder::fonts;
 
 
@@ -119,14 +119,14 @@ namespace kd
 		return std::weak_ptr<textureResource_t>();
 	}
 
-	std::weak_ptr<textResource_t> ResourceHolder::GetText( uint8_t id )
+	std::weak_ptr<uiTextResource_t> ResourceHolder::GetText( uint8_t id )
 	{
 		for ( auto ptr : ResourceHolder::texts )
 			if ( ptr->GetResourceID() == id )
 				return ptr;
 
 		cgf::Logger::Log( "Cannot find Text of ID " + std::to_string( id ), cgf::Logger::ERROR );
-		return std::weak_ptr<textResource_t>();
+		return std::weak_ptr<uiTextResource_t>();
 	}
 
 	std::weak_ptr<fontResource_t> ResourceHolder::GetFont( uint8_t id )

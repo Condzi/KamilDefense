@@ -19,7 +19,7 @@ namespace kd
 		ResourceHolder() = delete;
 
 		static std::vector<std::shared_ptr<textureResource_t>> textures;
-		static std::vector<std::shared_ptr<textResource_t>> texts;
+		static std::vector<std::shared_ptr<uiTextResource_t>> texts;
 		static std::vector<std::shared_ptr<fontResource_t>> fonts;
 
 		static void Initialize();
@@ -30,7 +30,7 @@ namespace kd
 		static void DeleteAllResourcesByID( uint8_t id );
 
 		static std::weak_ptr<textureResource_t> GetTexture( uint8_t id );
-		static std::weak_ptr<textResource_t> GetText( uint8_t id );
+		static std::weak_ptr<uiTextResource_t> GetText( uint8_t id );
 		static std::weak_ptr<fontResource_t> GetFont( uint8_t id );
 	};
 }

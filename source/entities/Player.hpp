@@ -15,7 +15,7 @@
 
 #include "BoxCollider.hpp"
 #include "Damagable.hpp"
-#include "Drawable.hpp"
+#include "AnimatedDrawable.hpp"
 #include "Entity.hpp" 
 #include "Settings.hpp"
 #include "poweUps/PowerUp.hpp"
@@ -24,8 +24,8 @@
 namespace kd
 {
 	class Player final :
+		public AnimatedDrawable,
 		public BoxCollider,
-		public Drawable,
 		public Entity,
 		public Damagable
 	{
@@ -36,7 +36,9 @@ namespace kd
 			movementKeys( sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space ),
 			movementForces( -25.0f, 25.0f, 50.0f ),
 			baseHealth( 0 )
-		{}
+		{
+			this->setSpriteToApply( &this->sprite );
+		}
 
 
 		int8_t GetBaseHealth()
@@ -87,6 +89,10 @@ namespace kd
 			this->powerUps.push_back( std::make_unique<T>( t ) );
 			cgf::Logger::Log( "Added PowerUp to Player: " + std::string( SHOW_REAL_NAME<T>() ) );
 		}
+		/*
+			Call it after adding first frame - it makes their bounds to be collision rect bounds.
+		*/
+		void UpdateCollider();
 
 		void Update( seconds_t dt ) override;
 		void Draw( sf::RenderTarget& target ) override;

@@ -15,15 +15,15 @@ namespace kd
 
 		// Initializing texts
 		{
-			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
+			ResourceHolder::texts.push_back( std::make_shared<uiTextResource_t>() );
 			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( uiTextResourceID_t::HP_1 ) );
-			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
+			ResourceHolder::texts.push_back( std::make_shared<uiTextResource_t>() );
 			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( uiTextResourceID_t::HP_2 ) );
-			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
+			ResourceHolder::texts.push_back( std::make_shared<uiTextResource_t>() );
 			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( uiTextResourceID_t::HP_3 ) );
-			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
+			ResourceHolder::texts.push_back( std::make_shared<uiTextResource_t>() );
 			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( uiTextResourceID_t::ARMOR ) );
-			ResourceHolder::texts.push_back( std::make_shared<textResource_t>() );
+			ResourceHolder::texts.push_back( std::make_shared<uiTextResource_t>() );
 			ResourceHolder::texts.back()->SetResourceID( static_cast<uint8_t>( uiTextResourceID_t::BASE_HP ) );
 
 			for ( auto text : ResourceHolder::texts )
@@ -85,6 +85,12 @@ namespace kd
 			player->SetArmor( kd::settings_t::GetInstance().GAMEPLAY.MAX_ARMOR );
 
 			player->SetTexture( ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::PLAYER ) ) );
+			player->SetAnimationLooped( true );
+			player->AddFrame( { 0,0,5,8 } );
+			player->AddFrame( { 5, 0, 5, 8 } );
+			player->SetFrameTime( 0.85f );
+			player->UpdateCollider();
+			player->Play();
 
 			player->SetMovementKeys( movementKeys_t( sf::Keyboard::A, sf::Keyboard::D, sf::Keyboard::Space ) );
 			player->SetMovementForces( movementForces_t( -250.0f, 250.0f, -500.0f ) );
@@ -100,7 +106,7 @@ namespace kd
 		this->level.InitializeTextures();
 		this->level.SetPlayer( this->playerPointer.lock() );
 
-		this->playerView.reset( sf::FloatRect( { 0,0 }, (sf::Vector2f)this->windowPtr->getSize() ) );
+		this->playerView.reset( sf::FloatRect( { 0,0 }, ( sf::Vector2f )this->windowPtr->getSize() ) );
 		this->playerView.setViewport( sf::FloatRect( 0, 0, 1.0f, 1.0f ) );
 		this->updateUIposition();
 		this->setLevelBackgroundAsCenterOfView();
@@ -230,7 +236,7 @@ namespace kd
 		this->windowPtr->setView( this->playerView );
 
 		this->entityManager.Draw( *this->windowPtr );
-		
+
 		this->windowPtr->setView( this->windowPtr->getDefaultView() );
 		for ( auto text : ResourceHolder::texts )
 			this->windowPtr->draw( *text );

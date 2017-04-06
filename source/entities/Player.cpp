@@ -16,16 +16,15 @@ namespace kd
 
 	void Player::SetTexture( std::weak_ptr<sf::Texture> tex )
 	{
-		if ( tex.expired() )
-			cgf::Logger::Log( "Player texture is not assigned / is expired", cgf::Logger::ERROR );
-		else
-		{
-			this->sprite.setTexture( *tex.lock() );
-			this->sprite.setScale( kd::settings_t::GetInstance().GAMEPLAY.SCALE, kd::settings_t::GetInstance().GAMEPLAY.SCALE );
+		this->setTextureSheet( tex );
 
-			this->rectangle.width = this->sprite.getGlobalBounds().width;
-			this->rectangle.height = this->sprite.getGlobalBounds().height;
-		}
+		this->sprite.setScale( kd::settings_t::GetInstance().GAMEPLAY.SCALE, kd::settings_t::GetInstance().GAMEPLAY.SCALE );
+	}
+
+	void Player::UpdateCollider()
+	{
+		this->rectangle.width = this->GetFrame( 0 ).width * kd::settings_t::GetInstance().GAMEPLAY.SCALE;
+		this->rectangle.height = this->GetFrame( 0 ).height * kd::settings_t::GetInstance().GAMEPLAY.SCALE;
 	}
 
 	void Player::Update( seconds_t dt )
@@ -34,6 +33,7 @@ namespace kd
 		this->checkEvents();
 		this->updateDamage( dt );
 		this->updatePowerUps( dt );
+		this->animationUpdate( dt );
 	}
 
 	void Player::Draw( sf::RenderTarget& target )
