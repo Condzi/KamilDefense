@@ -39,7 +39,7 @@ namespace kd
 		auto buttonStart = entityManager.AddEntity<Button>();
 		{
 			buttonStart->SetDrawLayer( 1 );
-			buttonStart->SetPosition( { kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_X * kd::settings_t::GetInstance().GAMEPLAY.SCALE / 2.0f - 32, kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_Y * kd::settings_t::GetInstance().GAMEPLAY.SCALE / 2.0f } );
+			buttonStart->SetPosition( { 50 * this->windowPtr->getSize().x / 100.0f, 50 * this->windowPtr->getSize().y / 100.0f } );
 			buttonStart->SetType( entityID_t::BUTTON_START );
 			buttonStart->SetTextFont( ResourceHolder::GetFont( static_cast<uint8_t>( fontResourceID_t::UI_FONT ) ) );
 			buttonStart->SetTextString( "START" );
@@ -51,7 +51,7 @@ namespace kd
 		auto buttonExit = entityManager.AddEntity<Button>();
 		{
 			buttonExit->SetDrawLayer( 1 );
-			buttonExit->SetPosition( { kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_X * kd::settings_t::GetInstance().GAMEPLAY.SCALE / 2.0f - 32, kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_Y * kd::settings_t::GetInstance().GAMEPLAY.SCALE / 2.0f + 64 } );
+			buttonExit->SetPosition( { 50 * this->windowPtr->getSize().x / 100.0f, 56 * this->windowPtr->getSize().y / 100.0f } );
 			buttonExit->SetType( entityID_t::BUTTON_EXIT );
 			buttonExit->SetTextFont( ResourceHolder::GetFont( static_cast<uint8_t>( fontResourceID_t::UI_FONT ) ) );
 			buttonExit->SetTextString( "EXIT" );
@@ -68,10 +68,17 @@ namespace kd
 			kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_X * kd::settings_t::GetInstance().GAMEPLAY.SCALE / bg->GetSprite().getGlobalBounds().width,
 			kd::settings_t::GetInstance().GLOBAL.WINDOW_SIZE_Y * kd::settings_t::GetInstance().GAMEPLAY.SCALE / bg->GetSprite().getGlobalBounds().height
 		} );
+
+		this->view.reset( sf::FloatRect( { 0,0 }, ( sf::Vector2f )this->windowPtr->getSize() ) );
+		this->view.setViewport( sf::FloatRect( 0, 0, 1.0f, 1.0f ) );
+
+		// Getting first up-left pixel as clear color
+		this->clearColor = ResourceHolder::GetTexture( static_cast<uint8_t>( textureResourceID_t::MENU_BG ) ).lock()->copyToImage().getPixel( 1, 1 );
 	}
 
 	void MenuState::OnStop()
 	{
+		this->windowPtr->setView( this->windowPtr->getDefaultView() );
 		this->entityManager.Clear();
 		ResourceHolder::DeleteAllResourcesByPriority( static_cast<uint8_t>( resourcePriorites_t::UI_MENU ) );
 	}
@@ -114,7 +121,7 @@ namespace kd
 			{
 				if ( ev.key.code == sf::Mouse::Left )
 				{
-					auto mouseCoords = sf::Mouse::getPosition( *this->windowPtr );
+					auto mouseCoords = this->windowPtr->mapPixelToCoords( sf::Mouse::getPosition( *this->windowPtr ) );
 
 					for ( auto e : this->entityManager.GetEntities() )
 					{
@@ -128,21 +135,21 @@ namespace kd
 					}
 				}
 			}
+
+			if ( ev.type == sf::Event::Resized )
+				this->view.setSize( ev.size.width, ev.size.height );
 		}
 
 		return state_t::NONE;
 	}
 
-	void MenuState::update( seconds_t dt )
-	{
-	}
-
 	void MenuState::draw()
 	{
-		this->windowPtr->clear();
+		this->windowPtr->clear( this->clearColor );
 
+		this->windowPtr->setView( this->view );
 		this->entityManager.Draw( *this->windowPtr );
-		
+
 		for ( auto text : ResourceHolder::texts )
 			this->windowPtr->draw( *text );
 

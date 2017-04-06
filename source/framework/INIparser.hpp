@@ -39,7 +39,7 @@ namespace pi
 
 	===============================================================================
 	*/
-	struct ini_error_t
+	struct INIError_t
 	{
 		std::string what = "";
 	};
@@ -48,8 +48,8 @@ namespace pi
 	===============================================================================
 	Created by: Condzi
 		Class created for manipulating INI files. Almost every method has additional
-		parameter 'ini_error_t*' - it's a pointer to error message. For example if
-		Parse() method return false, the ini_error_t::what will contain information
+		parameter 'INIError_t*' - it's a pointer to error message. For example if
+		Parse() method return false, the INIError_t::what will contain information
 		about error.
 
 	===============================================================================
@@ -65,15 +65,15 @@ namespace pi
 		bool IsLoaded() const { return this->loaded; }
 		bool IsParsed() const { return this->parsed; }
 
-		bool LoadFromFile( const std::string& path, ini_error_t* errorOutput = nullptr );
-		bool Parse( ini_error_t* errorOutput = nullptr );
+		bool LoadFromFile( const std::string& path, INIError_t* errorOutput = nullptr );
+		bool Parse( INIError_t* errorOutput = nullptr );
 
 		void Clear();
 
-		bool GetBool( const std::string& section, const std::string& name, ini_error_t* errorOutput = nullptr );
-		int GetInt( const std::string& section, const std::string& name, ini_error_t* errorOutput = nullptr );
-		double GetDouble( const std::string& section, const std::string& name, ini_error_t* errorOutput = nullptr );
-		std::string GetString( const std::string& section, const std::string& name, ini_error_t* errorOutput = nullptr );
+		bool GetBool( const std::string& section, const std::string& name, INIError_t* errorOutput = nullptr );
+		int GetInt( const std::string& section, const std::string& name, INIError_t* errorOutput = nullptr );
+		double GetDouble( const std::string& section, const std::string& name, INIError_t* errorOutput = nullptr );
+		std::string GetString( const std::string& section, const std::string& name, INIError_t* errorOutput = nullptr );
 
 	private:
 		bool loaded;
@@ -86,7 +86,6 @@ namespace pi
 		std::unordered_map<std::string, std::unordered_map<std::string, double>> parsedDouble;
 		std::unordered_map<std::string, std::unordered_map<std::string, bool>> parsedBool;
 
-	private:
 		bool isInt( const std::string& value );
 		bool isDouble( const std::string& value );
 		bool isBool( const std::string& value );

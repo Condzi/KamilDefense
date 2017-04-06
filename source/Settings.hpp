@@ -72,7 +72,7 @@ namespace kd
 		inline void Load( const std::string& path )
 		{
 			pi::INIFile file;
-			pi::ini_error_t error;
+			pi::INIError_t error;
 
 			if ( !file.LoadFromFile( path, &error ) )
 			{

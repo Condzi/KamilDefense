@@ -223,7 +223,6 @@ namespace kd
 	{
 		this->windowPtr->clear( sf::Color( 100, 100, 100 ) );
 
-
 		this->windowPtr->setView( this->playerView );
 
 		this->entityManager.Draw( *this->windowPtr );

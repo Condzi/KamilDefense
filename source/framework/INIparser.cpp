@@ -3,7 +3,7 @@
 namespace pi
 {
 
-	bool INIFile::LoadFromFile( const std::string& path, ini_error_t* errorOutput )
+	bool INIFile::LoadFromFile( const std::string& path, INIError_t* errorOutput )
 	{
 		std::ifstream file( path );
 		std::string temp = "";
@@ -35,7 +35,7 @@ namespace pi
 		return true;
 	}
 
-	bool INIFile::Parse( ini_error_t* errorOutput )
+	bool INIFile::Parse( INIError_t* errorOutput )
 	{
 		this->parsed = false;
 
@@ -133,7 +133,7 @@ namespace pi
 		this->clearMaps();
 	}
 
-	bool INIFile::GetBool( const std::string& section, const std::string& name, ini_error_t* errorOutput )
+	bool INIFile::GetBool( const std::string& section, const std::string& name, INIError_t* errorOutput )
 	{
 		if ( this->parsedBool.find( section ) == this->parsedBool.end() )
 		{
@@ -154,7 +154,7 @@ namespace pi
 		return this->parsedBool[section][name];
 	}
 
-	int INIFile::GetInt( const std::string& section, const std::string& name, ini_error_t * errorOutput )
+	int INIFile::GetInt( const std::string& section, const std::string& name, INIError_t * errorOutput )
 	{
 		if ( this->parsedInt.find( section ) == this->parsedInt.end() )
 		{
@@ -175,7 +175,7 @@ namespace pi
 		return this->parsedInt[section][name];
 	}
 
-	double INIFile::GetDouble( const std::string& section, const std::string& name, ini_error_t * errorOutput )
+	double INIFile::GetDouble( const std::string& section, const std::string& name, INIError_t * errorOutput )
 	{
 		if ( this->parsedDouble.find( section ) == this->parsedDouble.end() )
 		{
@@ -196,7 +196,7 @@ namespace pi
 		return this->parsedDouble[section][name];
 	}
 
-	std::string INIFile::GetString( const std::string& section, const std::string& name, ini_error_t* errorOutput )
+	std::string INIFile::GetString( const std::string& section, const std::string& name, INIError_t* errorOutput )
 	{
 		if ( this->parsedString.find( section ) == this->parsedString.end() )
 		{

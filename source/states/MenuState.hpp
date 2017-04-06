@@ -22,7 +22,8 @@ namespace kd
 	public:
 		MenuState( window_t* window ) :
 			State( window ),
-			exit( false )
+			exit( false ),
+			clearColor( 255, 0, 0, 255 )
 		{}
 
 		void OnStart() override;
@@ -33,8 +34,9 @@ namespace kd
 		{}
 
 	private:
+		sf::Color clearColor;
 		EntityManager entityManager;
-
+		sf::View view;
 		bool exit;
 
 		void unlockWindowContext() override
@@ -47,7 +49,8 @@ namespace kd
 		}
 
 		state_t processEvents( sf::Event& ev );
-		void update( seconds_t dt );
+		void update( seconds_t dt )
+		{}
 		void draw();
 	};
 }
