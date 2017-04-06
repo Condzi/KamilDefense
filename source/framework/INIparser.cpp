@@ -220,7 +220,11 @@ namespace pi
 
 	bool INIFile::isInt( const std::string& value )
 	{
-		return std::all_of( value.begin(), value.end(), ::isdigit );
+		auto beginIterator = value.begin();
+		if ( value[0] == '-' )
+			beginIterator++;
+
+		return std::all_of( beginIterator, value.end(), ::isdigit );
 	}
 
 	bool INIFile::isDouble( const std::string& value )
@@ -235,9 +239,13 @@ namespace pi
 		if ( dotPos == value.size() - 1 )
 			return false;
 
+		size_t loopCounter = 0;
+		if ( value[0] == '-' )
+			loopCounter++;
+
 		// there are other characters than '.' and numbers
-		for ( size_t i = 0; i < value.size(); i++ )
-			if ( i != dotPos && !::isdigit( static_cast<unsigned char>( value[i] ) ) )
+		for (; loopCounter < value.size(); loopCounter++ )
+			if ( loopCounter != dotPos && !::isdigit( static_cast<unsigned char>( value[loopCounter] ) ) )
 				return false;
 
 		return true;
